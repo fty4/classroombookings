@@ -1,0 +1,22 @@
+.btn {
+
+	cursor: default;
+
+	.feather {
+		// width: $font-size-sm;
+		// height: $font-size-sm;
+		margin-right: $unit-2;
+		// vertical-align: middle;
+		// margin-top: -$unit-1;
+		width: $font-size-sm;
+		height: $font-size-sm;
+		vertical-align: -7%;
+		display: inline-block;
+		text-indent: -9999px;
+		position: relative;
+	}
+}
+
+a.btn {
+	cursor: pointer;
+}

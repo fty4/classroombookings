@@ -1,0 +1,30 @@
+
+@import "partials/colours";
+
+$layout-spacing: 1rem;
+
+@import "node_modules/spectre.css/src/spectre";
+// @import "node_modules/spectre.css/src/off-canvas";
+@import "node_modules/spectre.css/src/icons";
+
+@import "mixins/toasts";
+
+@import "partials/clrs";
+
+@import "partials/buttons";
+@import "partials/toasts";
+@import "partials/layout";
+@import "partials/header";
+@import "partials/footer";
+@import "partials/forms";
+
+// @import "partials/main-a";
+// @import "partials/main-b";
+// @import "partials/main-c";
+// @import "partials/main-d";
+// @import "partials/nav";
+// @import "partials/sections";
+// @import "partials/buttons";
+// @import "partials/toasts";
+// @import "partials/labels";
+// @import "partials/pages";

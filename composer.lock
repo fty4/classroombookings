@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "codeigniter/framework",
-            "version": "3.1.9",
+            "version": "3.1.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bcit-ci/CodeIgniter.git",
-                "reference": "30e2eafa86c4c7b6b39cea3e7089a90df9f603fb"
+                "reference": "c576995304fc3609cca0b7b92d1b2cd611ec82f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bcit-ci/CodeIgniter/zipball/30e2eafa86c4c7b6b39cea3e7089a90df9f603fb",
-                "reference": "30e2eafa86c4c7b6b39cea3e7089a90df9f603fb",
+                "url": "https://api.github.com/repos/bcit-ci/CodeIgniter/zipball/c576995304fc3609cca0b7b92d1b2cd611ec82f5",
+                "reference": "c576995304fc3609cca0b7b92d1b2cd611ec82f5",
                 "shasum": ""
             },
             "require": {
@@ -37,20 +37,20 @@
             ],
             "description": "The CodeIgniter framework",
             "homepage": "https://codeigniter.com",
-            "time": "2018-06-12T13:45:46+00:00"
+            "time": "2019-01-16T15:49:35+00:00"
         },
         {
             "name": "pixelrobin/php-feather",
-            "version": "v1.0",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Pixelrobin/php-feather.git",
-                "reference": "0f51e46d15d6d4c16bdb2b244d3aee00d24f57ca"
+                "reference": "54fe84a44ada5c314ece1727747dc132d60f8acb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Pixelrobin/php-feather/zipball/0f51e46d15d6d4c16bdb2b244d3aee00d24f57ca",
-                "reference": "0f51e46d15d6d4c16bdb2b244d3aee00d24f57ca",
+                "url": "https://api.github.com/repos/Pixelrobin/php-feather/zipball/54fe84a44ada5c314ece1727747dc132d60f8acb",
+                "reference": "54fe84a44ada5c314ece1727747dc132d60f8acb",
                 "shasum": ""
             },
             "require": {
@@ -82,7 +82,7 @@
                 "pixelrobin",
                 "svg"
             ],
-            "time": "2018-10-31T04:45:42+00:00"
+            "time": "2019-01-03T00:33:07+00:00"
         }
     ],
     "packages-dev": [],

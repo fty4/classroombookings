@@ -1,0 +1,21 @@
+
+body {
+	background: darken($dark-color, 3%);
+	border-top: $unit-1 solid $clrs-blue;
+}
+
+.notices {
+	background: #fff;
+	padding-top: $unit-6;
+}
+
+.content {
+	background: #fff;
+	padding-top: $unit-12;
+	padding-bottom: $unit-12 * 2;
+}
+
+.logo-login {
+	float: right;
+	max-height: 200px;
+}
