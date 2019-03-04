@@ -36,7 +36,7 @@ class Profile extends MY_Controller
 		$this->data['showtitle'] = $this->data['title'];
 		$this->data['body'] = $this->load->view('profile/profile_index', $this->data, TRUE);
 
-		return $this->render();
+		return $this->render('profile/profile_index');
 	}
 
 
@@ -47,22 +47,20 @@ class Profile extends MY_Controller
 
 		$this->data['user'] = $this->users_model->Get($user_id);
 
-		$columns = array(
-			'c1' => array(
-				'width' => '70%',
-				'content' => $this->load->view('profile/profile_edit', $this->data, TRUE),
-			),
-			'c2' => array(
-				'width' => '30%',
-				'content' => $this->load->view('profile/profile_edit_side', $this->data, TRUE),
-			),
+		$this->data['c1'] = array(
+			'width' => '70%',
+			'content' => $this->load->view('profile/profile_edit', $this->data, TRUE),
+		);
+		$this->data['c2'] = array(
+			'width' => '30%',
+			'content' => $this->load->view('profile/profile_edit_side', $this->data, TRUE),
 		);
 
 		$this->data['title'] = 'Edit my details';
 		$this->data['showtitle'] = $this->data['title'];
-		$this->data['body'] = $this->load->view('columns', $columns, TRUE);
+		// $this->data['body'] = $this->load->view('columns', $columns, TRUE);
 
-		return $this->render();
+		return $this->render('columns');
 	}
 
 

@@ -11,14 +11,14 @@ var basename = 'crbs';
 // Paths config
 var paths = {
 	styles: {
-		src: "app/assets/scss",
-		dist: "public_html/css"
+		src: "application/assets/src/scss",
+		dist: "application/assets/dist"
 	},
 	scripts: {
 		src: [
-			"app/assets/js/crbs.js"
+			"application/assets/src/js/crbs.js"
 		],
-		dist: "public_html/js"
+		dist: "application/assets/dist"
 	}
 };
 

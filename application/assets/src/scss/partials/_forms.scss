@@ -1,7 +1,29 @@
+.form-label {
+	font-weight: 600;
+}
+
 .form-hint {
 	color: darken($gray-color, 10%);
 	font-size: $font-size-sm;
 	display: block;
 	line-height: $line-height;
 	padding: 0 0 ($control-padding-y*2) + $border-width 0;
+}
+
+.form-group-actions {
+	// padding: $unit-4;
+	// background: $bg-color;
+	padding-top: $unit-4;
+}
+
+
+.form-panel {
+	background: $bg-color;
+	padding: $unit-6;
+}
+
+.form-panel-title {
+	color: $primary-color;
+	margin-bottom: $unit-6;
+	font-weight: 600;
 }

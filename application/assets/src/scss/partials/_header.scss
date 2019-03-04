@@ -74,7 +74,8 @@
 
 .header-stripe {
 
-	background: darken($gray-color-light, 3%);
+	border-top: 1px solid $border-color;
+	// background: darken($gray-color-light, 2%);
 	padding: $unit-4 0;
 
 	.bread-wrapper {
@@ -99,6 +100,7 @@
 	}
 
 	.page-title {
+		display: none;
 		font-weight: 600;
 		font-size: $font-size * 1.33;
 		margin: 0;

@@ -21,7 +21,19 @@ class User extends MY_Controller
 	function index()
 	{
 		$this->require_logged_in();
-		$this->data['heading'] = 'Edit your account';
+
+		$this->data['breadcrumbs'][] = array('', 'Home');
+		$this->data['breadcrumbs'][] = array('user', 'My account');
+
+		$this->data['user'] = $this->users_model->find_one(array(
+			'user_id' => $this->userauth->user->user_id,
+		));
+
+		if ( ! $this->data['user']) {
+			show_error("Unable to load your user details.");
+		}
+
+		$this->data['heading'] = 'Update account details';
 		$this->data['title'] = 'Account';
 		return $this->render('user/index');
 	}

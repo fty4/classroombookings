@@ -74,19 +74,19 @@ class Menu_model extends CI_Model
 			'visible' => $is_logged_in,
 		);
 
-		$items[] = array(
-			'label' => 'Reports',
-			'url' => site_url('reports'),
-			'icon' => 'activity',
-			'visible' => $is_logged_in,
-		);
+		// $items[] = array(
+		// 	'label' => 'Reports',
+		// 	'url' => site_url('reports'),
+		// 	'icon' => 'activity',
+		// 	'visible' => $is_logged_in,
+		// );
 
-		$items[] = array(
-			'label' => 'Event log',
-			'url' => site_url('event-log'),
-			'icon' => 'alert-triangle',
-			'visible' => $is_logged_in,
-		);
+		// $items[] = array(
+		// 	'label' => 'Event log',
+		// 	'url' => site_url('event-log'),
+		// 	'icon' => 'alert-triangle',
+		// 	'visible' => $is_logged_in,
+		// );
 
 
 		return $items;

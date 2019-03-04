@@ -5,6 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 function form_group($params = array())
 {
 	$defaults = array(
+		'layout' => 'vertical',
 		'group_class' => 'form-group',
 		'required_class' => 'required',
 		'required' => FALSE,
@@ -53,12 +54,33 @@ function form_group($params = array())
 		$hint_el = "<div class='{$data['hint_class']}'>{$data['hint']}</div>";
 	}
 
-	$group_el = "<div class='{$data['group_class']}'>\n";
-	$group_el .= $label_el . "\n";
-	$group_el .= $hint_el . "\n";
-	$group_el .= $input_el . "\n";
-	$group_el .= $error_el . "\n";
-	$group_el .= "</div>\n";
+	if ($data['layout'] == 'vertical') {
+
+		$group_el = "<div class='{$data['group_class']}'>\n";
+		$group_el .= $label_el . "\n";
+		$group_el .= $hint_el . "\n";
+		$group_el .= $input_el . "\n";
+		$group_el .= $error_el . "\n";
+		$group_el .= "</div>\n";
+
+	} elseif ($data['layout'] == 'horizontal') {
+
+		$left_col = "<div class='col-4 col-sm-12'>";
+		$left_col .= $label_el . "\n";
+		$left_col .= $hint_el . "\n";
+		$left_col .= "</div>";
+
+		$right_col = "<div class='col-8 col-sm-12'>";
+		$right_col .= $input_el . "\n";
+		$right_col .= $error_el . "\n";
+		$right_col .= "</div>";
+
+		$group_el = "<div class='{$data['group_class']}'>\n";
+		$group_el .= $left_col . "\n";
+		$group_el .= $right_col . "\n";
+		$group_el .= "</div>\n";
+
+	}
 
 	return $group_el;
 
