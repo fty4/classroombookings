@@ -5,7 +5,9 @@ $layout-spacing: 1rem;
 
 @import "node_modules/spectre.css/src/spectre";
 // @import "node_modules/spectre.css/src/off-canvas";
-@import "node_modules/spectre.css/src/icons";
+// @import "node_modules/spectre.css/src/icons";
+
+$content-bg: mix($bg-color, $crbs-blue, 98.5%);
 
 @import "mixins/toasts";
 
@@ -17,6 +19,9 @@ $layout-spacing: 1rem;
 @import "partials/header";
 @import "partials/footer";
 @import "partials/forms";
+@import "partials/cards";
+@import "partials/nav";
+@import "partials/empty";
 
 // @import "partials/main-a";
 // @import "partials/main-b";

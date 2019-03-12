@@ -29,10 +29,10 @@ class Userauth
 	{
 		if (isset($_SESSION['user_id']) && strlen($_SESSION['user_id'])) {
 
-			$this->CI->db->where(array(
+			$this->CI->db->where([
 				'user_id' => $_SESSION['user_id'],
 				'enabled' => 1,
-			));
+			]);
 			$query = $this->CI->db->get('users', 1);
 
 			if ($query->num_rows() == 1) {
@@ -67,17 +67,44 @@ class Userauth
 	 */
 	function trylogin($username, $password)
 	{
+		$valid_user = $this->authenticate($username, $password);
+
+		if ($valid_user === FALSE) {
+			return FALSE;
+		}
+
+		// Update last login
+		$user_data = ['lastlogin' => date('Y-m-d H:i:s')];
+		$where = ['user_id' => $valid_user->user_id];
+		$this->CI->db->update('users', $user_data, $where, 1);
+
+		// Set up session
+		$_SESSION['user_id'] = $valid_user->user_id;
+		$_SESSION['loggedin'] = TRUE;
+
+		return TRUE;
+	}
+
+
+	/**
+	 * Validate a username/password pair.
+	 *
+	 */
+	public function authenticate($username = '', $password = '')
+	{
 		if (empty($username) || empty($password)) {
 			return FALSE;
 		}
 
 		// Get user
-		$this->CI->db->where(array(
+		$this->CI->db->where([
 			'username' => $username,
 			'enabled' => 1,
-		));
+		]);
+
 		$query = $this->CI->db->get('users', 1);
-		if ($query->num_rows() != 1) {
+
+		if ($query->num_rows() !== 1) {
 			return FALSE;
 		}
 
@@ -102,24 +129,15 @@ class Userauth
 			return FALSE;
 		}
 
-		// Update user
-		$user_data = array(
-			'lastlogin' => date('Y-m-d H:i:s'),
-		);
-
 		// If we need to upgrade their password to new storage without sha1, do it now
 		if ($upgrade_password) {
-			$user_data['password'] = password_hash($password, PASSWORD_DEFAULT);
+			$user_data = [
+				'password' => password_hash($password, PASSWORD_DEFAULT),
+			];
+			$this->CI->db->update('users', $user_data, ['user_id' => $user->user_id], 1);
 		}
 
-		$this->CI->db->where('user_id', $user->user_id);
-		$this->CI->db->update('users', $user_data);
-
-		// Set up session
-		$_SESSION['user_id'] = $user->user_id;
-		$_SESSION['loggedin'] = TRUE;
-
-		return TRUE;
+		return $user;
 	}
 
 

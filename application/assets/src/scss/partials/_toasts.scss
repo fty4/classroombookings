@@ -1,6 +1,7 @@
 
 .toast {
 	@include crbs-toast-variant($dark-color);
+	border-radius: 0;
 	padding: $unit-3;
 
 	&.toast-error {

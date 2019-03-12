@@ -13,29 +13,140 @@ class User extends MY_Controller
 
 
 	/**
-	* Page: index
-	*
-	* This function simply returns the manage() function
+	* Account details page
 	*
 	*/
 	function index()
 	{
 		$this->require_logged_in();
 
-		$this->data['breadcrumbs'][] = array('', 'Home');
-		$this->data['breadcrumbs'][] = array('user', 'My account');
+		$this->data['menu_active'] = 'user';
+		$this->data['breadcrumbs'][] = array('', lang('home'));
+		$this->data['breadcrumbs'][] = array('user', lang('user_page_account_title'));
 
 		$this->data['user'] = $this->users_model->find_one(array(
 			'user_id' => $this->userauth->user->user_id,
 		));
 
 		if ( ! $this->data['user']) {
-			show_error("Unable to load your user details.");
+			$this->render_error(array(
+				'http' => 404,
+				'title' => 'Not found',
+				'description' => "Could not find your user record.",
+			));
 		}
 
-		$this->data['heading'] = 'Update account details';
-		$this->data['title'] = 'Account';
-		return $this->render('user/index');
+		$this->data['title'] = lang('user_page_account_details_title');
+
+		$this->blocks['content'] = 'user/account/details';
+		$this->blocks['sidebar'] = 'user/account/menu';
+
+		if ($this->input->post()) {
+			$this->save_details();
+		}
+
+		return $this->render('layouts/types/two-columns');
+	}
+
+
+	private function save_details()
+	{
+		$id = $this->userauth->user->user_id;
+
+		$this->load->library('form_validation');
+
+		$this->form_validation->set_rules('email', "lang:users_field_email", "required|trim|max_length[191]|valid_email|user_email_unique[{$id}]");
+		$this->form_validation->set_rules('first_name', "lang:users_field_first_name", 'trim|ucfirst|max_length[255]');
+		$this->form_validation->set_rules('last_name', "lang:users_field_last_name", 'trim|ucfirst|max_length[255]');
+
+		if ($this->form_validation->run() == FALSE) {
+			$this->notice('error', "Please check the form fields and try again.");
+			return;
+		}
+
+		$user_data = [
+			'email' => $this->input->post('email'),
+			'firstname' => $this->input->post('firstname'),
+			'lastname' => $this->input->post('lastname'),
+			'displayname' => $this->input->post('displayname'),
+		];
+
+		// Update
+		$res = $this->users_model->update($user_data, array('user_id' => $id));
+
+		if ($res) {
+			$this->notice('success', "Your account details have been updated.");
+			redirect('user');
+		} else {
+			$this->notice('error', "There was an error updating your account details.");
+		}
+	}
+
+
+	public function password()
+	{
+		$this->require_logged_in();
+
+		$this->data['menu_active'] = 'user/password';
+		$this->data['breadcrumbs'][] = array('', lang('home'));
+		$this->data['breadcrumbs'][] = array('user', lang('user_page_account_title'));
+
+		$this->data['user'] = $this->users_model->find_one(array(
+			'user_id' => $this->userauth->user->user_id,
+		));
+
+		if ( ! $this->data['user']) {
+			$this->render_error(array(
+				'http' => 404,
+				'title' => 'Not found',
+				'description' => "Could not find your user record.",
+			));
+		}
+
+		$this->data['title'] = lang('user_page_password_title');
+
+		$this->blocks['content'] = 'user/account/password';
+		$this->blocks['sidebar'] = 'user/account/menu';
+
+		if ($this->input->post()) {
+			$this->save_password();
+		}
+
+		return $this->render('layouts/types/two-columns');
+	}
+
+
+	private function save_password()
+	{
+		$id = $this->userauth->user->user_id;
+		$username = $this->userauth->user->username;
+
+		$this->load->library('form_validation');
+
+		$this->form_validation->set_rules('current_password', "lang:user_field_current_password", "required|is_current_password[{$username}]");
+		$this->form_validation->set_rules('new_password_1', "lang:user_field_new_password_1", 'trim|min_length[8]');
+		$this->form_validation->set_rules('new_password_2', "lang:user_field_new_password_2", 'trim|min_length[8]');
+
+		if ($this->form_validation->run() == FALSE) {
+			$this->notice('error', "Please check the form fields and try again.");
+			return;
+		}
+
+		$new_password = $this->input->post('new_password_1');
+
+		$user_data = [
+			'password' => password_hash($new_password, PASSWORD_DEFAULT),
+		];
+
+		// Update
+		$res = $this->users_model->update($user_data, ['user_id' => $id]);
+
+		if ($res) {
+			$this->notice('success', "Your password has been changed.");
+			redirect('user/password');
+		} else {
+			$this->notice('error', "There was an error changing your password.");
+		}
 	}
 
 
@@ -45,8 +156,7 @@ class User extends MY_Controller
 			redirect('user');
 		}
 
-		$this->data['heading'] = lang('user_log_in_heading');
-		$this->data['title'] = lang('user_action_log_in');
+		$this->data['title'] = lang('user_page_login_title');
 
 		if ($this->input->post()) {
 
@@ -74,7 +184,7 @@ class User extends MY_Controller
 
 	public function logout()
 	{
-		if ($this->input->method() != 'post') {
+		if ($this->input->method() !== 'post') {
 			redirect('user');
 		}
 

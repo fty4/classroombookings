@@ -17,31 +17,27 @@ class Menu_model extends CI_Model
 
 		$is_logged_in = $this->userauth->loggedin();
 
-		$label = '';
-		if ($is_logged_in) {
-			$label = strlen($this->userauth->user->displayname) > 1 ? $this->userauth->user->displayname : $this->userauth->user->username;
-		}
 		$items[] = array(
-			'label' => $label,
-			'url' => site_url('user'),
+			'label' => "Account",
+			'url' => 'user',
 			'icon' => 'user',
 			'visible' => $is_logged_in,
 		);
 
 		$items[] = array(
 			'label' => lang('user_action_log_out'),
-			'url' => site_url('user/logout'),
+			'url' => 'user/logout',
 			'icon' => 'log-out',
 			'visible' => $is_logged_in,
 			'link_attrs' => array('data-method' => 'post'),
 		);
 
-		$items[] = array(
-			'label' => lang('user_action_log_in'),
-			'url' => site_url('user/login'),
-			'icon' => 'log-in',
-			'visible' => !$is_logged_in,
-		);
+		// $items[] = array(
+		// 	'label' => lang('user_action_log_in'),
+		// 	'url' => 'user/login',
+		// 	'icon' => 'log-in',
+		// 	'visible' => !$is_logged_in,
+		// );
 
 		return $items;
 	}
@@ -55,21 +51,21 @@ class Menu_model extends CI_Model
 
 		$items[] = array(
 			'label' => 'Dashboard',
-			'url' => site_url('dashboard'),
+			'url' => 'dashboard',
 			'icon' => 'home',
 			'visible' => $is_logged_in,
 		);
 
 		$items[] = array(
 			'label' => 'Bookings',
-			'url' => site_url('bookings'),
+			'url' => 'bookings',
 			'icon' => 'check-square',
 			'visible' => $is_logged_in,
 		);
 
 		$items[] = array(
 			'label' => 'Settings',
-			'url' => site_url('settings'),
+			'url' => 'settings',
 			'icon' => 'settings',
 			'visible' => $is_logged_in,
 		);

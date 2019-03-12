@@ -58,10 +58,13 @@ function render_menu($params = array())
 	$CI->load->library('parser');
 
 	$defaults = array(
+		'active' => FALSE,
+		'active_tag' => 'item',
 		'items' => array(),
-		'item_template' => '<li class="{item_class}">{link}</li>',
+		'item_template' => '<li class="{item_class} {item_active_class}">{link}</li>',
 		'item_class' => '',
-		'link_template' => '<a class="{link_class}" href="{url}" {link_attrs}>{icon}<span>{label}</span></a>',
+		'active_class' => 'active',
+		'link_template' => '<a class="{link_class} {link_active_class}" href="{url}" {link_attrs}>{icon}<span>{label}</span></a>',
 		'link_class' => '',
 	);
 
@@ -76,19 +79,40 @@ function render_menu($params = array())
 			continue;
 		}
 
+		$icon = array_key_exists('icon', $item) ? icon($item['icon']) : '';
+
 		$link_attrs = '';
 		if (array_key_exists('link_attrs', $item)) {
 			$link_attrs = _stringify_attributes($item['link_attrs']);
 		}
 
+		$url = $item['url'];
+		if (substr($url, 0, 4) !== 'http') {
+			$url = site_url($url);
+		}
+
 		$vars = array(
+			'link_active_class' => '',
+			'item_active_class' => '',
 			'item_class' => $item_class,
 			'link_class' => $link_class,
 			'link_attrs' => $link_attrs,
-			'icon' => icon($item['icon']),
+			'icon' => (isset($item['icon']) ? '<span class="btn-icon">' . icon($item['icon']) . '</span>' : ''),
 			'label' => html_escape($item['label']),
-			'url' => $item['url'],
+			'url' => $url,
 		);
+
+		$is_active_class = '';
+		if (($active !== FALSE && $item['url'] == $active )
+		    || (isset($item['active']) && $item['active'] == TRUE)
+		) {
+			$is_active_class = $active_class;
+		}
+
+		switch ($active_tag) {
+			case 'item': $vars['item_active_class'] = $is_active_class; break;
+			case 'link': $vars['link_active_class'] = $is_active_class; break;
+		}
 
 		$link = $CI->parser->parse_string($link_template, $vars, TRUE);
 

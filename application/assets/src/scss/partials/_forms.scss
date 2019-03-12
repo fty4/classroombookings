@@ -1,3 +1,4 @@
+
 .form-label {
 	font-weight: 600;
 }
@@ -10,14 +11,14 @@
 	padding: 0 0 ($control-padding-y*2) + $border-width 0;
 }
 
-.form-group-actions {
-	// padding: $unit-4;
-	// background: $bg-color;
-	padding-top: $unit-4;
+.form-input-hint {
+	> p {
+		margin-bottom: 0;
+	}
 }
 
 
-.form-panel {
+/* .form-panel {
 	background: $bg-color;
 	padding: $unit-6;
 }
@@ -26,4 +27,42 @@
 	color: $primary-color;
 	margin-bottom: $unit-6;
 	font-weight: 600;
+} */
+
+
+
+.form-checkbox-solo {
+	padding-left: 0;
+	padding-right: 0;
+	width: $control-icon-size;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+.input-password {
+	font-family: $mono-font-family;
+}
+
+
+.form-horizontal {
+
+	padding: 0;
+
+	.form-hint {
+		// margin-bottom: 0;
+		padding-bottom: 0;
+	}
+
+	.form-group {
+		margin-bottom: 0;
+		+ .form-group {
+			margin-top: $unit-6;
+		}
+	}
+
+	.col-label {
+		padding-right: $unit-4;
+	}
+
 }

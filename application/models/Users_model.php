@@ -46,7 +46,7 @@ class Users_model extends MY_Model
 	 * @param   int   $id   ID of user to delete
 	 *
 	 */
-	function Delete($id)
+/*	function Delete($id)
 	{
 		$this->db->where('user_id', $id);
 		$this->db->delete('bookings');
@@ -57,7 +57,7 @@ class Users_model extends MY_Model
 
 		$this->db->where('user_id', $id);
 		return $this->db->delete('users');
-	}
+	}*/
 
 
 }

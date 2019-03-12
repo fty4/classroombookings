@@ -4,6 +4,7 @@ var gulp = require("gulp"),
 	rename = require("gulp-rename"),
 	concat = require("gulp-concat"),
 	cleancss = require("gulp-clean-css"),
+	autoprefixer = require("gulp-autoprefixer"),
 	uglify = require("gulp-uglify");
 
 var basename = 'crbs';
@@ -16,6 +17,7 @@ var paths = {
 	},
 	scripts: {
 		src: [
+			"node_modules/jquery/dist/jquery.js",
 			"application/assets/src/js/crbs.js"
 		],
 		dist: "application/assets/dist"
@@ -36,7 +38,8 @@ gulp.task('build', gulp.parallel(stylesBuild, scriptsBuild));
 
 function stylesCore() {
 	return gulp.src(paths.styles.src + "/" + basename + ".scss")
-		.pipe(sass());
+		.pipe(sass())
+		.pipe(autoprefixer());
 }
 
 function stylesDev() {

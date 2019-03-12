@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Dashboard extends MY_Controller
+class Settings extends MY_Controller
 {
 
 
@@ -23,8 +23,8 @@ class Dashboard extends MY_Controller
 	*/
 	function index()
 	{
-		$this->data['menu_active'] = 'dashboard';
-		$this->data['title'] = 'Dashboard';
+		$this->data['menu_active'] = 'settings';
+		$this->data['title'] = 'Settings';
 		$this->data['heading'] = setting('name');
 		$this->data['body'] = '';
 		return $this->render('dashboard/index');

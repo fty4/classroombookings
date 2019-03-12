@@ -1,0 +1,61 @@
+
+.nav-secondary {
+
+	margin: 0 0 $unit-8 0;
+
+	.nav-item {
+
+		// margin-bottom: $unit-1;
+		color: $dark-color;
+		width: 100%;
+		margin: 0;
+		font-size: $font-size-sm;
+		margin-bottom: $unit-1;
+
+		a {
+			display: block;
+			// outline: 1px solid #000;
+			width: 100%;
+			color: inherit;
+			padding-top: $unit-2;
+			padding-bottom: $unit-2;
+			border-radius: $border-radius;
+
+			span {
+				display: inline-flex;
+				align-self: center;
+				position: relative;
+			}
+
+			.btn-icon {
+				color: lighten($dark-color, 35%);
+				height: 1.1em;
+				width: 1.1em;
+				top: .15em;
+				margin-right: $unit-2;
+				svg {
+					height: 100%;
+					width: 100%;
+				}
+			}
+
+		}
+
+		// border-left: $unit-1 solid transparent;
+
+		&.active {
+			border-radius: $border-radius;
+			background: mix($clrs-blue, $gray-color-light, 10%);
+			color: $dark-color;
+			> a {
+				font-weight: 600;
+				color: $clrs-blue;
+			}
+			.feather {
+				color: mix($crbs-blue, $dark-color, 65%);
+			}
+		}
+
+	}
+
+}

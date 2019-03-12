@@ -10,6 +10,30 @@ if (strlen($school_name))
 
 $crbs_svg = file_get_contents(APPPATH . 'assets/dist/img/crbs-logo.svg');
 
+$grid_size = 'lg';
+
+$active = NULL;
+if (isset($menu_active)) {
+	$items = explode('/', $menu_active);
+	$active = current($items);
+}
+
+$main_menu = render_menu(array(
+	'active' => $active,
+	'active_tag' => 'link',
+	'items' => $menus['main'],
+	'link_class' => 'btn btn-link',
+	'item_template' => '{link}',
+));
+
+$user_menu = render_menu(array(
+	'active' => $active,
+	'active_tag' => 'link',
+	'items' => $menus['user'],
+	'link_class' => 'btn btn-link',
+	'item_template' => '{link}',
+));
+
 ?>
 
 <!DOCTYPE html>
@@ -49,6 +73,51 @@ $crbs_svg = file_get_contents(APPPATH . 'assets/dist/img/crbs-logo.svg');
 
 		<header class="header">
 
+			<section class="container grid-<?= $grid_size ?>">
+				<div class="navbar navbar-logos">
+
+					<div class="navbar-section">
+						<a href="<?= site_url() ?>" class="header-logo-school">
+							<?php
+							echo render_logo(array(
+								'class' => '',
+							));
+							?>
+						</a>
+					</div>
+
+					<div class="navbar-section">
+						<span class="header-logo-crbs">
+							<?= $crbs_svg ?>
+						</span>
+					</div>
+				</div>
+			</section>
+
+			<?php if ( ! empty($main_menu) || ! empty($user_menu)): ?>
+
+			<nav class="header-menu">
+				<div class="container grid-<?= $grid_size ?>">
+					<div class="navbar">
+						<div class="navbar-section header-menu-nav">
+							<?php
+							echo $main_menu;
+							?>
+						</div>
+						<div class="navbar-section header-menu-user">
+							<?php
+							echo $user_menu;
+							?>
+						</div>
+					</div>
+				</div>
+			</nav>
+
+			<?php endif; ?>
+
+
+		</header>
+<!--
 			<section class="topbar">
 				<div class="container grid-lg">
 					<div class="columns">
@@ -88,8 +157,8 @@ $crbs_svg = file_get_contents(APPPATH . 'assets/dist/img/crbs-logo.svg');
 
 					</div>
 				</div>
-			</section>
-
+			</section> -->
+<!--
 			<section class="header-stripe">
 				<div class="container grid-lg">
 					<?php
@@ -103,24 +172,38 @@ $crbs_svg = file_get_contents(APPPATH . 'assets/dist/img/crbs-logo.svg');
 					echo "<h1 class='{$title_class}'>" . html_escape($h1) . "</h1>";
 					?>
 				</div>
-			</section>
+			</section> -->
 
 		</header>
 
-		<?php
-		$notices = render_notices();
-		if ( ! empty($notices)) {
-			echo "<section class='notices'>";
-			echo "<div class='container grid-lg'>";
-			echo $notices;
-			echo "</div>";
-			echo "</section>";
-		}
-		?>
+		<div class="content">
 
-		<section class="content">
-			<?= $body ?>
-		</section>
+			<?php
+			$breadcrumb_html = render_breadcrumbs($breadcrumbs);
+			if ( ! empty($breadcrumb_html)) {
+				echo "<section class='bread-wrapper'>";
+				echo "<div class='container grid-{$grid_size}'>";
+				echo $breadcrumb_html;
+				echo "</section>";
+			}
+
+			$notices = render_notices();
+			if ( ! empty($notices)) {
+				echo "<section class='notice-wrapper'>";
+				echo "<div class='container grid-{$grid_size}'>";
+				echo $notices;
+				echo "</div>";
+				echo "</section>";
+			}
+			?>
+
+			<section class="body">
+				<div class="container grid-<?= $grid_size ?>">
+					<?= $body ?>
+				</div>
+			</section>
+
+		</div>
 
 		<footer class="footer">
 			<div class="container grid-lg">

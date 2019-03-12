@@ -6,6 +6,9 @@ function form_group($params = array())
 {
 	$defaults = array(
 		'layout' => 'vertical',
+		'size' => '',
+		'left_class' => 'col-label col-md-12 col-4',
+		'right_class' => 'col-input col-md-12 col-8',
 		'group_class' => 'form-group',
 		'required_class' => 'required',
 		'required' => FALSE,
@@ -20,6 +23,20 @@ function form_group($params = array())
 	);
 
 	$data = array_merge($defaults, $params);
+
+	$sizes = [
+		'none' => 'col-auto',
+		'auto' => 'col-auto',
+		'xs' => 'col-md-6 col-lg-4 col-2',
+		'sm' => 'col-md-6 col-lg-5 col-3',
+		'md' => 'col-md-9 col-lg-6 col-4',
+		'lg' => 'col-md-12 col-lg-7 col-5',
+		'xl' => 'col-md-12 col-lg-8 col-6',
+	];
+
+	if (strlen($data['size']) && array_key_exists($data['size'], $sizes)) {
+		$data['right_class'] = 'col-input ' . $sizes[$data['size']];
+	}
 
 	// No specific label_for attr and we have a field ref? Use that for label.
 	if (empty($data['label_for']) && ! empty($data['field'])) {
@@ -54,32 +71,37 @@ function form_group($params = array())
 		$hint_el = "<div class='{$data['hint_class']}'>{$data['hint']}</div>";
 	}
 
-	if ($data['layout'] == 'vertical') {
+	switch ($data['layout']) {
 
-		$group_el = "<div class='{$data['group_class']}'>\n";
-		$group_el .= $label_el . "\n";
-		$group_el .= $hint_el . "\n";
-		$group_el .= $input_el . "\n";
-		$group_el .= $error_el . "\n";
-		$group_el .= "</div>\n";
+		case 'horizontal':
 
-	} elseif ($data['layout'] == 'horizontal') {
+			$left = "<div class='{$data['left_class']}'>\n";
+			$left .= $label_el . "\n";
+			$left .= $hint_el . "\n";
+			$left .= "</div>";
 
-		$left_col = "<div class='col-4 col-sm-12'>";
-		$left_col .= $label_el . "\n";
-		$left_col .= $hint_el . "\n";
-		$left_col .= "</div>";
+			$right = "<div class='{$data['right_class']}'>\n";
+			$right .= $input_el . "\n";
+			$right .= $error_el . "\n";
+			$right .= "</div>";
 
-		$right_col = "<div class='col-8 col-sm-12'>";
-		$right_col .= $input_el . "\n";
-		$right_col .= $error_el . "\n";
-		$right_col .= "</div>";
+			$group_el = "<div class='{$data['group_class']}'>\n";
+			$group_el .= $left;
+			$group_el .= $right;
+			$group_el .= "</div>\n";
 
-		$group_el = "<div class='{$data['group_class']}'>\n";
-		$group_el .= $left_col . "\n";
-		$group_el .= $right_col . "\n";
-		$group_el .= "</div>\n";
+		break;
 
+		case 'vertical':
+
+			$group_el = "<div class='{$data['group_class']}'>\n";
+			$group_el .= $label_el . "\n";
+			$group_el .= $hint_el . "\n";
+			$group_el .= $input_el . "\n";
+			$group_el .= $error_el . "\n";
+			$group_el .= "</div>\n";
+
+		break;
 	}
 
 	return $group_el;

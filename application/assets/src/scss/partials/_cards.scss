@@ -1,0 +1,32 @@
+.card {
+
+	.card-header {
+		border-bottom: 1px solid $border-color;
+	}
+
+	.card-footer {
+		border-top: 1px solid $border-color;
+	}
+
+	&.card-lg {
+		.card-header {
+			padding: $unit-5;
+			.card-title {
+				margin: 0;
+				line-height: 1;
+				margin-bottom: 0;
+				font-size: 1.1rem;
+				font-weight: 600;
+			}
+		}
+
+		.card-body {
+			padding: $unit-7 $unit-5;
+		}
+
+		.card-footer {
+			padding: $unit-5;
+		}
+	}
+
+}

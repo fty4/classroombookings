@@ -58,7 +58,9 @@ $autoload['packages'] = array();
 |
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
-$autoload['libraries'] = array('feather');
+$autoload['libraries'] = array(
+	'feather',
+);
 
 /*
 | -------------------------------------------------------------------
@@ -131,7 +133,7 @@ $autoload['config'] = array();
 */
 $autoload['language'] = array(
 	'user',
-	// 'crbs'
+	'crbs',
 );
 
 /*

@@ -1,5 +1,78 @@
+$header-image-height: 45px;
 
 .header {
+
+	background: $light-color;
+	margin: 0;
+
+	.navbar-logos {
+		padding: $unit-3 0;
+	}
+
+	.header-logo-school {
+		display: inline-block;
+		img {
+			max-height: $header-image-height;
+			width: auto;
+			display: block;
+		}
+	}
+
+	.header-logo-crbs {
+		svg {
+			height: $header-image-height;
+			width: $header-image-height;
+		}
+	}
+}
+
+.header-menu {
+
+	color: $dark-color;
+	// border-top: 1px solid $gray-color-dark;
+	// border-bottom: 2px solid $gray-color-dark;
+	border-top: 1px solid $border-color;
+	// border-width: 1px 0;
+
+	.btn-link {
+		margin-bottom: -2px;
+		color: inherit;
+		padding: $unit-3 $unit-1;
+		height: auto;
+		margin-left: 0;
+		margin-right: 0;
+		// font-size: $font-size * 1.1;
+		font-size: $font-size-sm;
+		border-radius: 0;
+		border: 0;
+		border-top: 3px solid transparent;
+		border-bottom: 3px solid transparent;
+		color: $gray-color-dark;
+		&.active {
+			border-bottom: 3px solid $primary-color;
+		}
+	}
+
+	.header-menu-nav {
+		.btn-link {
+			margin-right: $unit-5;
+		}
+	}
+
+	.header-menu-user {
+		.btn-link {
+			margin-left: $unit-5;
+		}
+	}
+}
+
+
+
+
+
+
+/*
+.old-header {
 
 	background: #fff;
 	margin: 0;
@@ -109,3 +182,4 @@
 		}
 	}
 }
+ */
