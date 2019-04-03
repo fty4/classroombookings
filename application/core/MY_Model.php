@@ -15,6 +15,33 @@ class MY_Model extends CI_Model
 	public $table = '';
 
 
+	/**
+	 * Primary key for the table
+	 *
+	 * @var string
+	 *
+	 */
+	public $primary_key = '';
+
+
+	/**
+	 * Class name used for building queries
+	 *
+	 * @var string
+	 *
+	 */
+	public $query_class = 'BaseQuery';
+
+
+	/**
+	 * Columns for the table.
+	 *
+	 * @var array
+	 *
+	 */
+	public $table_columns = [];
+
+
 	public $blame = [
 		'created' => 'created_by',
 		'updated' => 'updated_by',
@@ -33,69 +60,49 @@ class MY_Model extends CI_Model
 	}
 
 
-	/**
-	 * Find and return a single record or false if not exists.
-	 *
-	 */
-	public function find_one($params = array())
+
+	public function get_query_instance()
 	{
-		$this->apply_params($params);
+		$class = "app\\queries\\{$this->query_class}";
+		return new $class($this);
+	}
 
-		$query = $this->db->get($this->table, 1);
 
-		if ($query->num_rows() === 1) {
-			return $this->wake_values($query->row());
+	public function count($data = [])
+	{
+		$find_query = $this->get_query_instance();
+		$find_query->set_data($data);
+		return $find_query->count();
+	}
+
+
+	public function find($data = [])
+	{
+		$find_query = $this->get_query_instance();
+		$find_query->set_data($data);
+
+		$result = $find_query->result();
+		foreach ($result as &$row) {
+			$row = $this->wake_values($row, $find_query);
+		}
+		return $result;
+	}
+
+
+	public function find_one($data = [])
+	{
+		$data['limit'] = 1;
+		$find_query = $this->get_query_instance();
+		$find_query->set_data($data);
+		$row = $find_query->row();
+		if ($row) {
+			return $this->wake_values($row, $find_query);
 		}
 		return FALSE;
 	}
 
 
-	/**
-	 * Find multiple records and return an array.
-	 *
-	 * @param  array  $params  [description]
-	 * @param  array  $options [description]
-	 * @return [type]          [description]
-	 *
-	 */
-	public function find($params = array(), $options = array())
-	{
-		$this->apply_params($params);
-
-		if (array_key_exists('limit', $options)) {
-			$limit = $options['limit'];
-			if (is_string($limit) && strpos($limit, ',')) {
-				$limit = explode(',', $limit);
-			}
-			$parts = is_array($limit) ? $limit : array($limit);
-			if (count($parts) == 2) {
-				$this->db->limit($parts[0], $parts[1]);
-			} else {
-				$this->db->limit($parts[0]);
-			}
-		}
-
-		if (array_key_exists('sort', $options)) {
-			foreach ($options['sort'] as $col => $dir) {
-				$this->db->order_by($col, $dir);
-			}
-		}
-
-		$query = $this->db->get($this->table);
-
-		if ($query->num_rows() > 0) {
-			$result = $query->result();
-			foreach ($result as &$row) {
-				$row = $this->wake_values($row);
-			}
-			return $result;
-		}
-
-		return [];
-	}
-
-
-	public function insert($data = array())
+	public function insert($data = [])
 	{
 		$data = $this->populate_blame_data($data, 'created');
 		$data = $this->populate_timestamp_data($data, 'created');
@@ -202,54 +209,6 @@ class MY_Model extends CI_Model
 	{
 		return $row;
 	}
-
-
-	public function apply_params($where = array())
-	{
-		foreach ($where as $col => $value) {
-
-			if (strpos($col, '.') === FALSE) {
-				$col = "{$this->table}.{$col}";
-			}
-
-			$this->db->where($col, $value);
-		}
-	}
-
-
-	function Add($data)
-	{
-		$query = $this->db->insert('users', $data);
-		return ($query ? $this->db->insert_id() : $query);
-	}
-
-
-	function Edit($user_id, $data)
-	{
-		$this->db->where('user_id', $user_id);
-		$result = $this->db->update('users', $data);
-		return ($result ? $user_id : FALSE);
-	}
-
-
-	/**
-	 * Delete a user
-	 *
-	 * @param   int   $id   ID of user to delete
-	 *
-	 */
-	/*function Delete($id)
-	{
-		$this->db->where('user_id', $id);
-		$this->db->delete('bookings');
-
-		$set = array('user_id' => 0);
-		$where = array('user_id' => $id);
-		$this->db->update('rooms', $set, $where);
-
-		$this->db->where('user_id', $id);
-		return $this->db->delete('users');
-	}*/
 
 
 }

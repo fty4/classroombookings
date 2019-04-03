@@ -26,6 +26,7 @@ class User extends MY_Controller
 
 		$this->data['user'] = $this->users_model->find_one(array(
 			'user_id' => $this->userauth->user->user_id,
+			'enabled' => 1,
 		));
 
 		if ( ! $this->data['user']) {
@@ -72,7 +73,7 @@ class User extends MY_Controller
 		];
 
 		// Update
-		$res = $this->users_model->update($user_data, array('user_id' => $id));
+		$res = $this->users_model->update($user_data, ['user_id' => $id]);
 
 		if ($res) {
 			$this->notice('success', "Your account details have been updated.");

@@ -7,6 +7,7 @@ class Users_model extends MY_Model
 
 
 	public $table = 'users';
+	public $primary_key = 'user_id';
 
 
 	public function __construct()

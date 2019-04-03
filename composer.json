@@ -19,6 +19,11 @@
     "config": {
     	"vendor-dir": "application/vendor"
     },
+    "autoload": {
+		"psr-4": {
+			"app\\": "application/"
+		}
+	},
     "archive": {
     	"exclude": [
     		"!application/vendor/*",
