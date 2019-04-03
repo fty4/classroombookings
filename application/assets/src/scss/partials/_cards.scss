@@ -4,7 +4,7 @@
 		border-bottom: 1px solid $border-color;
 	}
 
-	.card-footer {
+	.card-body + .card-footer {
 		border-top: 1px solid $border-color;
 	}
 
@@ -27,6 +27,10 @@
 		.card-footer {
 			padding: $unit-5;
 		}
+	}
+
+	+.card {
+		margin-top: $unit-3;
 	}
 
 }

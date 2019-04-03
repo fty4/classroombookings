@@ -64,6 +64,7 @@ class MY_Controller extends CI_Controller
 		$this->load->model('menu_model');
 		$this->data['menus']['user'] = $this->menu_model->get_user_menu();
 		$this->data['menus']['main'] = $this->menu_model->get_main_menu();
+		$this->data['menus']['settings'] = $this->menu_model->get_settings_menu();
 	}
 
 
@@ -92,8 +93,12 @@ class MY_Controller extends CI_Controller
 	public function require_auth_level($level)
 	{
 		if ( ! $this->userauth->is_level($level)) {
-			$this->session->set_flashdata('auth', msgbox('error', $this->lang->line('crbs_mustbeadmin')));
-			redirect('controlpanel');
+			return $this->render_error([
+				'http' => 403,
+				'title' => 'Access denied',
+				'description' => "You don't have the required access level for this area.",
+				'icon' => 'slash',
+			]);
 		}
 	}
 

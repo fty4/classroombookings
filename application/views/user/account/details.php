@@ -1,118 +1,112 @@
 <?php
-$layout = 'horizontal';
-echo form_open('', ['class' => 'form-horizontal']);
-?>
 
-<div class="card card-lg">
+$layout = 'vertical';
 
-	<div class="card-header">
-		<h2 class="card-title"><?= $title ?></h2>
-	</div>
+echo form_open(current_url(), ['class' => 'form-vertical']);
 
 
-	<div class="card-body">
-
-		<?php
-
-		$field = 'email';
-		$value = set_value($field, $user->$field, FALSE);
-		$label = lang('user_field_' . $field);
-
-		echo form_group(array(
-			'layout' => $layout,
-			'size' => 'xl',
-			'field' => $field,
-			'label' => $label,
-			'hint' => 'This will be used to send notifications to.',
-			'input' => form_input(array(
-				'autofocus' => TRUE,
-				'class' => 'form-input',
-				'name' => $field,
-				'id' => $field,
-				'tabindex' => tab_index(),
-				'value' => $value,
-			)),
-		));
+$fields = [];
 
 
-		$field = 'firstname';
-		$value = set_value($field, $user->firstname, FALSE);
+$field = 'email';
+$label = lang("user_field_{$field}");
+$hint = lang("user_field_hint_{$field}");
+$value = set_value($field, $user->$field, FALSE);
 
-		echo form_group(array(
-			'layout' => $layout,
-			'size' => 'md',
-			'field' => $field,
-			'label' => lang('user_field_' . $field),
-			'input' => form_input(array(
-				'class' => 'form-input',
-				'name' => $field,
-				'id' => $field,
-				'tabindex' => tab_index(),
-				'value' => $value,
-			)),
-		));
-
-
-		$field = 'lastname';
-		$value = set_value($field, $user->lastname, FALSE);
-
-		echo form_group(array(
-			'layout' => $layout,
-			'size' => 'md',
-			'field' => $field,
-			'label' => lang('user_field_' . $field),
-			'input' => form_input(array(
-				'class' => 'form-input',
-				'name' => $field,
-				'id' => $field,
-				'tabindex' => tab_index(),
-				'value' => $value,
-			)),
-		));
+$fields[] = form_group([
+	'layout' => $layout,
+	'size' => '',
+	'field' => $field,
+	'label' => $label,
+	'hint' => $hint,
+	'input' => form_input([
+		'autofocus' => TRUE,
+		'class' => 'form-input',
+		'name' => $field,
+		'id' => $field,
+		'tabindex' => tab_index(),
+		'value' => $value,
+	]),
+]);
 
 
-		$field = 'displayname';
-		$value = set_value($field, $user->displayname, FALSE);
+$field = 'firstname';
+$label = lang("user_field_{$field}");
+$hint = lang("user_field_hint_{$field}");
+$value = set_value($field, $user->firstname, FALSE);
 
-		echo form_group(array(
-			'layout' => $layout,
-			'size' => 'xl',
-			'field' => $field,
-			'label' => lang('user_field_' . $field),
-			'input' => form_input(array(
-				'class' => 'form-input',
-				'name' => $field,
-				'id' => $field,
-				'tabindex' => tab_index(),
-				'value' => $value,
-			)),
-		));
-		?>
-
-	</div>
-
-	<div class="card-footer">
-		<?php
-
-		$submit_button = form_button(array(
-			'type' => 'submit',
-			'content' => lang('action_save'),
-			'class' => 'btn btn-primary ',
-			'tabindex' => tab_index(),
-		));
-		$reset_link = '';	//anchor('user/reset-password', 'Reset password', array('class' => 'btn btn-link'));
-
-		echo form_group(array(
-			'group_class' => 'form-group',
-			'label' => '',
-			'hint' => '',
-			'input' => $submit_button . $reset_link,
-		));
-
-		?>
-	</div>
-
-</div>
+$fields[] = form_group([
+	'layout' => $layout,
+	'size' => 'md',
+	'field' => $field,
+	'label' => $label,
+	'hint' => $hint,
+	'input' => form_input([
+		'class' => 'form-input',
+		'name' => $field,
+		'id' => $field,
+		'tabindex' => tab_index(),
+		'value' => $value,
+	]),
+]);
 
 
-<?= form_close() ?>
+$field = 'lastname';
+$label = lang("user_field_{$field}");
+$hint = lang("user_field_hint_{$field}");
+$value = set_value($field, $user->lastname, FALSE);
+
+$fields[] = form_group(array(
+	'layout' => $layout,
+	'size' => 'md',
+	'label' => $label,
+	'hint' => $hint,
+	'input' => form_input(array(
+		'class' => 'form-input',
+		'name' => $field,
+		'id' => $field,
+		'tabindex' => tab_index(),
+		'value' => $value,
+	)),
+));
+
+
+$field = 'displayname';
+$label = lang("user_field_{$field}");
+$hint = lang("user_field_hint_{$field}");
+$value = set_value($field, $user->displayname, FALSE);
+
+$fields[] = form_group(array(
+	'layout' => $layout,
+	'size' => 'xl',
+	'field' => $field,
+	'label' => $label,
+	'hint' => $hint,
+	'input' => form_input(array(
+		'class' => 'form-input',
+		'name' => $field,
+		'id' => $field,
+		'tabindex' => tab_index(),
+		'value' => $value,
+	)),
+));
+
+
+
+$fields[] = form_group([
+	'input' => form_button([
+		'type' => 'submit',
+		'content' => lang('action_save'),
+		'class' => 'btn btn-primary ',
+		'tabindex' => tab_index(),
+	]),
+]);
+
+
+echo form_fieldset([
+	'title' => $title,
+	'content' => implode("\n", $fields),
+]);
+
+
+echo form_close();

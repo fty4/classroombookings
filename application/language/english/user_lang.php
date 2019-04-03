@@ -18,6 +18,7 @@ $lang['user_password_action_change'] = 'Change password';
 $lang['user_field_username'] = 'Username';
 $lang['user_field_password'] = 'Password';
 $lang['user_field_email'] = 'Email address';
+$lang['user_field_hint_email'] = 'This will be used to send notifications to.';
 $lang['user_field_firstname'] = 'First name';
 $lang['user_field_lastname'] = 'Last name';
 $lang['user_field_displayname'] = 'Display name';

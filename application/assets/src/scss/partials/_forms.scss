@@ -57,12 +57,65 @@
 	.form-group {
 		margin-bottom: 0;
 		+ .form-group {
-			margin-top: $unit-6;
+			margin-top: $unit-4;
+		}
+
+		.form-select {
+			width: 99%;
 		}
 	}
 
 	.col-label {
 		padding-right: $unit-4;
+		text-align: right;
 	}
 
+}
+
+
+.form-vertical {
+	.form-label {
+		color: $gray-color-dark;
+	}
+	.form-group {
+		margin-bottom: 0;
+		+ .form-group {
+			margin-top: $unit-8;
+		}
+
+	}
+}
+
+
+
+.form-fieldset {
+	margin: 0;
+	padding: $layout-spacing-lg * 3 $layout-spacing-lg * 2;
+	background: $bg-color-light;
+	border: $border-width solid $border-color;
+	border-radius: $border-radius;
+	display: flex;
+	flex-direction: column;
+
+	+.form-fieldset {
+		margin-top: -$border-width;
+	}
+
+	&.form-fieldset-actions {
+		padding: $layout-spacing-lg*2;
+	}
+}
+
+.form-legend {
+	margin: $control-padding-y + $border-width 0 0 0;
+	padding: 0;
+	font-size: $font-size * 1.2;
+	font-weight: normal;
+	line-height: 1.2;
+}
+
+.form-legend-subtitle {
+	margin-top: $unit-3;
+	font-size: $font-size-sm;
+	color: lighten($gray-color-dark, 10%);
 }

@@ -66,6 +66,7 @@ function render_menu($params = array())
 		'active_class' => 'active',
 		'link_template' => '<a class="{link_class} {link_active_class}" href="{url}" {link_attrs}>{icon}<span>{label}</span></a>',
 		'link_class' => '',
+		'escape_labels' => TRUE,
 	);
 
 	$data = array_merge($defaults, $params);
@@ -98,7 +99,7 @@ function render_menu($params = array())
 			'link_class' => $link_class,
 			'link_attrs' => $link_attrs,
 			'icon' => (isset($item['icon']) ? '<span class="btn-icon">' . icon($item['icon']) . '</span>' : ''),
-			'label' => html_escape($item['label']),
+			'label' => $escape_labels ? html_escape($item['label']) : $item['label'],
 			'url' => $url,
 		);
 

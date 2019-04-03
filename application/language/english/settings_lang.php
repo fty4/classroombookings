@@ -1,0 +1,39 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+$lang['settings_page_title'] = 'Settings';
+
+$lang['settings_options_page_title'] = 'General options';
+$lang['settings_visual_page_title'] = 'Look and feel';
+
+// General options
+//
+$lang['settings_options_section_school'] = 'School information';
+$lang['settings_options_section_preferences'] = 'Booking preferences';
+
+$lang['settings_general_field_name'] = 'School name';
+
+$lang['settings_general_field_website'] = 'Website address';
+$lang['settings_general_field_website_hint'] = 'The name of your school in the footer will be linked to this.';
+
+$lang['settings_general_field_bia'] = 'Booking day limit';
+$lang['settings_general_field_bia_hint'] = 'How many days in the future users can make their own bookings. Enter 0 for no restriction.';
+
+// Visual
+//
+$lang['settings_visual_section_branding'] = 'Branding';
+$lang['settings_visual_section_bookings'] = 'Bookings';
+
+$lang['settings_visual_field_current_logo'] = 'Current logo';
+$lang['settings_visual_field_new_logo'] = 'Logo';
+$lang['settings_visual_field_delete_logo'] = 'Delete this logo';
+$lang['settings_visual_field_theme'] = 'Theme';
+
+$lang['settings_visual_field_displaytype'] = 'View style';
+$lang['settings_visual_field_displaytype_room'] = 'Room';
+$lang['settings_visual_field_displaytype_day'] = 'Day';
+
+$lang['settings_visual_field_d_columns'] = 'Horizontal axis';
+$lang['settings_visual_field_d_columns_periods'] = 'Periods';
+$lang['settings_visual_field_d_columns_rooms'] = 'Rooms';
+$lang['settings_visual_field_d_columns_days'] = 'Days';

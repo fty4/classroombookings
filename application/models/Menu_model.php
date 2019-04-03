@@ -65,7 +65,7 @@ class Menu_model extends CI_Model
 
 		$items[] = array(
 			'label' => 'Settings',
-			'url' => 'settings',
+			'url' => 'settings/options',
 			'icon' => 'settings',
 			'visible' => $is_logged_in,
 		);
@@ -84,6 +84,72 @@ class Menu_model extends CI_Model
 		// 	'visible' => $is_logged_in,
 		// );
 
+
+		return $items;
+	}
+
+
+	public function get_settings_menu()
+	{
+		$items = [];
+
+		$is_admin = $this->userauth->is_level(ADMINISTRATOR);
+
+		$items[] = array(
+			'label' => 'General options',
+			'url' => 'settings/options',
+			'icon' => 'sliders',
+			'visible' => $is_admin,
+		);
+
+		$items[] = array(
+			'label' => 'Look and feel',
+			'url' => 'settings/visual',
+			'icon' => 'eye',
+			'visible' => $is_admin,
+		);
+
+		$items[] = array(
+			'label' => 'Users',
+			'url' => 'users',
+			'icon' => 'users',
+			'visible' => $is_admin,
+		);
+
+		$items[] = array(
+			'label' => 'Week cycle',
+			'url' => 'weeks',
+			'icon' => 'calendar',
+			'visible' => $is_admin,
+		);
+
+		$items[] = array(
+			'label' => 'Periods',
+			'url' => 'periods',
+			'icon' => 'clock',
+			'visible' => $is_admin,
+		);
+
+		$items[] = array(
+			'label' => 'Holidays',
+			'url' => 'holidays',
+			'icon' => 'sun',
+			'visible' => $is_admin,
+		);
+
+		$items[] = array(
+			'label' => 'Rooms',
+			'url' => 'rooms',
+			'icon' => 'monitor',
+			'visible' => $is_admin,
+		);
+
+		$items[] = array(
+			'label' => 'Departments',
+			'url' => 'departments',
+			'icon' => 'layers',
+			'visible' => $is_admin,
+		);
 
 		return $items;
 	}

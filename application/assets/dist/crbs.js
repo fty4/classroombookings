@@ -10364,60 +10364,31 @@ return jQuery;
 } );
 
 
-/**
- * yii is the root module for all Yii JavaScript modules.
- * It implements a mechanism of organizing JavaScript code in modules through the function "yii.initModule()".
- *
- * Each module should be named as "x.y.z", where "x" stands for the root module (for the Yii core code, this is "yii").
- *
- * A module may be structured as follows:
- *
- * ```javascript
- * window.yii.sample = (function($) {
- *     var pub = {
- *         // whether this module is currently active. If false, init() will not be called for this module
- *         // it will also not be called for all its child modules. If this property is undefined, it means true.
- *         isActive: true,
- *         init: function() {
- *             // ... module initialization code goes here ...
- *         },
- *
- *         // ... other public functions and properties go here ...
- *     };
- *
- *     // ... private functions and properties go here ...
- *
- *     return pub;
- * })(window.jQuery);
- * ```
- *
- * Using this structure, you can define public and private functions/properties for a module.
- * Private functions/properties are only visible within the module, while public functions/properties
- * may be accessed outside of the module. For example, you can access "yii.sample.isActive".
- *
- * You must call "yii.initModule()" once for the root module of all your modules.
- */
 window.crbs = (function($) {
 
 	var pub = {
 
-		/**
-         * The selector for clickable elements that need to support confirmation and form submission.
-         */
-        clickableSelector: 'a, button, input[type="submit"], input[type="button"], input[type="reset"], input[type="image"]',
 
-        /**
-         * The selector for changeable elements that need to support confirmation and form submission.
-         */
-        changeableSelector: 'select, input, textarea',
+		/**
+		 * The selector for clickable elements that need to support confirmation and form submission.
+		 */
+		clickableSelector: 'a, button, input[type="submit"], input[type="button"], input[type="reset"], input[type="image"]',
+
+
+		/**
+		 * The selector for changeable elements that need to support confirmation and form submission.
+		 */
+		changeableSelector: 'select, input, textarea',
 
 
 		/**
 		 * @return string|undefined the CSRF parameter name. Undefined is returned if CSRF validation is not enabled.
+		 *
 		 */
 		getCsrfParam: function () {
 			return $('meta[name=csrf_token_name]').attr('content');
 		},
+
 
 
 		/**
@@ -10552,10 +10523,12 @@ window.crbs = (function($) {
 			});
 		},
 
+
 		init: function() {
 			// initCsrfHandler();
 			initDataMethods();
 		},
+
 
 		/**
 		 * Returns the URL of the current page without params and trailing slash. Separated and made public for testing.
@@ -10565,6 +10538,7 @@ window.crbs = (function($) {
 			return window.location.protocol + '//' + window.location.host;
 		},
 
+
 		/**
 		 * Returns the URL of the current page. Used for testing, you can always call `window.location.href` manually
 		 * instead.
@@ -10573,6 +10547,7 @@ window.crbs = (function($) {
 		getCurrentUrl: function () {
 			return window.location.href;
 		}
+
 
 	};
 
@@ -10634,3 +10609,56 @@ window.crbs = (function($) {
 window.jQuery(function() {
 	window.crbs.initModule(window.crbs);
 });
+
+window.crbs.settingsVisual = (function($) {
+
+	var pub = {
+
+		isActive: true,
+
+		init: function() {
+			initShowIf();
+		},
+	};
+
+	// Handle for form
+	var $from;
+
+	function initShowIf() {
+		$form = $("form[data-form='settings_visual']");
+		$form.on('change', "input[name='displaytype']", toggleDisplayAxis);
+		toggleDisplayAxis();
+	}
+
+	function toggleDisplayAxis() {
+		var checkedVal = $form.find("input[name='displaytype']:checked").val();
+		switch (checkedVal) {
+			case 'day':
+				enableField("input[data-name='d_columns'][data-value='periods']");
+				enableField("input[data-name='d_columns'][data-value='rooms']");
+				disableField("input[data-name='d_columns'][data-value='days']");
+			break;
+			case 'room':
+				enableField("input[data-name='d_columns'][data-value='periods']");
+				enableField("input[data-name='d_columns'][data-value='days']");
+				disableField("input[data-name='d_columns'][data-value='rooms']");
+			break;
+		}
+	}
+
+	function disableField(input) {
+		$form.find(input)
+			.prop("checked", false)
+			.removeAttr("checked")
+			.prop("disabled", true);
+	}
+
+	function enableField(input) {
+		$form.find(input)
+			.prop("disabled", false)
+			.removeAttr("disabled");
+	}
+
+	return pub;
+
+})(window.jQuery);
