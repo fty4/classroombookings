@@ -87,6 +87,7 @@ class Settings extends MY_Controller
 			'name' => $this->input->post('name'),
 			'website' => $this->input->post('website'),
 			'bia' => $this->input->post('bia'),
+			'login_hint' => $this->input->post('login_hint'),
 		];
 
 		// Update

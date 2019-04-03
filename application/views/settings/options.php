@@ -16,7 +16,7 @@ $fields[] = form_group([
 	'size' => 'xl',
 	'field' => $field,
 	'label' => lang("settings_general_field_{$field}"),
-	'hint' => lang("settings_general_field_{$field}_hint"),
+	'hint' => lang("settings_general_field_hint_{$field}"),
 	'input' => form_input([
 		'autofocus' => TRUE,
 		'class' => 'form-input',
@@ -36,7 +36,7 @@ $fields[] = form_group([
 	'size' => 'xl',
 	'field' => $field,
 	'label' => lang("settings_general_field_{$field}"),
-	'hint' => lang("settings_general_field_{$field}_hint"),
+	'hint' => lang("settings_general_field_hint_{$field}"),
 	'input' => form_input([
 		'class' => 'form-input',
 		'name' => $field,
@@ -67,7 +67,7 @@ $fields[] = form_group([
 	'size' => 'xs',
 	'field' => $field,
 	'label' => lang("settings_general_field_{$field}"),
-	'hint' => lang("settings_general_field_{$field}_hint"),
+	'hint' => lang("settings_general_field_hint_{$field}"),
 	'input' => form_input([
 		'class' => 'form-input',
 		'name' => $field,
@@ -84,6 +84,40 @@ echo form_fieldset([
 ]);
 
 
+
+
+
+// Login
+//
+$fields = [];
+
+
+$field = 'login_hint';
+$value = set_value($field, element($field, $settings), FALSE);
+
+$fields[] = form_group([
+	'layout' => $layout,
+	'size' => 'xl',
+	'field' => $field,
+	'label' => lang("settings_general_field_{$field}"),
+	'hint' => lang("settings_general_field_hint_{$field}"),
+	'input' => form_textarea([
+		'class' => 'form-input',
+		'name' => $field,
+		'id' => $field,
+		'rows' => 3,
+		'tabindex' => tab_index(),
+		'value' => $value,
+	]),
+]);
+
+
+echo form_fieldset([
+	'title' => lang('settings_options_section_login'),
+	'content' => implode("\n", $fields),
+]);
+
+
 $submit_button = form_button([
 	'type' => 'submit',
 	'content' => lang('action_save'),
@@ -92,7 +126,7 @@ $submit_button = form_button([
 ]);
 
 echo form_fieldset([
-	'class' => 'form-fieldset-actions',
+	'actions' => TRUE,
 	'content' => form_group([
 		'group_class' => 'form-group',
 		'label' => '',

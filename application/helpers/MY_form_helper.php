@@ -8,6 +8,7 @@ function form_fieldset($params = [])
 	$CI->load->library('parser');
 
 	$defaults = [
+		'actions' => FALSE,
 		'class' => '',
 		'left_class' => 'col-md-12 col-lg-4 col-4',
 		'right_class' => 'col-md-12 col-lg-8 col-8',
@@ -17,6 +18,10 @@ function form_fieldset($params = [])
 	];
 
 	$data = array_merge($defaults, $params);
+
+	if ($data['actions']) {
+		$data['class'] .= 'form-fieldset-actions';
+	}
 
 	$vars = [
 		'title' => '',
@@ -35,7 +40,7 @@ function form_fieldset($params = [])
 		$vars['subtitle'] = "<p class='form-legend-subtitle'>{$data['subtitle']}</p>";
 	}
 
-	if (empty($vars['title']) && empty($vars['subtitle'])) {
+	if (empty($vars['title']) && empty($vars['subtitle']) && $data['actions'] === FALSE) {
 		$template = "<fieldset class='form-fieldset {class}'>";
 		$template .= "{content}";
 		$template .= "</fieldset>";
