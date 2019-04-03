@@ -69,7 +69,7 @@ $user_menu = render_menu(array(
 		</script>
 	</head>
 
-	<body>
+	<body class="theme-<?= setting('theme') ?>">
 
 		<header class="header">
 

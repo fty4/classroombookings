@@ -1,0 +1,9 @@
+@include crbs-theme("blue", $clrs-blue);
+@include crbs-theme("navy", lighten($clrs-navy, 20%));
+@include crbs-theme("red", $clrs-red);
+@include crbs-theme("green", $clrs-green);
+@include crbs-theme("olive", $clrs-olive);
+@include crbs-theme("purple", $clrs-purple);
+@include crbs-theme("fuchsia", $clrs-fuchsia);
+@include crbs-theme("orange", $clrs-orange);
+@include crbs-theme("grey", $gray-color-dark);

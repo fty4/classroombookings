@@ -1,11 +1,9 @@
 
 body {
 	background: darken($dark-color, 3%);
-	// border-top: $unit-1 solid $clrs-blue;
 }
 
 .notice-wrapper {
-	// background: #fff;
 	padding-top: $unit-6;
 }
 
@@ -44,13 +42,11 @@ body {
 
 
 .content {
-	background: $content-bg;
+	background: $bg-color;
 	border-top: 1px solid $border-color;
 }
 
 .body {
-
-	// background: #fff;
 	padding-top: $unit-12;
 	padding-bottom: $unit-12;
 }

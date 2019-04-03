@@ -83,6 +83,15 @@
 			margin-top: $unit-8;
 		}
 
+		&.has-error {
+			border-left: $unit-1 solid $clrs-red;
+			padding-left: $unit-4;
+			padding-top: $unit-1;
+			padding-bottom: $unit-1;
+			.form-label {
+				color: darken($clrs-red, 20%);
+			}
+		}
 	}
 }
 

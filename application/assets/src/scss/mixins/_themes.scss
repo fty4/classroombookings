@@ -1,0 +1,36 @@
+// CRBS theme mixin
+
+@mixin crbs-theme($name: "default", $colour: $primary-color) {
+
+	$content-bg: mix($bg-color, $colour, 98.5%);
+
+	.theme-#{$name} {
+
+		.content {
+			background-color: $content-bg;
+		}
+
+
+		.header-menu {
+			.btn-link.active {
+				border-bottom-color: $colour;
+			}
+		}
+
+
+		.nav-secondary {
+			.nav-item.active {
+				background-color: mix($colour, $gray-color-light, 10%);
+				> a {
+					color: $colour;
+				}
+				.feather {
+					color: mix($colour, $dark-color, 65%);
+				}
+			}
+		}
+
+
+	}
+
+}

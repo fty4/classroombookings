@@ -2999,7 +2999,7 @@ body {
     font-weight: 600; }
 
 .content {
-  background: #f3f6f9;
+  background: #f7f8f9;
   border-top: 1px solid #dadee4; }
 
 .body {
@@ -3242,6 +3242,13 @@ body {
   margin-bottom: 0; }
   .form-vertical .form-group + .form-group {
     margin-top: 1.6rem; }
+  .form-vertical .form-group.has-error {
+    border-left: 0.2rem solid #ff4136;
+    padding-left: 0.8rem;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem; }
+    .form-vertical .form-group.has-error .form-label {
+      color: #cf0b00; }
 
 .form-fieldset {
   margin: 0;
@@ -3333,3 +3340,120 @@ body {
 .empty {
   border: 1px solid #dadee4;
   background: #fff; }
+
+.theme-blue .content {
+  background-color: #f3f6f9; }
+
+.theme-blue .header-menu .btn-link.active {
+  border-bottom-color: #0074d9; }
+
+.theme-blue .nav-secondary .nav-item.active {
+  background-color: #deebf6; }
+  .theme-blue .nav-secondary .nav-item.active > a {
+    color: #0074d9; }
+  .theme-blue .nav-secondary .nav-item.active .feather {
+    color: #115fa4; }
+
+.theme-navy .content {
+  background-color: #f3f6f8; }
+
+.theme-navy .header-menu .btn-link.active {
+  border-bottom-color: #0051a5; }
+
+.theme-navy .nav-secondary .nav-item.active {
+  background-color: #dee7f1; }
+  .theme-navy .nav-secondary .nav-item.active > a {
+    color: #0051a5; }
+  .theme-navy .nav-secondary .nav-item.active .feather {
+    color: #114882; }
+
+.theme-red .content {
+  background-color: #f7f5f6; }
+
+.theme-red .header-menu .btn-link.active {
+  border-bottom-color: #ff4136; }
+
+.theme-red .nav-secondary .nav-item.active {
+  background-color: #f8e6e6; }
+  .theme-red .nav-secondary .nav-item.active > a {
+    color: #ff4136; }
+  .theme-red .nav-secondary .nav-item.active .feather {
+    color: #b73e3a; }
+
+.theme-green .content {
+  background-color: #f4f7f7; }
+
+.theme-green .header-menu .btn-link.active {
+  border-bottom-color: #2ecc40; }
+
+.theme-green .nav-secondary .nav-item.active {
+  background-color: #e3f4e7; }
+  .theme-green .nav-secondary .nav-item.active > a {
+    color: #2ecc40; }
+  .theme-green .nav-secondary .nav-item.active .feather {
+    color: #2f9841; }
+
+.theme-olive .content {
+  background-color: #f4f7f7; }
+
+.theme-olive .header-menu .btn-link.active {
+  border-bottom-color: #3d9970; }
+
+.theme-olive .nav-secondary .nav-item.active {
+  background-color: #e5efec; }
+  .theme-olive .nav-secondary .nav-item.active > a {
+    color: #3d9970; }
+  .theme-olive .nav-secondary .nav-item.active .feather {
+    color: #387760; }
+
+.theme-purple .content {
+  background-color: #f6f4f9; }
+
+.theme-purple .header-menu .btn-link.active {
+  border-bottom-color: #b10dc9; }
+
+.theme-purple .nav-secondary .nav-item.active {
+  background-color: #f0e1f4; }
+  .theme-purple .nav-secondary .nav-item.active > a {
+    color: #b10dc9; }
+  .theme-purple .nav-secondary .nav-item.active .feather {
+    color: #841c9a; }
+
+.theme-fuchsia .content {
+  background-color: #f7f5f8; }
+
+.theme-fuchsia .header-menu .btn-link.active {
+  border-bottom-color: #f012be; }
+
+.theme-fuchsia .nav-secondary .nav-item.active {
+  background-color: #f6e1f3; }
+  .theme-fuchsia .nav-secondary .nav-item.active > a {
+    color: #f012be; }
+  .theme-fuchsia .nav-secondary .nav-item.active .feather {
+    color: #ad1f93; }
+
+.theme-orange .content {
+  background-color: #f7f6f6; }
+
+.theme-orange .header-menu .btn-link.active {
+  border-bottom-color: #ff851b; }
+
+.theme-orange .nav-secondary .nav-item.active {
+  background-color: #f8ede3; }
+  .theme-orange .nav-secondary .nav-item.active > a {
+    color: #ff851b; }
+  .theme-orange .nav-secondary .nav-item.active .feather {
+    color: #b76a29; }
+
+.theme-grey .content {
+  background-color: #f5f6f8; }
+
+.theme-grey .header-menu .btn-link.active {
+  border-bottom-color: #66758c; }
+
+.theme-grey .nav-secondary .nav-item.active {
+  background-color: #e9ebee; }
+  .theme-grey .nav-secondary .nav-item.active > a {
+    color: #66758c; }
+  .theme-grey .nav-secondary .nav-item.active .feather {
+    color: #535f72; }
