@@ -55,9 +55,9 @@ class User extends MY_Controller
 
 		$this->load->library('form_validation');
 
-		$this->form_validation->set_rules('email', "lang:users_field_email", "required|trim|max_length[191]|valid_email|user_email_unique[{$id}]");
-		$this->form_validation->set_rules('first_name', "lang:users_field_first_name", 'trim|ucfirst|max_length[255]');
-		$this->form_validation->set_rules('last_name', "lang:users_field_last_name", 'trim|ucfirst|max_length[255]');
+		$this->load->config('form_validation', TRUE);
+		$this->form_validation->set_rules($this->config->item('user_details', 'form_validation'));
+		$this->form_validation->set_rules('email', "lang:user_field_email", "trim|max_length[191]|valid_email|user_email_unique[{$id}]");
 
 		if ($this->form_validation->run() == FALSE) {
 			$this->notice('error', "Please check the form fields and try again.");
