@@ -103,8 +103,10 @@ function render_menu($params = array())
 			'url' => $url,
 		);
 
+		$identifier = isset($item['id']) ? $item['id'] : $item['url'];
+
 		$is_active_class = '';
-		if (($active !== FALSE && $item['url'] == $active )
+		if (($active !== FALSE && $identifier == $active )
 		    || (isset($item['active']) && $item['active'] == TRUE)
 		) {
 			$is_active_class = $active_class;

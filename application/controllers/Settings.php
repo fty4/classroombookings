@@ -13,6 +13,7 @@ class Settings extends MY_Controller
 		$this->load->language('settings');
 
 		$this->require_logged_in();
+		$this->require_auth_level(ADMINISTRATOR);
 	}
 
 

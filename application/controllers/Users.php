@@ -1,20 +1,21 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+
 class Users extends MY_Controller
 {
-
-
 
 
 	public function __construct()
 	{
 		parent::__construct();
 
+		$this->load->language('settings');
+		$this->load->language('users');
+
 		$this->require_logged_in();
 		$this->require_auth_level(ADMINISTRATOR);
 
-		$this->load->model('crud_model');
 		$this->load->model('users_model');
 		$this->load->model('departments_model');
 		$this->load->helper('number');
@@ -24,13 +25,34 @@ class Users extends MY_Controller
 	}
 
 
+	/**
+	* Users: index
+	*
+	*/
+	function index()
+	{
+		$this->data['menu_active'] = 'settings/users';
+		$this->data['breadcrumbs'][] = array('', lang('home'));
+		$this->data['breadcrumbs'][] = array('settings', lang('settings_page_title'));
+		$this->data['breadcrumbs'][] = array('users', lang('users_index_page_title'));
+
+		$this->data['title'] = lang('users_index_page_title');
+
+		$this->data['users'] = $this->users_model->find();
+
+		$this->blocks['content'] = 'users/index';
+		$this->blocks['sidebar'] = 'settings/menu';
+
+		return $this->render('layouts/types/two-columns');
+	}
+
 
 
 	/**
 	 * User account listing
 	 *
 	 */
-	function index($page = NULL)
+	function _old_index($page = NULL)
 	{
 		// Cleanup import-related files if necessary
 		$this->cleanup_import();

@@ -110,6 +110,7 @@ class Menu_model extends CI_Model
 		);
 
 		$items[] = array(
+			'id' => 'settings/users',
 			'label' => 'Users',
 			'url' => 'users',
 			'icon' => 'users',
