@@ -7,9 +7,9 @@ class MY_Form_validation extends CI_Form_validation
 	protected $CI;
 
 
-	public function __construct()
+	public function __construct($rules = array())
 	{
-		parent::__construct();
+		parent::__construct($rules);
 		$this->CI =& get_instance();
 	}
 

@@ -1,5 +1,7 @@
 <?php
+
 $layout = 'vertical';
+
 echo form_open('settings/options', ['class' => 'form-vertical']);
 
 
@@ -116,6 +118,10 @@ echo form_fieldset([
 	'title' => lang('settings_options_section_login'),
 	'content' => implode("\n", $fields),
 ]);
+
+
+// Save
+//
 
 
 $submit_button = form_button([

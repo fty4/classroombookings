@@ -22,22 +22,7 @@ class Settings extends MY_Controller
 	*/
 	function index()
 	{
-		redirect('settings/options');
-		/*
-		$this->require_logged_in();
-		$this->require_auth_level(ADMINISTRATOR);
-
-		$this->data['menu_active'] = 'settings';
-		$this->data['breadcrumbs'][] = array('', lang('home'));
-		$this->data['breadcrumbs'][] = array('settings', lang('settings_page_title'));
-
-		$this->data['title'] = lang('settings_page_title');
-
-		$this->blocks['content'] = 'settings/index';
-		$this->blocks['sidebar'] = 'settings/menu';
-
-		return $this->render('layouts/types/two-columns');
-		*/
+		return $this->options();
 	}
 
 
@@ -74,11 +59,7 @@ class Settings extends MY_Controller
 	{
 		$this->load->library('form_validation');
 
-		$this->form_validation->set_rules('name', "lang:settings_general_field_name", "required|trim|max_length[255]");
-		$this->form_validation->set_rules('website', "lang:settings_general_field_website", 'trim|prep_url|max_length[255]|valid_url');
-		$this->form_validation->set_rules('bia', "lang:settings_general_field_bia", 'required|integer');
-
-		if ($this->form_validation->run() == FALSE) {
+		if ($this->form_validation->run('settings_options') == FALSE) {
 			$this->notice('error', "Please check the form fields and try again.");
 			return;
 		}
@@ -121,18 +102,145 @@ class Settings extends MY_Controller
 		$this->data['settings'] = $this->settings_model->get_all('crbs');
 
 		$this->data['theme_options'] = [
-			'blue' => 'Blue',
 			'red' => 'Red',
+			'orange' => 'Orange',
 			'green' => 'Green',
 			'olive' => 'Olive',
+			'blue' => 'Blue',
+			'navy' => 'Navy',
 			'purple' => 'Purple',
-			'orange' => 'Orange',
+			'fuchsia' => 'Fuchsia',
+			'grey' => 'Grey',
 		];
 
 		$this->blocks['content'] = 'settings/visual';
 		$this->blocks['sidebar'] = 'settings/menu';
 
+		if ($this->input->post()) {
+			$this->save_visual();
+		}
+
 		return $this->render('layouts/types/two-columns');
+	}
+
+
+	private function save_visual()
+	{
+		$this->load->library('form_validation');
+
+		if ($this->form_validation->run('settings_visual') == FALSE) {
+			$this->notice('error', lang('error_form_validation'));
+			return;
+		}
+
+		$settings_data = [
+			'theme' => $this->input->post('theme'),
+			'displaytype' => $this->input->post('displaytype'),
+			'd_columns' => $this->input->post('d_columns'),
+		];
+
+		// Got a new logo?
+		$upload_data = $this->handle_upload('userfile');
+
+		if ($upload_data['success'] == FALSE) {
+			$this->notice('error', $upload_data['reason']);
+			return;
+		}
+
+		if (strlen($upload_data['filename']) || $this->input->post('delete_logo') == 1) {
+
+			$this->delete_logo();
+			$settings_data['logo'] = '';
+
+			if (strlen($upload_data['filename'])) {
+				$settings_data['logo'] = $upload_data['filename'];
+			}
+		}
+
+		$res = $this->settings_model->set($settings_data);
+
+		if ($res) {
+			$this->notice('success', lang('settings_save_success'));
+			redirect('settings/visual');
+		} else {
+			$this->notice('error', lang('settings_save_error'));
+		}
+	}
+
+
+	private function handle_upload($name)
+	{
+		$out = [
+			'success' => FALSE,
+			'reason' => '',
+			'filename' => '',
+		];
+
+		$has_file = (isset($_FILES[$name]) && isset($_FILES[$name]['name']) && ! empty($_FILES[$name]['name']));
+
+		if ( ! $has_file) {
+			$out['success'] = TRUE;
+			return $out;
+		}
+
+		$upload_config = [
+			'upload_path' => FCPATH . 'uploads',
+			'allowed_types' => 'jpg|jpeg|png|gif',
+			'max_width' => 2560,
+			'max_height' => 2560,
+			'encrypt_name' => TRUE,
+		];
+
+		$this->load->library('upload', $upload_config);
+
+		if ( ! $this->upload->do_upload($name)) {
+			// Not uploaded
+			$error = $this->upload->display_errors('', '');
+			if ($error !== 'You did not select a file to upload') {
+				$out['success'] = FALSE;
+				$out['reason'] = $error;
+				return $out;
+			}
+
+			$out['success'] = TRUE;
+			return $out;
+		}
+
+		// File uploaded
+		$upload_data = $this->upload->data();
+
+		$this->load->library('image_lib');
+
+		$image_config = array(
+			'image_library' => 'gd2',
+			'source_image' => $upload_data['full_path'],
+			'maintain_ratio' => TRUE,
+			'width' => 400,
+			'height' => 400,
+			'master_dim' => 'auto',
+		);
+
+		$this->image_lib->initialize($image_config);
+
+		$res = $this->image_lib->resize();
+
+		if ( ! $res) {
+			$out['success'] = FALSE;
+			$out['reason'] = $this->image_lib->display_errors('', '');
+			return $out;
+		}
+
+		$out['success'] = TRUE;
+		$out['filename'] = $upload_data['file_name'];
+		return $out;
+	}
+
+
+	private function delete_logo()
+	{
+		$logo = setting('logo');
+		@unlink(FCPATH . 'uploads/' . $logo);
+		return;
 	}
 
 

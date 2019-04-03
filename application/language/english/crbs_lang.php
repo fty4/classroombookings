@@ -3,6 +3,7 @@
 $lang['home'] = 'Home';
 
 $lang['action_save'] = 'Save';
+$lang['error_form_validation'] = 'Please check the form fields and try again.';
 
 // Legacy
 

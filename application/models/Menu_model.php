@@ -65,7 +65,7 @@ class Menu_model extends CI_Model
 
 		$items[] = array(
 			'label' => 'Settings',
-			'url' => 'settings/options',
+			'url' => 'settings',
 			'icon' => 'settings',
 			'visible' => $is_logged_in,
 		);

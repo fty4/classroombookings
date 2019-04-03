@@ -6,6 +6,9 @@ $lang['settings_page_title'] = 'Settings';
 $lang['settings_options_page_title'] = 'General options';
 $lang['settings_visual_page_title'] = 'Look and feel';
 
+$lang['settings_save_success'] = 'The settings have been saved.';
+$lang['settings_save_error'] = 'There was a problem saving the settings.';
+
 // General options
 //
 $lang['settings_options_section_school'] = 'School information';
@@ -30,6 +33,7 @@ $lang['settings_visual_section_bookings'] = 'Bookings';
 
 $lang['settings_visual_field_current_logo'] = 'Current logo';
 $lang['settings_visual_field_new_logo'] = 'Logo';
+$lang['settings_visual_field_hint_new_logo'] = 'Uploading a new logo will replace the current one.';
 $lang['settings_visual_field_delete_logo'] = 'Delete this logo';
 $lang['settings_visual_field_theme'] = 'Theme';
 
