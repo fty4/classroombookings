@@ -123,9 +123,9 @@ class User extends MY_Controller
 
 		$this->load->library('form_validation');
 
+		$this->load->config('form_validation', TRUE);
+		$this->form_validation->set_rules($this->config->item('user_password', 'form_validation'));
 		$this->form_validation->set_rules('current_password', "lang:user_field_current_password", "required|is_current_password[{$username}]");
-		$this->form_validation->set_rules('new_password_1', "lang:user_field_new_password_1", 'trim|min_length[8]');
-		$this->form_validation->set_rules('new_password_2', "lang:user_field_new_password_2", 'trim|min_length[8]');
 
 		if ($this->form_validation->run() == FALSE) {
 			$this->notice('error', "Please check the form fields and try again.");
