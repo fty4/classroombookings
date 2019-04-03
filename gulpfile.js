@@ -18,7 +18,8 @@ var paths = {
 	scripts: {
 		src: [
 			"node_modules/jquery/dist/jquery.js",
-			"application/assets/src/js/crbs.js"
+			"application/assets/src/js/crbs.js",
+			"application/assets/src/js/settings-visual.js"
 		],
 		dist: "application/assets/dist"
 	}
