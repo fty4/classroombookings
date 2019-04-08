@@ -31,6 +31,9 @@ class Users extends MY_Controller
 	*/
 	function index()
 	{
+		// Cleanup import-related files if necessary
+		$this->cleanup_import();
+
 		$this->data['menu_active'] = 'settings/users';
 		$this->data['breadcrumbs'][] = array('', lang('home'));
 		$this->data['breadcrumbs'][] = array('settings', lang('settings_page_title'));
@@ -38,7 +41,9 @@ class Users extends MY_Controller
 
 		$this->data['title'] = lang('users_index_page_title');
 
-		$this->data['users'] = $this->users_model->find();
+		$this->data['users'] = $this->users_model->find([
+			'sort' => 'username',
+		]);
 
 		$this->blocks['content'] = 'users/index';
 		$this->blocks['sidebar'] = 'settings/menu';
