@@ -1,10 +1,18 @@
 
 body {
-	background: darken($dark-color, 3%);
+	background: $bg-color;	// darken($dark-color, 3%);
+}
+
+.font-mono {
+	font-family: $mono-font-family;
 }
 
 .notice-wrapper {
 	padding-top: $unit-6;
+}
+
+.not-set {
+	color: $gray-color-dark;
 }
 
 
@@ -22,15 +30,17 @@ body {
 	.breadcrumb-item {
 		a {
 			color: inherit;
+			text-decoration: underline;
 		}
 		&:not(:first-child) {
 			&::before {
+				content: "\203A";
 				// padding-left: $unit-1;
 			}
 		}
 		&:last-child {
 			font-weight: 600;
-			color: $dark-color;
+			// color: $dark-color;
 		}
 	}
 
@@ -42,8 +52,8 @@ body {
 
 
 .content {
-	background: $bg-color;
-	border-top: 1px solid $border-color;
+	background: $light-color;
+	// border-top: 1px solid $border-color;
 }
 
 .body {
@@ -54,4 +64,13 @@ body {
 .logo-login {
 	float: right;
 	max-height: 200px;
+}
+
+
+
+
+.columns-settings {
+	.column {
+		margin-bottom: $layout-spacing*2;
+	}
 }

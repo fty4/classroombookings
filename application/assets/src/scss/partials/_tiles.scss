@@ -1,0 +1,48 @@
+.tile {
+
+	&.tile-menu-item {
+
+		height: 100%;
+		color: $dark-color;
+		text-decoration: none;
+		padding: $unit-3 $unit-3;
+
+		.tile-content:not(:first-child) {
+			padding-left: $unit-3;
+		}
+
+		.tile-title,
+		.tile-subtitle {
+			margin: 0;
+		}
+
+		.tile-title {
+			color: $dark-color;
+			// font-weight: 600;
+		}
+
+		.tile-subtitle {
+			margin-top: $unit-1;
+			font-weight: normal;
+			color: $gray-color-dark;
+			font-size: $font-size-sm;
+		}
+
+		.feather {
+			width: 32px;
+			height: 32px;
+			// margin-bottom: $unit-3;
+			// background: #fff;
+			color: $clrs-blue;
+			stroke-width: $unit-o;
+		}
+
+		&:hover,
+		&:focus,
+		&:target {
+			outline: $unit-h solid $border-color;
+			text-decoration: none;
+		}
+
+	}
+}

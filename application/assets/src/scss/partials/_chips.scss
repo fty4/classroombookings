@@ -1,0 +1,29 @@
+.chip {
+
+	&.chip-info {
+		.feather {
+			width: 16px;
+			height: 16px;
+			margin-right: $unit-1;
+		}
+	}
+
+	&.chip-no-bg {
+		background: transparent;
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	&.user-status-active {
+		.feather {
+			color: $clrs-olive;
+		}
+	}
+
+	&.user-status-inactive {
+		.feather {
+			color: $clrs-red;
+		}
+	}
+
+}

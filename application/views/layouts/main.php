@@ -73,106 +73,26 @@ $user_menu = render_menu(array(
 
 		<header class="header">
 
-			<section class="container grid-<?= $grid_size ?>">
-				<div class="navbar navbar-logos">
+			<section class="container grid-lg">
+				<div class="navbar">
 
 					<div class="navbar-section">
-						<a href="<?= site_url() ?>" class="header-logo-school">
-							<?php
-							echo render_logo(array(
-								'class' => '',
-							));
-							?>
-						</a>
-					</div>
-
-					<div class="navbar-section">
-						<span class="header-logo-crbs">
+						<a href="<?= site_url() ?>" class="header-logo-crbs">
 							<?= $crbs_svg ?>
-						</span>
+						</a>
+						<?php
+						echo $main_menu;
+						?>
 					</div>
+
+					<div class="navbar-section header-menu-user">
+						<?php
+						echo $user_menu;
+						?>
+					</div>
+
 				</div>
 			</section>
-
-			<?php if ( ! empty($main_menu) || ! empty($user_menu)): ?>
-
-			<nav class="header-menu">
-				<div class="container grid-<?= $grid_size ?>">
-					<div class="navbar">
-						<div class="navbar-section header-menu-nav">
-							<?php
-							echo $main_menu;
-							?>
-						</div>
-						<div class="navbar-section header-menu-user">
-							<?php
-							echo $user_menu;
-							?>
-						</div>
-					</div>
-				</div>
-			</nav>
-
-			<?php endif; ?>
-
-
-		</header>
-<!--
-			<section class="topbar">
-				<div class="container grid-lg">
-					<div class="columns">
-
-						<div class="column col-3">
-							<a href="<?= site_url() ?>" class="topbar-brand">
-								<?= $crbs_svg ?>
-							</a>
-						</div>
-
-						<div class="column col-9 text-right">
-
-							<div class="topbar-user">
-								<?php
-								if (strlen($school_name)) {
-									echo "<span class='topbar-school'>{$school_name}</span>";
-								}
-								echo render_menu(array(
-									'items' => $menus['user'],
-									'item_template' => '{link}',
-									'link_class' => 'btn btn-link',
-								));
-								?>
-							</div>
-
-							<div class="topbar-menu">
-								<?php
-								echo render_menu(array(
-									'items' => $menus['main'],
-									'link_class' => 'btn btn-link',
-									'item_template' => '{link}',
-								));
-								?>
-							</div>
-
-						</div>
-
-					</div>
-				</div>
-			</section> -->
-<!--
-			<section class="header-stripe">
-				<div class="container grid-lg">
-					<?php
-					$title_class = 'page-title';
-					$breadcrumb_html = render_breadcrumbs($breadcrumbs);
-					if (empty($breadcrumb_html)) {
-						$title_class .= ' is-solo';
-					}
-					echo $breadcrumb_html;
-					$h1 = isset($heading) ? $heading : $title;
-					echo "<h1 class='{$title_class}'>" . html_escape($h1) . "</h1>";
-					?>
-				</div>
-			</section> -->
 
 		</header>
 
@@ -199,6 +119,11 @@ $user_menu = render_menu(array(
 
 			<section class="body">
 				<div class="container grid-<?= $grid_size ?>">
+					<?php
+					if (isset($blocks['tabs'])) {
+						echo $blocks['tabs'];
+					}
+					?>
 					<?= $body ?>
 				</div>
 			</section>

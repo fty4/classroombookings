@@ -1,0 +1,21 @@
+.tab-menu {
+
+	margin-top: 0;
+	padding-top: 0;
+	margin-bottom: $unit-12;
+	border-bottom: $unit-h solid $border-color;
+
+	.tab-item {
+		// margin-bottom: -$unit-1;
+		margin-right: $unit-4;
+		a {
+			border-bottom-width: $unit-1;
+			padding-left: $unit-3;
+			padding-right: $unit-3;
+			font-weight: 600;
+			font-size: $font-size-sm;
+		}
+
+	}
+
+}

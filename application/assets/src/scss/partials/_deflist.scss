@@ -1,0 +1,30 @@
+.view-item-info {
+
+	dt, dd {
+		margin: 0;
+		padding: 0;
+		font-size: $font-size-sm;
+	}
+
+	dt {
+		font-weight: normal;
+		// font-weight: 600;
+		color: $gray-color-dark;
+		margin-bottom: $unit-1;
+	}
+
+	dd {
+		font-weight: 600;
+	}
+
+	.popover {
+		vertical-align: middle;
+		margin-left: $unit-2;
+	}
+
+	.chip {
+		margin: 0;
+		font-size: $font-size-sm;
+		// margin-bottom: $unit-1;
+	}
+}

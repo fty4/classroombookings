@@ -15,6 +15,15 @@
 		text-indent: -9999px;
 		position: relative;
 	}
+
+
+	&.btn-negative {
+		@include button-variant($error-color);
+	}
+
+	&.btn-danger {
+		@include button-variant($error-color);
+	}
 }
 
 a.btn {

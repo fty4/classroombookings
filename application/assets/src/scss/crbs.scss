@@ -9,6 +9,7 @@ $layout-spacing: 1rem;
 
 @import "mixins/toasts";
 @import "mixins/themes";
+@import "mixins/underline";
 
 @import "partials/clrs";
 
@@ -22,14 +23,8 @@ $layout-spacing: 1rem;
 @import "partials/nav";
 @import "partials/empty";
 @import "partials/themes";
-
-// @import "partials/main-a";
-// @import "partials/main-b";
-// @import "partials/main-c";
-// @import "partials/main-d";
-// @import "partials/nav";
-// @import "partials/sections";
-// @import "partials/buttons";
-// @import "partials/toasts";
-// @import "partials/labels";
-// @import "partials/pages";
+@import "partials/table_box";
+@import "partials/tabs";
+@import "partials/tiles";
+@import "partials/chips";
+@import "partials/deflist";
