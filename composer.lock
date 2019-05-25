@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "77afa9ef1102fa0fe6d9f6b819175fbb",
+    "content-hash": "ecd85afe7524745ee228f5e21e7fd6b0",
     "packages": [
         {
             "name": "codeigniter/framework",
@@ -38,6 +38,52 @@
             "description": "The CodeIgniter framework",
             "homepage": "https://codeigniter.com",
             "time": "2019-01-16T15:49:35+00:00"
+        },
+        {
+            "name": "jupitern/table",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jupitern/table.git",
+                "reference": "c395c824a04f1494decaabfe32d08af16363798a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jupitern/table/zipball/c395c824a04f1494decaabfe32d08af16363798a",
+                "reference": "c395c824a04f1494decaabfe32d08af16363798a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Jupitern\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nuno Chaves",
+                    "email": "nuno.chaves@sapo.pt",
+                    "role": "Developer"
+                }
+            ],
+            "description": "HTML table generation for PHP. integrates with your favourite orm and js library",
+            "homepage": "https://github.com/jupitern/table",
+            "keywords": [
+                "PHP html table generation",
+                "datatables",
+                "framework",
+                "jquery",
+                "orm",
+                "ui"
+            ],
+            "time": "2018-02-12T16:22:01+00:00"
         },
         {
             "name": "pixelrobin/php-feather",
