@@ -142,13 +142,18 @@ class BaseQuery
 				$col = ($is_dotted ? $col : "{$this->model->table}.{$col}");
 				$col = $this->db->escape_identifiers($col);
 
+				if ($value === NULL) {
+					$params[] = "({$col} IS NULL)";
+					continue;
+				}
+
 				// `col` = 'x'
 				if (is_scalar($value)) {
 
 					// No actual value? Carry on.
-					if (strlen($value) === 0) {
-						continue;
-					}
+					// if (strlen($value) === 0) {
+					// 	continue;
+					// }
 
 					$value = $this->db->escape($value);
 					$params[] = "({$col} = {$value})";

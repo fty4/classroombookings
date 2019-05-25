@@ -5,21 +5,21 @@ $items = [];
 $items[] = [
 	'label' => 'Edit details',
 	'url' => 'user',
-	'icon' => 'user',
+	// 'icon' => 'user',
 ];
 
 $items[] = [
 	'label' => 'Change password',
 	'url' => 'user/password',
-	'icon' => 'lock',
+	// 'icon' => 'lock',
 ];
 
-echo "<ul class='nav nav-secondary'>";
+echo "<ul class='tab tab-menu'>";
 
 echo render_menu(array(
 	'active' => (isset($menu_active) ? $menu_active : NULL),
 	'items' => $items,
-	'item_class' => 'nav-item',
+	'item_class' => 'tab-item',
 ));
 
-echo "</nav>";
+echo "</ul>";

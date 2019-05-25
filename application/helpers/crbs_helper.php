@@ -54,3 +54,75 @@ function setting($key, $group = 'crbs')
 	$CI =& get_instance();
 	return $CI->settings_model->get($key, $group);
 }
+
+
+
+function pagination_config($params = [])
+{
+	$defaults = [
+		'full_tag_open' => '<ul class="pagination">',
+		'full_tag_close' => '</ul>',
+
+		// first tag
+		'first_tag_open' => '<li class="page-item">',
+		'first_tag_close' => '</li>',
+
+
+		// last tag
+		'last_link' => 'Last',
+		'last_tag_open' => '<li class="page-item">',
+		'last_tag_close' => '</li>',
+
+		// next tag
+		'first_link' => 'First',
+
+		'next_link' => 'Next',
+		'next_tag_open' => '<li class="page-item">',
+		'next_tag_close' => '</li>',
+
+		// prev tag
+		'prev_link' => 'Previous',
+		'prev_tag_open' => '<li class="page-item">',
+		'prev_tag_close' => '</li>',
+
+		// current page tag
+		'cur_tag_open' => '<li class="page-item active"><a href="javascript:;">',
+		'cur_tag_close' => '</a></li>',
+
+		// digit page tag
+		'num_tag_open' => '<li class="page-item">',
+		'num_tag_close' => '</li>',
+	];
+
+	$config = array_merge($defaults, $params);
+	return $config;
+}
+
+
+
+function results_dropdown($id_key = '', $value_key = '', $results = array(), $default = NULL)
+{
+	$out = array();
+
+	if ($default !== NULL)
+	{
+		$out[''] = $default;
+	}
+
+	foreach ($results as $row)
+	{
+		$out[ $row->$id_key ] = $row->$value_key;
+	}
+
+	return $out;
+}
+
+
+function get_property($name = '', $obj = NULL, $default = NULL)
+{
+	if (is_object($obj) && property_exists($obj, $name)) {
+		return $obj->$name;
+	}
+
+	return $default;
+}

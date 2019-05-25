@@ -34,11 +34,38 @@ class MY_Form_validation extends CI_Form_validation
 		$available = ($query->num_rows() == 0);
 
 		if ( ! $available) {
-			$this->set_message('user_email_unique', 'There is already an account using that email address.');
+			$this->set_message('user_email_unique', $this->CI->lang->line('user_validation_email_unavailable'));
 		}
 
 		return $available;
 	}
+
+
+	/**
+	 * Check that a username is not taken.
+	 *
+	 * To be used when adding/updating user accounts, hence the $user_id param to check
+	 *
+	 */
+	public function user_username_unique($username, $user_id = '')
+	{
+		if (strlen($user_id) && is_numeric($user_id)) {
+			$sql = 'SELECT username FROM users WHERE user_id != ? AND username = ?';
+			$query = $this->CI->db->query($sql, array($user_id, $username));
+		} else {
+			$sql = 'SELECT username FROM users WHERE username = ?';
+			$query = $this->CI->db->query($sql, array($username));
+		}
+
+		$available = ($query->num_rows() == 0);
+
+		if ( ! $available) {
+			$this->set_message('user_username_unique', $this->CI->lang->line('user_validation_username_unavailable'));
+		}
+
+		return $available;
+	}
+
 
 	public function is_current_password($password, $username = '')
 	{

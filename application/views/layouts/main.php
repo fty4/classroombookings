@@ -143,15 +143,6 @@ $user_menu = render_menu(array(
 								'link_class' => 'btn btn-link',
 								'item_class' => 'nav-item',
 							));
-							/*foreach ($main_menu as $link)
-							{
-								$icon = icon($link['icon']);
-								$label = trim($icon . "<span>{$link['label']}</span>");
-								$url = $link['url'];
-								$link = "<a class='btn btn-link' href='{$url}'>{$label}</a>";
-								$item = "<li class='nav-item'>{$link}</li>";
-								echo $item;
-							}*/
 							?>
 						</ul>
 					</div>

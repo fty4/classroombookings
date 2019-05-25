@@ -92,14 +92,29 @@ function render_menu($params = array())
 			$url = site_url($url);
 		}
 
+		$item_class_str = $item_class;
+		if (array_key_exists('item_class', $item)) {
+			$item_class_str .= " " . $item['item_class'];
+		}
+
+		$link_class_str = $link_class;
+		if (array_key_exists('link_class', $item)) {
+			$link_class_str .= " " . $item['link_class'];
+		}
+
+		if ( ! array_key_exists('description', $item)) {
+			$item['description'] = '';
+		}
+
 		$vars = array(
 			'link_active_class' => '',
 			'item_active_class' => '',
-			'item_class' => $item_class,
-			'link_class' => $link_class,
+			'item_class' => $item_class_str,
+			'link_class' => $link_class_str,
 			'link_attrs' => $link_attrs,
 			'icon' => (isset($item['icon']) ? '<span class="btn-icon">' . icon($item['icon']) . '</span>' : ''),
 			'label' => $escape_labels ? html_escape($item['label']) : $item['label'],
+			'description' => $escape_labels ? html_escape($item['description']) : $item['description'],
 			'url' => $url,
 		);
 
@@ -189,23 +204,28 @@ function render_notice($params = array())
 
 	$data = array_merge($default, $params);
 
-	$out = '';
-
-	$out .= "<div class='toast {$data['class']}'>";
-
+	$icon_el = '';
 	if ( ! empty($data['icon'])) {
-		$icon = icon($data['icon']);
-		$out .= $icon;
+		$icon_el = icon($data['icon']);
 	}
 
-	$out .= $data['content'];
+	// Prepare and process vars
+	foreach ($data['vars'] as $k => &$v) {
+		$v = html_escape($v);
+	}
 
+	$CI =& get_instance();
+	$CI->load->library('parser');
+	$content_el = $CI->parser->parse_string($data['content'], $data['vars'], TRUE);
+
+	// Close button
+	$close_el = '';
 	if ($data['close']) {
-		$out .= "<button class='btn btn-clear float-right'></button>";
+		$close_el = "<button class='btn btn-clear float-right'></button>";
 	}
 
-	$out .= "</div>\n";
 
+	$out = "<div class='toast {$data['class']}'>\n{$icon_el}\n{$content_el}\n{$close_el}\n</div>\n";
 	return $out;
 }
 
@@ -249,4 +269,35 @@ function render_logo($params = array())
 	}
 
 	return '';
+}
+
+
+
+function render_dl($params = [])
+{
+	$defaults = [
+		'template' => '{dd}{dt}',
+		'class' => '',
+		'dd' => '',
+		'dt' => '',
+	];
+
+	$data = array_merge($defaults, $params);
+
+	$out = "<dl class='{$data['class']}'>\n";
+
+	$vars = [
+		'dd' => "<dd>{$data['dd']}</dd>",
+		'dt' => "<dt>{$data['dt']}</dt>",
+	];
+
+	$CI =& get_instance();
+	$CI->load->library('parser');
+	$content = $CI->parser->parse_string($data['template'], $vars, TRUE);
+
+	$out .= $content;
+
+	$out .= "</dl>\n";
+
+	return $out;
 }

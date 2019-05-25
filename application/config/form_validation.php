@@ -8,4 +8,5 @@ $config['settings_options'] = require("validation_rules/settings_options.php");
 $config['settings_visual'] = require("validation_rules/settings_visual.php");
 $config['user_details'] = require("validation_rules/user_details.php");
 $config['user_password'] = require("validation_rules/user_password.php");
+$config['users_add_update'] = require("validation_rules/users_add_update.php");
 

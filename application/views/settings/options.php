@@ -1,12 +1,13 @@
 <?php
 
-$layout = 'vertical';
+$layout = 'horizontal';
 
-echo form_open('settings/options', ['class' => 'form-vertical']);
+echo form_open('settings/options', ['class' => 'form-horizontal']);
 
 
 // School details
 //
+
 $fields = [];
 
 
@@ -15,7 +16,7 @@ $value = set_value($field, element('name', $settings), FALSE);
 
 $fields[] = form_group([
 	'layout' => $layout,
-	'size' => 'xl',
+	'size' => 'lg',
 	'field' => $field,
 	'label' => lang("settings_general_field_{$field}"),
 	'hint' => lang("settings_general_field_hint_{$field}"),
@@ -35,7 +36,7 @@ $value = set_value($field, element('website', $settings), FALSE);
 
 $fields[] = form_group([
 	'layout' => $layout,
-	'size' => 'xl',
+	'size' => 'lg',
 	'field' => $field,
 	'label' => lang("settings_general_field_{$field}"),
 	'hint' => lang("settings_general_field_hint_{$field}"),
@@ -107,7 +108,7 @@ $fields[] = form_group([
 		'class' => 'form-input',
 		'name' => $field,
 		'id' => $field,
-		'rows' => 3,
+		'rows' => 4,
 		'tabindex' => tab_index(),
 		'value' => $value,
 	]),
@@ -133,10 +134,10 @@ $submit_button = form_button([
 
 echo form_fieldset([
 	'actions' => TRUE,
-	'content' => form_group([
+	'content' => $submit_button,
+	'_content' => form_group([
+		'layout' => $layout,
 		'group_class' => 'form-group',
-		'label' => '',
-		'hint' => '',
 		'input' => $submit_button,
 	]),
 ]);

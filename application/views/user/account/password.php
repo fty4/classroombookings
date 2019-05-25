@@ -14,7 +14,7 @@ $hint = lang("user_field_hint_{$field}");
 
 $fields[] = form_group([
 	'layout' => $layout,
-	'size' => 'md',
+	'size' => 'lg',
 	'field' => $field,
 	'label' => $label,
 	'hint' => $hint,
@@ -34,7 +34,7 @@ $hint = lang("user_field_hint_{$field}");
 
 $fields[] = form_group([
 	'layout' => $layout,
-	'size' => 'md',
+	'size' => 'lg',
 	'field' => $field,
 	'label' => $label,
 	'hint' => $hint,
@@ -53,7 +53,7 @@ $hint = lang("user_field_hint_{$field}");
 
 $fields[] = form_group([
 	'layout' => $layout,
-	'size' => 'md',
+	'size' => 'lg',
 	'field' => $field,
 	'label' => $label,
 	'hint' => $hint,
@@ -65,6 +65,8 @@ $fields[] = form_group([
 	]),
 ]);
 
+
+
 $fields[] = form_group([
 	'input' => form_button([
 		'type' => 'submit',
@@ -75,11 +77,14 @@ $fields[] = form_group([
 ]);
 
 
-
+echo "<div class='columns'>";
+echo "<div class='column col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-6 col-6'>";
 echo form_fieldset([
-	'title' => $title,
+	'layout' => 'vertical',
 	'content' => implode("\n", $fields),
 ]);
+echo "</div></div>";
+
 
 
 echo form_close();

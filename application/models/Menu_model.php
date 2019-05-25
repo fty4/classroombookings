@@ -97,59 +97,75 @@ class Menu_model extends CI_Model
 
 		$items[] = array(
 			'label' => 'General options',
+			'description' => 'Change global settings.',
 			'url' => 'settings/options',
 			'icon' => 'sliders',
 			'visible' => $is_admin,
+			'link_class' => 'card-menu-item-clrs-navy',
 		);
 
 		$items[] = array(
 			'label' => 'Look and feel',
+			'description' => 'Customise the branding and appearance of the Bookings page.',
 			'url' => 'settings/visual',
 			'icon' => 'eye',
 			'visible' => $is_admin,
+			'link_class' => 'card-menu-item-clrs-blue',
 		);
 
 		$items[] = array(
 			'id' => 'settings/users',
 			'label' => 'Users',
+			'description' => 'Add or remove user accounts.',
 			'url' => 'users',
 			'icon' => 'users',
 			'visible' => $is_admin,
+			'link_class' => 'card-menu-item-clrs-green',
 		);
 
 		$items[] = array(
 			'label' => 'Week cycle',
+			'description' => 'Set the dates of your academic year and timetable weeks.',
 			'url' => 'weeks',
 			'icon' => 'calendar',
 			'visible' => $is_admin,
+			'link_class' => 'card-menu-item-clrs-red',
 		);
 
 		$items[] = array(
 			'label' => 'Periods',
+			'description' => 'Set up the time periods of the school day.',
 			'url' => 'periods',
 			'icon' => 'clock',
 			'visible' => $is_admin,
+			'link_class' => 'card-menu-item-clrs-purple',
 		);
 
 		$items[] = array(
 			'label' => 'Holidays',
+			'description' => 'Add holiday dates when bookings cannot be made.',
 			'url' => 'holidays',
 			'icon' => 'sun',
 			'visible' => $is_admin,
+			'link_class' => 'card-menu-item-clrs-yellow',
 		);
 
 		$items[] = array(
 			'label' => 'Rooms',
+			'description' => 'Manage the rooms that can be booked.',
 			'url' => 'rooms',
 			'icon' => 'monitor',
 			'visible' => $is_admin,
+			'link_class' => 'card-menu-item-clrs-maroon',
 		);
 
 		$items[] = array(
 			'label' => 'Departments',
+			'description' => 'Add or remove departments.',
 			'url' => 'departments',
 			'icon' => 'layers',
 			'visible' => $is_admin,
+			'link_class' => 'card-menu-item-clrs-olive',
 		);
 
 		return $items;

@@ -23,7 +23,16 @@ class Settings extends MY_Controller
 	*/
 	function index()
 	{
-		return $this->options();
+		$this->require_logged_in();
+		$this->require_auth_level(ADMINISTRATOR);
+
+		$this->data['menu_active'] = 'settings';
+		$this->data['breadcrumbs'][] = array('settings', lang('settings_page_title'));
+
+		$this->data['title'] = lang('settings_page_title');
+		$this->data['items'] = $this->menu_model->get_settings_menu();
+
+		return $this->render('settings/index');
 	}
 
 
@@ -37,22 +46,18 @@ class Settings extends MY_Controller
 		$this->require_auth_level(ADMINISTRATOR);
 
 		$this->data['menu_active'] = 'settings/options';
-		$this->data['breadcrumbs'][] = array('', lang('home'));
 		$this->data['breadcrumbs'][] = array('settings', lang('settings_page_title'));
-		$this->data['breadcrumbs'][] = array('settings', lang('settings_options_page_title'));
+		$this->data['breadcrumbs'][] = array('settings/options', lang('settings_options_page_title'));
 
 		$this->data['title'] = lang('settings_options_page_title');
 
 		$this->data['settings'] = $this->settings_model->get_all('crbs');
 
-		$this->blocks['content'] = 'settings/options';
-		$this->blocks['sidebar'] = 'settings/menu';
-
 		if ($this->input->post()) {
 			$this->save_options();
 		}
 
-		return $this->render('layouts/types/two-columns');
+		return $this->render('settings/options');
 	}
 
 
@@ -94,9 +99,8 @@ class Settings extends MY_Controller
 		$this->require_auth_level(ADMINISTRATOR);
 
 		$this->data['menu_active'] = 'settings/visual';
-		$this->data['breadcrumbs'][] = array('', lang('home'));
 		$this->data['breadcrumbs'][] = array('settings', lang('settings_page_title'));
-		$this->data['breadcrumbs'][] = array('settings', lang('settings_visual_page_title'));
+		$this->data['breadcrumbs'][] = array('settings/visual', lang('settings_visual_page_title'));
 
 		$this->data['title'] = lang('settings_visual_page_title');
 
@@ -114,14 +118,11 @@ class Settings extends MY_Controller
 			'grey' => 'Grey',
 		];
 
-		$this->blocks['content'] = 'settings/visual';
-		$this->blocks['sidebar'] = 'settings/menu';
-
 		if ($this->input->post()) {
 			$this->save_visual();
 		}
 
-		return $this->render('layouts/types/two-columns');
+		return $this->render('settings/visual');
 	}
 
 
@@ -210,25 +211,30 @@ class Settings extends MY_Controller
 		// File uploaded
 		$upload_data = $this->upload->data();
 
-		$this->load->library('image_lib');
+		$width = 400;
 
-		$image_config = array(
-			'image_library' => 'gd2',
-			'source_image' => $upload_data['full_path'],
-			'maintain_ratio' => TRUE,
-			'width' => 400,
-			'height' => 400,
-			'master_dim' => 'auto',
-		);
+		if ($upload_data['image_width'] > $width) {
 
-		$this->image_lib->initialize($image_config);
+			// Resize
+			$this->load->library('image_lib');
 
-		$res = $this->image_lib->resize();
+			$image_config = array(
+				'image_library' => 'gd2',
+				'source_image' => $upload_data['full_path'],
+				'maintain_ratio' => TRUE,
+				'width' => $width,
+				'master_dim' => 'auto',
+			);
 
-		if ( ! $res) {
-			$out['success'] = FALSE;
-			$out['reason'] = $this->image_lib->display_errors('', '');
-			return $out;
+			$this->image_lib->initialize($image_config);
+
+			$res = $this->image_lib->resize();
+
+			if ( ! $res) {
+				$out['success'] = FALSE;
+				$out['reason'] = $this->image_lib->display_errors('', '');
+				return $out;
+			}
 		}
 
 		$out['success'] = TRUE;

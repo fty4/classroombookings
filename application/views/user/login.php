@@ -1,7 +1,7 @@
 
 <div class="columns">
 
-	<div class="column col-xs-12 col-sm-12 col-md-12 col-8 col-mx-auto">
+	<div class="column col-xs-12 col-sm-12 col-md-12 col-4 col-mr-auto">
 
 		<?php
 
@@ -65,6 +65,7 @@
 
 
 		echo form_fieldset([
+			'layout' => 'vertical',
 			'title' => lang('user_page_login_title'),
 			'subtitle' => html_escape(setting('login_hint')),
 			'content' => implode($fields),
@@ -75,6 +76,24 @@
 
 		?>
 
+	</div>
+
+
+	<div class="column col-xs-12 col-sm-12 col-md-12 col-4 col-ml-auto">
+		<?php
+			$logo = render_logo(array(
+				'class' => 'img-responsive',
+			));
+			$url = setting('website');
+			if (strlen($logo)) {
+
+				if (strlen($url)) {
+					echo anchor($url, $logo, 'target="_blank"');
+				} else {
+					echo "<span>{$logo}</span>";
+				}
+			}
+		?>
 	</div>
 
 </div>

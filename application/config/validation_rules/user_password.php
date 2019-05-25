@@ -10,6 +10,6 @@ return [
 	[
 		'field' => 'new_password_2',
 		'label' => 'lang:user_field_new_password_2',
-		'rules' => 'required|trim|min_length[8]',
+		'rules' => 'matches[new_password_1]',
 	],
 ];

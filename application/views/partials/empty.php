@@ -1,4 +1,4 @@
-<div class="empty empty-error <?= isset($class) ? $class : '' ?>">
+<div class="empty <?= isset($class) ? $class : '' ?>">
 
 	<?php if (strlen($icon)): ?>
 	<div class="empty-icon">

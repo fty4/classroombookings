@@ -95,3 +95,51 @@ function colour_widget($params = array())
 	return $out;
 
 }
+
+
+
+
+function table_box($params = [])
+{
+	$CI =& get_instance();
+	$CI->load->library('parser');
+
+	$defaults = [
+		'class' => '',
+		'title' => '',
+		'subtitle' => '',
+		'table' => '',
+	];
+
+	$data = array_merge($defaults, $params);
+
+	$vars = [
+		'title' => '',
+		'subtitle' => '',
+		'class' => $data['class'],
+		'table' => $data['table'],
+		'pagination' => '',
+	];
+
+	if (strlen($data['title'])) {
+		$vars['title'] = "<h3 class='table-box-title'>{$data['title']}</h3>";
+	}
+
+	if (strlen($data['subtitle'])) {
+		$vars['subtitle'] = "<p class='table-box-subtitle'>{$data['subtitle']}</p>";
+	}
+
+	$pagination = $CI->pagination->create_links();
+	if (strlen($pagination)) {
+		$vars['pagination'] = "<div class='table-box-pagination flex-centered'>{$pagination}</div>";
+	}
+
+	$template = "<div class='table-box {class}'>\n";
+	$template .= "<div class='table-box-header'>{title}\n{subtitle}\n</div>\n";
+	$template .= "<div class='table-box-table'>{table}</div>\n";
+	$template .= "{pagination}\n";
+	$template .= "</div>";
+
+	$out = $CI->parser->parse_string($template, $vars, TRUE);
+	return $out;
+}

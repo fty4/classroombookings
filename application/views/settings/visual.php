@@ -1,8 +1,8 @@
 <?php
 
-$layout = 'vertical';
+$layout = 'horizontal';
 
-echo form_open_multipart(current_url(), ['class' => 'form-vertical', 'data-form' => 'settings_visual']);
+echo form_open_multipart(current_url(), ['class' => 'form-horizontal', 'data-form' => 'settings_visual']);
 
 
 // Branding
@@ -143,6 +143,7 @@ $fields[] = form_group([
 
 echo form_fieldset([
 	'title' => lang('settings_visual_section_bookings'),
+	'subtitle' => lang('settings_visual_section_hint_bookings'),
 	'content' => implode("\n", $fields),
 ]);
 
@@ -159,7 +160,9 @@ $submit_button = form_button([
 
 echo form_fieldset([
 	'actions' => TRUE,
-	'content' => form_group([
+	'content' => $submit_button,
+	'_content' => form_group([
+		'layout' => $layout,
 		'group_class' => 'form-group',
 		'input' => $submit_button,
 	]),

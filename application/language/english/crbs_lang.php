@@ -2,6 +2,14 @@
 
 $lang['home'] = 'Home';
 
+$lang['yes'] = 'Yes';
+$lang['no'] = 'No';
+
+$lang['not_set'] = 'Not set';
+$lang['unknown'] = 'Unknown';
+$lang['never'] = 'Never';
+
+$lang['action_confirm'] = 'Are you sure?';
 $lang['action_save'] = 'Save';
 $lang['error_form_validation'] = 'Please check the form fields and try again.';
 

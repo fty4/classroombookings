@@ -8,10 +8,11 @@ function form_fieldset($params = [])
 	$CI->load->library('parser');
 
 	$defaults = [
+		'layout' => 'horizontal',
 		'actions' => FALSE,
 		'class' => '',
-		'left_class' => 'col-md-12 col-lg-4 col-4',
-		'right_class' => 'col-md-12 col-lg-8 col-8',
+		'left_class' => 'col-md-12 col-lg-4 col-xl-3 col-3',
+		'right_class' => 'col-md-12 col-lg-8 col-xl-9 col-9',
 		'title' => '',
 		'subtitle' => '',
 		'content' => '',
@@ -22,6 +23,8 @@ function form_fieldset($params = [])
 	if ($data['actions']) {
 		$data['class'] .= 'form-fieldset-actions';
 	}
+
+	$data['class'] .= " form-fieldset-layout-{$data['layout']}";
 
 	$vars = [
 		'title' => '',
@@ -40,17 +43,30 @@ function form_fieldset($params = [])
 		$vars['subtitle'] = "<p class='form-legend-subtitle'>{$data['subtitle']}</p>";
 	}
 
-	if (empty($vars['title']) && empty($vars['subtitle']) && $data['actions'] === FALSE) {
+	if (empty($vars['title']) && empty($vars['subtitle']) /*&& $data['actions'] === FALSE*/) {
+
 		$template = "<fieldset class='form-fieldset {class}'>";
 		$template .= "{content}";
 		$template .= "</fieldset>";
+
 	} else {
-		$template = "<fieldset class='form-fieldset {class}'>";
-		$template .= "<div class='columns'>";
-		$template .= "<div class='column {left_class}'>{title}{subtitle}</div>";
-		$template .= "<div class='column {right_class}'>{content}</div>";
-		$template .= "</div>";
-		$template .= "</fieldset>";
+
+		switch ($data['layout']) {
+			case 'vertical':
+				$template = "<fieldset class='form-fieldset {class}'>";
+				$template .= "<div class='form-legend-wrapper'>{title}\n{subtitle}\n</div>";
+				$template .= "<div class='form-content-wrapper'>{content}</div>";
+				$template .= "</fieldset>";
+			break;
+			case 'horizontal':
+				$template = "<fieldset class='form-fieldset {class}'>";
+				$template .= "<div class='columns'>";
+				$template .= "<div class='column {left_class}'>{title}{subtitle}</div>";
+				$template .= "<div class='column {right_class}'>{content}</div>";
+				$template .= "</div>";
+				$template .= "</fieldset>";
+			break;
+		}
 	}
 
 	$out = $CI->parser->parse_string($template, $vars, TRUE);

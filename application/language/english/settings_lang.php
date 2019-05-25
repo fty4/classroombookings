@@ -30,6 +30,7 @@ $lang['settings_general_field_hint_login_hint'] = 'Helpful details or instructio
 //
 $lang['settings_visual_section_branding'] = 'Branding';
 $lang['settings_visual_section_bookings'] = 'Bookings';
+$lang['settings_visual_section_hint_bookings'] = 'These settings affect how the Bookings page looks and changes the focus between days and rooms.';
 
 $lang['settings_visual_field_current_logo'] = 'Current logo';
 $lang['settings_visual_field_new_logo'] = 'Logo';

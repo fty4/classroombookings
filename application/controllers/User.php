@@ -21,7 +21,6 @@ class User extends MY_Controller
 		$this->require_logged_in();
 
 		$this->data['menu_active'] = 'user';
-		$this->data['breadcrumbs'][] = array('', lang('home'));
 		$this->data['breadcrumbs'][] = array('user', lang('user_page_account_title'));
 
 		$this->data['user'] = $this->users_model->find_one(array(
@@ -39,14 +38,14 @@ class User extends MY_Controller
 
 		$this->data['title'] = lang('user_page_account_details_title');
 
-		$this->blocks['content'] = 'user/account/details';
-		$this->blocks['sidebar'] = 'user/account/menu';
+		// $this->blocks['content'] = 'user/account/details';
+		$this->blocks['tabs'] = 'user/account/menu';
 
 		if ($this->input->post()) {
 			$this->save_details();
 		}
 
-		return $this->render('layouts/types/two-columns');
+		return $this->render('user/account/details');
 	}
 
 
@@ -89,7 +88,6 @@ class User extends MY_Controller
 		$this->require_logged_in();
 
 		$this->data['menu_active'] = 'user/password';
-		$this->data['breadcrumbs'][] = array('', lang('home'));
 		$this->data['breadcrumbs'][] = array('user', lang('user_page_account_title'));
 
 		$this->data['user'] = $this->users_model->find_one(array(
@@ -106,14 +104,15 @@ class User extends MY_Controller
 
 		$this->data['title'] = lang('user_page_password_title');
 
-		$this->blocks['content'] = 'user/account/password';
-		$this->blocks['sidebar'] = 'user/account/menu';
+		// $this->blocks['content'] = 'user/account/password';
+		// $this->blocks['sidebar'] = 'user/account/menu';
+		$this->blocks['tabs'] = 'user/account/menu';
 
 		if ($this->input->post()) {
 			$this->save_password();
 		}
 
-		return $this->render('layouts/types/two-columns');
+		return $this->render('user/account/password');
 	}
 
 

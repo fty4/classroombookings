@@ -64,7 +64,10 @@ class MY_Controller extends CI_Controller
 		$this->load->model('menu_model');
 		$this->data['menus']['user'] = $this->menu_model->get_user_menu();
 		$this->data['menus']['main'] = $this->menu_model->get_main_menu();
-		$this->data['menus']['settings'] = $this->menu_model->get_settings_menu();
+
+		$home_name = setting('name');
+		$home_name = (strlen($home_name) ? $home_name : lang('home'));
+		$this->data['breadcrumbs'][] = array('', $home_name);
 	}
 
 
