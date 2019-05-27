@@ -3398,10 +3398,17 @@ body {
   display: flex;
   flex-direction: column; }
   .table-box .table-box-header {
-    padding: 1.6rem 0.8rem;
-    border-bottom: 0.05rem solid #dadee4; }
+    border-bottom: 0;
+    margin-bottom: 0.8rem; }
   .table-box .table-box-title {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 0; }
+  .table-box .table-box-subtitle {
+    margin-top: 0.4rem;
+    font-size: 0.7rem;
+    color: #818ea3;
     margin-bottom: 0; }
   .table-box .table-box-table {
     font-size: 0.7rem; }
@@ -3507,6 +3514,12 @@ body {
   color: #3d9970; }
 
 .chip.user-status-inactive .feather {
+  color: #ff4136; }
+
+.chip.chip-status-positive .feather {
+  color: #3d9970; }
+
+.chip.chip-status-negative .feather {
   color: #ff4136; }
 
 .view-item-info dt, .view-item-info dd {

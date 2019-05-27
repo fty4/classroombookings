@@ -26,4 +26,16 @@
 		}
 	}
 
+	&.chip-status-positive {
+		.feather {
+			color: $clrs-olive;
+		}
+	}
+
+	&.chip-status-negative {
+		.feather {
+			color: $clrs-red;
+		}
+	}
+
 }

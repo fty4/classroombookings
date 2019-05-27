@@ -13,6 +13,8 @@ $lang['action_confirm'] = 'Are you sure?';
 $lang['action_save'] = 'Save';
 $lang['error_form_validation'] = 'Please check the form fields and try again.';
 
+$lang['max_file_size'] = 'Maximum file size';
+
 // Legacy
 
 $lang['crbs_mustbeloggedin'] = 'You must be logged in to access this page.';

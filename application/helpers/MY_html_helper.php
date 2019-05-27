@@ -129,6 +129,7 @@ function table_box($params = [])
 		$vars['subtitle'] = "<p class='table-box-subtitle'>{$data['subtitle']}</p>";
 	}
 
+	$CI->load->library('pagination');
 	$pagination = $CI->pagination->create_links();
 	if (strlen($pagination)) {
 		$vars['pagination'] = "<div class='table-box-pagination flex-centered'>{$pagination}</div>";

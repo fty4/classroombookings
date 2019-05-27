@@ -3,7 +3,7 @@
 class UserHelper
 {
 
-		use app\helpers\DataTrait;
+	use app\helpers\DataTrait;
 
 
 	public static function names($user, $other = '')

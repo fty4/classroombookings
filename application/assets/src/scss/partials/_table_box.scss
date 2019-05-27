@@ -2,23 +2,27 @@
 .table-box {
 	margin: 0;
 	padding: 0;
-	// padding: $layout-spacing-lg;
-	//$layout-spacing-lg * 2;
-	// background: $bg-color-light;
 	background: $bg-color-light;
-	// border: $border-width solid $border-color;
 	border-radius: $border-radius;
 	display: flex;
 	flex-direction: column;
 
 	.table-box-header {
-		padding: $unit-8 $unit-4;
-		border-bottom: $border-width solid $border-color;
-		// background: $bg-color-light;
+		border-bottom: 0;
+		margin-bottom: $unit-4;
 	}
 
 	.table-box-title {
-		font-size: $font-size-lg;
+		font-size: $font-size;	// * 1.2;
+		font-weight: 600;
+		line-height: 1.2;
+		margin-bottom: 0;
+	}
+
+	.table-box-subtitle {
+		margin-top: $unit-2;
+		font-size: $font-size-sm;
+		color: lighten($gray-color-dark, 10%);
 		margin-bottom: 0;
 	}
 
@@ -28,8 +32,7 @@
 
 		th {
 			font-weight: 600;
-			// text-transform: uppercase;
-			color: $dark-color;	//$gray-color-dark;
+			color: $dark-color;
 			background: $gray-color-light;
 		}
 

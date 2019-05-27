@@ -126,3 +126,20 @@ function get_property($name = '', $obj = NULL, $default = NULL)
 
 	return $default;
 }
+
+
+
+
+
+/**
+ * If there is a results file in the session, remove it, and unset the key.
+ *
+ */
+function cleanup_import()
+{
+	if (array_key_exists('import_results', $_SESSION)) {
+		$file = $_SESSION['import_results'];
+		@unlink(FCPATH . "local/{$file}");
+		unset($_SESSION['import_results']);
+	}
+}
