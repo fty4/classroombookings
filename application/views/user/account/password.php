@@ -1,8 +1,8 @@
 <?php
 
-$layout = 'vertical';
+$layout = 'horizontal';
 
-echo form_open(current_url(), ['class' => 'form-vertical']);
+echo form_open(current_url(), ['class' => 'form-horizontal']);
 
 
 $fields = [];
@@ -66,25 +66,23 @@ $fields[] = form_group([
 ]);
 
 
-
-$fields[] = form_group([
-	'input' => form_button([
-		'type' => 'submit',
-		'content' => lang('user_password_action_change'),
-		'class' => 'btn btn-primary ',
-		'tabindex' => tab_index(),
-	]),
-]);
-
-
-echo "<div class='columns'>";
-echo "<div class='column col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-6 col-6'>";
 echo form_fieldset([
-	'layout' => 'vertical',
+	'title' => lang('user_password_fieldset_password'),
 	'content' => implode("\n", $fields),
 ]);
-echo "</div></div>";
 
+
+$submit_button = form_button([
+	'type' => 'submit',
+	'content' => lang('user_password_action_change'),
+	'class' => 'btn btn-primary ',
+	'tabindex' => tab_index(),
+]);
+
+echo form_fieldset([
+	'actions' => TRUE,
+	'content' => $submit_button,
+]);
 
 
 echo form_close();

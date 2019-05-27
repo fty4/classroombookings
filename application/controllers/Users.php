@@ -12,6 +12,7 @@ class Users extends MY_Controller
 
 		$this->load->language('settings');
 		$this->load->language('users');
+		$this->load->language('users_import');
 
 		$this->require_logged_in();
 		$this->require_auth_level(ADMINISTRATOR);
@@ -66,6 +67,8 @@ class Users extends MY_Controller
 		$this->load->library('pagination');
 		$this->pagination->initialize(pagination_config($pagination_config));
 
+		$this->blocks['tabs'] = 'users/menu';
+
 		$this->render('users/index');
 	}
 
@@ -111,6 +114,9 @@ class Users extends MY_Controller
 		$this->init_form_elements();
 
 		$this->data['title'] = lang('users_add_page_title');
+
+		$this->data['menu_active'] = 'settings/users/add';
+		$this->blocks['tabs'] = 'users/menu';
 
 		if ($this->input->post()) {
 			$this->save_user();

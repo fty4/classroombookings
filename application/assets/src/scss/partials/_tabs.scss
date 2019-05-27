@@ -1,4 +1,53 @@
 .tab-menu {
+	margin-top: 0;
+	padding-top: 0;
+	margin-bottom: $unit-12;
+	border: 0;
+
+	.tab-item {
+		padding: 0;
+		margin: 0;
+		// outline: 1px solid black;
+		padding-right: $unit-2;
+		+ .tab-item {
+			border-left: $unit-o dotted $gray-color-dark;
+			padding-left: $unit-2;
+		}
+
+		a {
+			// outline: 1px solid red;
+			padding-top: $unit-1;
+			padding-bottom: $unit-1;
+			padding-left: $unit-2;
+			padding-right: $unit-2;
+			line-height: 1;
+			margin: 0;
+		}
+
+		&.active {
+			a {
+				background: $clrs-blue;
+				color: $light-color;
+			}
+		}
+
+		.feather {
+			// width: $font-size-sm;
+			// height: $font-size-sm;
+			margin-right: $unit-1;
+			// vertical-align: middle;
+			// margin-top: -$unit-1;
+			width: $font-size-sm;
+			height: $font-size-sm;
+			vertical-align: -7%;
+			display: inline-block;
+			text-indent: -9999px;
+			position: relative;
+		}
+	}
+}
+
+.tab-menu-1 {
 
 	margin-top: 0;
 	padding-top: 0;

@@ -3,15 +3,15 @@
 $items = [];
 
 $items[] = [
-	'label' => 'Edit details',
+	'label' => lang('user_page_account_details_title'),
+	'icon' => 'edit-2',
 	'url' => 'user',
-	// 'icon' => 'user',
 ];
 
 $items[] = [
-	'label' => 'Change password',
+	'label' => lang('user_page_password_title'),
+	'icon' => 'lock',
 	'url' => 'user/password',
-	// 'icon' => 'lock',
 ];
 
 echo "<ul class='tab tab-menu'>";

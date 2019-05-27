@@ -135,7 +135,11 @@ function table_box($params = [])
 	}
 
 	$template = "<div class='table-box {class}'>\n";
-	$template .= "<div class='table-box-header'>{title}\n{subtitle}\n</div>\n";
+
+	if (strlen($vars['title']) || strlen($vars['subtitle'])) {
+		$template .= "<div class='table-box-header'>{title}\n{subtitle}\n</div>\n";
+	}
+
 	$template .= "<div class='table-box-table'>{table}</div>\n";
 	$template .= "{pagination}\n";
 	$template .= "</div>";

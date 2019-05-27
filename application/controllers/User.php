@@ -56,7 +56,7 @@ class User extends MY_Controller
 		$this->load->library('form_validation');
 
 		$this->load->config('form_validation', TRUE);
-		$this->form_validation->set_rules($this->config->item('user_details', 'form_validation'));
+		$this->form_validation->set_rules($this->config->item('user_account_details', 'form_validation'));
 		$this->form_validation->set_rules('email', "lang:user_field_email", "trim|max_length[191]|valid_email|user_email_unique[{$id}]");
 
 		if ($this->form_validation->run() == FALSE) {

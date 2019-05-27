@@ -23,11 +23,14 @@ $lang['user_authlevel_teacher'] = 'Teacher';
 $lang['user_validation_username_unavailable'] = 'There is already a user account with that username.';
 $lang['user_validation_email_unavailable'] = 'There is already a user account with that email address.';
 
+$lang['user_account_fieldset_details'] = 'Account details';
+$lang['user_password_fieldset_password'] = 'Change password';
+
 // Fields
 $lang['user_field_username'] = 'Username';
 $lang['user_field_password'] = 'Password';
 $lang['user_field_email'] = 'Email address';
-$lang['user_field_hint_email'] = 'This will be used to send notifications to.';
+// $lang['user_field_hint_email'] = 'This will be used to send notifications to.';
 $lang['user_field_firstname'] = 'First name';
 $lang['user_field_lastname'] = 'Last name';
 $lang['user_field_displayname'] = 'Display name';

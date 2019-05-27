@@ -2960,6 +2960,14 @@ a.text-error:visited {
 a.btn {
   cursor: pointer; }
 
+.btn-action-link + .btn-action-link:before {
+  display: inline-block;
+  content: "";
+  height: 1.8rem;
+  line-height: 1.2rem;
+  outline: none;
+  border-left: 0.05rem dotted #bcc3ce; }
+
 .toast {
   background-color: rgba(48, 55, 66, 0.1);
   border-width: 0 0 0 0.2rem;
@@ -3418,10 +3426,41 @@ body {
   margin-top: 0;
   padding-top: 0;
   margin-bottom: 2.4rem;
-  border-bottom: 0.1rem solid #dadee4; }
+  border: 0; }
   .tab-menu .tab-item {
-    margin-right: 0.8rem; }
+    padding: 0;
+    margin: 0;
+    padding-right: 0.4rem; }
+    .tab-menu .tab-item + .tab-item {
+      border-left: 0.05rem dotted #66758c;
+      padding-left: 0.4rem; }
     .tab-menu .tab-item a {
+      padding-top: 0.2rem;
+      padding-bottom: 0.2rem;
+      padding-left: 0.4rem;
+      padding-right: 0.4rem;
+      line-height: 1;
+      margin: 0; }
+    .tab-menu .tab-item.active a {
+      background: #0074d9;
+      color: #fff; }
+    .tab-menu .tab-item .feather {
+      margin-right: 0.2rem;
+      width: 0.7rem;
+      height: 0.7rem;
+      vertical-align: -7%;
+      display: inline-block;
+      text-indent: -9999px;
+      position: relative; }
+
+.tab-menu-1 {
+  margin-top: 0;
+  padding-top: 0;
+  margin-bottom: 2.4rem;
+  border-bottom: 0.1rem solid #dadee4; }
+  .tab-menu-1 .tab-item {
+    margin-right: 0.8rem; }
+    .tab-menu-1 .tab-item a {
       border-bottom-width: 0.2rem;
       padding-left: 0.6rem;
       padding-right: 0.6rem;

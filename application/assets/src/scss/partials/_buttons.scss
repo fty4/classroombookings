@@ -29,3 +29,21 @@
 a.btn {
 	cursor: pointer;
 }
+
+.btn-action-link {
+	+ .btn-action-link {
+		// // margin-left: $unit-2;
+		// padding-left: $unit-2;
+		&:before {
+			display: inline-block;
+			content: "";
+			height: $control-size;
+			line-height: $line-height;
+			outline: none;
+			// padding-right: $unit-2;
+			// margin-right: $unit-2;
+			// padding: $control-padding-y $control-padding-x;
+			border-left: $unit-o dotted $gray-color;
+		}
+	}
+}

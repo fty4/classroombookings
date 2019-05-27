@@ -42,7 +42,8 @@ $table->column()
 
 $content = $table->render(true);
 
-echo anchor('users/add', lang('users_action_add'), 'class="btn btn-primary"');
+// echo anchor('users/add', icon('plus-circle') . lang('users_action_add'), 'class="btn btn-link btn-action-link"');
+// echo anchor('users/add', icon('download') . lang('users_action_import'), 'class="btn btn-link btn-action-link"');
 
 echo table_box([
 	'title' => '',	//lang('users_index_page_title'),

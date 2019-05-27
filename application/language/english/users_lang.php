@@ -10,6 +10,7 @@ $lang['users_page_delete'] = 'Delete';
 
 // Actions
 $lang['users_action_add'] = 'Add new user';
+$lang['users_action_import'] = 'Import users';
 $lang['users_action_update'] = 'Update user';
 $lang['users_action_change_password'] = 'Change password';
 
