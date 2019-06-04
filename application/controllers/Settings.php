@@ -10,6 +10,7 @@ class Settings extends MY_Controller
 	{
 		parent::__construct();
 
+		$this->load->language('admin');
 		$this->load->language('settings');
 
 		$this->require_logged_in();
@@ -18,7 +19,7 @@ class Settings extends MY_Controller
 
 
 	/**
-	* Settings index page
+	* Settings: General options
 	*
 	*/
 	function index()
@@ -26,32 +27,15 @@ class Settings extends MY_Controller
 		$this->require_logged_in();
 		$this->require_auth_level(ADMINISTRATOR);
 
-		$this->data['menu_active'] = 'settings';
+		$this->data['menu_active'] = 'admin/settings';
+		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
 		$this->data['breadcrumbs'][] = array('settings', lang('settings_page_title'));
 
 		$this->data['title'] = lang('settings_page_title');
-		$this->data['items'] = $this->menu_model->get_settings_menu();
-
-		return $this->render('settings/index');
-	}
-
-
-	/**
-	* Settings: General options
-	*
-	*/
-	function options()
-	{
-		$this->require_logged_in();
-		$this->require_auth_level(ADMINISTRATOR);
-
-		$this->data['menu_active'] = 'settings/options';
-		$this->data['breadcrumbs'][] = array('settings', lang('settings_page_title'));
-		$this->data['breadcrumbs'][] = array('settings/options', lang('settings_options_page_title'));
-
-		$this->data['title'] = lang('settings_options_page_title');
 
 		$this->data['settings'] = $this->settings_model->get_all('crbs');
+
+		$this->blocks['tabs'] = 'settings/menu';
 
 		if ($this->input->post()) {
 			$this->save_options();
@@ -82,7 +66,7 @@ class Settings extends MY_Controller
 
 		if ($res) {
 			$this->notice('success', "The settings have been saved.");
-			redirect('settings/options');
+			redirect('settings');
 		} else {
 			$this->notice('error', "There was an error saving the settings.");
 		}
@@ -98,13 +82,16 @@ class Settings extends MY_Controller
 		$this->require_logged_in();
 		$this->require_auth_level(ADMINISTRATOR);
 
-		$this->data['menu_active'] = 'settings/visual';
+		$this->data['menu_active'] = 'admin/settings/appearance';
+		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
 		$this->data['breadcrumbs'][] = array('settings', lang('settings_page_title'));
 		$this->data['breadcrumbs'][] = array('settings/visual', lang('settings_visual_page_title'));
 
 		$this->data['title'] = lang('settings_visual_page_title');
 
 		$this->data['settings'] = $this->settings_model->get_all('crbs');
+
+		$this->blocks['tabs'] = 'settings/menu';
 
 		$this->data['theme_options'] = [
 			'red' => 'Red',

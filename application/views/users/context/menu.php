@@ -5,21 +5,21 @@ $items = [];
 $items[] = [
 	'icon' => 'user',
 	'label' => lang('users_page_view'),
-	'id' => 'settings/users/view',
+	'id' => 'admin/users/view',
 	'url' => "users/view/{$user->user_id}",
 ];
 
 $items[] = [
 	'icon' => 'edit-2',
 	'label' => lang('users_page_update'),
-	'id' => 'settings/users/update',
+	'id' => 'admin/users/update',
 	'url' => "users/update/{$user->user_id}",
 ];
 
 $items[] = [
 	'icon' => 'lock',
 	'label' => lang('users_page_password'),
-	'id' => 'settings/users/password',
+	'id' => 'admin/users/password',
 	'url' => "users/change_password/{$user->user_id}",
 ];
 
@@ -27,7 +27,7 @@ if ($user->user_id !== $this->userauth->user->user_id) {
 	$items[] = [
 		'icon' => 'trash-2',
 		'label' => lang('users_page_delete'),
-		'id' => 'settings/users/delete',
+		'id' => 'admin/users/delete',
 		'url' => "users/delete/{$user->user_id}",
 	];
 }

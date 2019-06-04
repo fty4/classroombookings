@@ -3,8 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $lang['settings_page_title'] = 'Settings';
 
-$lang['settings_options_page_title'] = 'General options';
-$lang['settings_visual_page_title'] = 'Look and feel';
+$lang['settings_options_page_title'] = 'General';
+$lang['settings_visual_page_title'] = 'Appearance';
 
 $lang['settings_save_success'] = 'The settings have been saved.';
 $lang['settings_save_error'] = 'There was a problem saving the settings.';

@@ -5,21 +5,21 @@ $items = [];
 $items[] = [
 	'icon' => 'users',
 	'label' => lang('users_page_index'),
-	'id' => 'settings/users',
+	'id' => 'admin/users',
 	'url' => "users",
 ];
 
 $items[] = [
 	'icon' => 'upload',
 	'label' => lang('users_import_page_index'),
-	'id' => 'settings/users/import',
+	'id' => 'admin/users/import',
 	'url' => "users_import",
 ];
 
 $items[] = [
 	'icon' => 'plus-circle',
 	'label' => lang('users_action_add'),
-	'id' => 'settings/users/add',
+	'id' => 'admin/users/add',
 	'url' => "users/add",
 ];
 

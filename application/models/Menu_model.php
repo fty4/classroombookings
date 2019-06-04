@@ -64,8 +64,8 @@ class Menu_model extends CI_Model
 		);
 
 		$items[] = array(
-			'label' => 'Settings',
-			'url' => 'settings',
+			'label' => 'Admin',
+			'url' => 'admin',
 			'icon' => 'settings',
 			'visible' => $is_logged_in,
 		);
@@ -89,29 +89,29 @@ class Menu_model extends CI_Model
 	}
 
 
-	public function get_settings_menu()
+	public function get_admin_menu()
 	{
 		$items = [];
 
 		$is_admin = $this->userauth->is_level(ADMINISTRATOR);
 
 		$items[] = array(
-			'label' => 'General options',
-			'description' => 'Change global settings.',
-			'url' => 'settings/options',
-			'icon' => 'sliders',
+			'label' => 'Settings',
+			'description' => 'Manage general options and appearance.',
+			'url' => 'settings',
+			'icon' => 'settings',
 			'visible' => $is_admin,
 			'link_class' => 'card-menu-item-clrs-navy',
 		);
 
-		$items[] = array(
-			'label' => 'Look and feel',
-			'description' => 'Customise the branding and appearance of the Bookings page.',
-			'url' => 'settings/visual',
-			'icon' => 'eye',
-			'visible' => $is_admin,
-			'link_class' => 'card-menu-item-clrs-blue',
-		);
+		// $items[] = array(
+		// 	'label' => 'Look and feel',
+		// 	'description' => 'Customise the branding and appearance of the Bookings page.',
+		// 	'url' => 'settings/visual',
+		// 	'icon' => 'eye',
+		// 	'visible' => $is_admin,
+		// 	'link_class' => 'card-menu-item-clrs-blue',
+		// );
 
 		$items[] = array(
 			'id' => 'settings/users',

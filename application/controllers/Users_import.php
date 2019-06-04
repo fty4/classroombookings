@@ -10,6 +10,7 @@ class Users_import extends MY_Controller
 	{
 		parent::__construct();
 
+		$this->load->language('admin');
 		$this->load->language('settings');
 		$this->load->language('users');
 		$this->load->language('users_import');
@@ -35,8 +36,8 @@ class Users_import extends MY_Controller
 	*/
 	public function index()
 	{
-		$this->data['menu_active'] = 'settings/users/import';
-		$this->data['breadcrumbs'][] = array('settings', lang('settings_page_title'));
+		$this->data['menu_active'] = 'admin/users/import';
+		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
 		$this->data['breadcrumbs'][] = array('users', lang('users_page_index'));
 		$this->data['breadcrumbs'][] = array('users_import', lang('users_import_page_index'));
 
@@ -81,8 +82,8 @@ class Users_import extends MY_Controller
 
 		$this->data['result'] = $result;
 
-		$this->data['menu_active'] = 'settings/users/import';
-		$this->data['breadcrumbs'][] = array('settings', lang('settings_page_title'));
+		$this->data['menu_active'] = 'admin/users/import';
+		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
 		$this->data['breadcrumbs'][] = array('users', lang('users_page_index'));
 		$this->data['breadcrumbs'][] = array('users_import', lang('users_import_page_index'));
 		$this->data['breadcrumbs'][] = array('users_import/results', lang('users_import_page_results'));

@@ -2,7 +2,7 @@
 
 $layout = 'horizontal';
 
-echo form_open('settings/options', ['class' => 'form-horizontal']);
+echo form_open(current_url(), ['class' => 'form-horizontal']);
 
 
 // School details

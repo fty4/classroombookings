@@ -10,6 +10,7 @@ class Users extends MY_Controller
 	{
 		parent::__construct();
 
+		$this->load->language('admin');
 		$this->load->language('settings');
 		$this->load->language('users');
 		$this->load->language('users_import');
@@ -37,8 +38,8 @@ class Users extends MY_Controller
 		// Cleanup import-related files if necessary
 		cleanup_import();
 
-		$this->data['menu_active'] = 'settings/users';
-		$this->data['breadcrumbs'][] = array('settings', lang('settings_page_title'));
+		$this->data['menu_active'] = 'admin/users';
+		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
 		$this->data['breadcrumbs'][] = array('users', lang('users_page_index'));
 
 		$this->data['title'] = lang('users_page_index');
@@ -85,8 +86,8 @@ class Users extends MY_Controller
 
 		$this->data['user'] = $user;
 
-		$this->data['menu_active'] = 'settings/users/view';
-		$this->data['breadcrumbs'][] = array('settings', lang('settings_page_title'));
+		$this->data['menu_active'] = 'admin/users/view';
+		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
 		$this->data['breadcrumbs'][] = array('users', lang('users_page_index'));
 		$this->data['breadcrumbs'][] = array('users/view/' . $id, html_escape($user->username));
 
@@ -106,8 +107,8 @@ class Users extends MY_Controller
 	{
 		$this->data['user'] = NULL;
 
-		$this->data['menu_active'] = 'settings/users/add';
-		$this->data['breadcrumbs'][] = array('settings', lang('settings_page_title'));
+		$this->data['menu_active'] = 'admin/users/add';
+		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
 		$this->data['breadcrumbs'][] = array('users', lang('users_page_index'));
 		$this->data['breadcrumbs'][] = array('users/add', lang('users_add_page_title'));
 
@@ -115,7 +116,7 @@ class Users extends MY_Controller
 
 		$this->data['title'] = lang('users_add_page_title');
 
-		$this->data['menu_active'] = 'settings/users/add';
+		$this->data['menu_active'] = 'admin/users/add';
 		$this->blocks['tabs'] = 'users/menu';
 
 		if ($this->input->post()) {
@@ -138,8 +139,8 @@ class Users extends MY_Controller
 
 		$this->data['user'] = $user;
 
-		$this->data['menu_active'] = 'settings/users/update';
-		$this->data['breadcrumbs'][] = array('settings', lang('settings_page_title'));
+		$this->data['menu_active'] = 'admin/users/update';
+		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
 		$this->data['breadcrumbs'][] = array('users', lang('users_page_index'));
 		$this->data['breadcrumbs'][] = array('users/view/' . $id, html_escape($user->username));
 		$this->data['breadcrumbs'][] = array('users/update/' . $id, lang('users_update_page_title'));
@@ -170,8 +171,8 @@ class Users extends MY_Controller
 
 		$this->data['user'] = $user;
 
-		$this->data['menu_active'] = 'settings/users/password';
-		$this->data['breadcrumbs'][] = array('settings', lang('settings_page_title'));
+		$this->data['menu_active'] = 'admin/users/password';
+		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
 		$this->data['breadcrumbs'][] = array('users', lang('users_page_index'));
 		$this->data['breadcrumbs'][] = array('users/view/' . $id, html_escape($user->username));
 		$this->data['breadcrumbs'][] = array('users/change_password/' . $id, lang('users_change_password_page_title'));
@@ -202,8 +203,8 @@ class Users extends MY_Controller
 
 		$this->data['user'] = $user;
 
-		$this->data['menu_active'] = 'settings/users/delete';
-		$this->data['breadcrumbs'][] = array('settings', lang('settings_page_title'));
+		$this->data['menu_active'] = 'admin/users/delete';
+		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
 		$this->data['breadcrumbs'][] = array('users', lang('users_page_index'));
 		$this->data['breadcrumbs'][] = array('users/view/' . $id, html_escape($user->username));
 		$this->data['breadcrumbs'][] = array('users/delete/' . $id, lang('users_delete_page_title'));

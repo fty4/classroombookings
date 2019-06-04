@@ -6,6 +6,7 @@ $lang['yes'] = 'Yes';
 $lang['no'] = 'No';
 
 $lang['not_set'] = 'Not set';
+$lang['not_found'] = 'Not found';
 $lang['unknown'] = 'Unknown';
 $lang['never'] = 'Never';
 
