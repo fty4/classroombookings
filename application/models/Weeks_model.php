@@ -1,8 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Weeks_model extends CI_Model
+
+class Weeks_model extends MY_Model
 {
+
+
+	public $table = 'weeks';
+	public $primary_key = 'week_id';
 
 
 	public function __construct()
@@ -13,7 +18,7 @@ class Weeks_model extends CI_Model
 
 
 
-	function Get($week_id = NULL)
+	function _Get($week_id = NULL)
 	{
 		if ($week_id == NULL) {
 			return $this->crud_model->Get('weeks', NULL, NULL);	//, NULL, NULL, NULL, 'name desc');
@@ -32,7 +37,7 @@ class Weeks_model extends CI_Model
 	 * @return	int	Number of weeks for this school
 	 *
 	 */
-	function WeeksCount($school_id = NULL)
+	function _WeeksCount($school_id = NULL)
 	{
 		$query = $this->db->query("SELECT week_id FROM weeks");
 		return $query->num_rows();
@@ -41,7 +46,7 @@ class Weeks_model extends CI_Model
 
 
 
-	function Add($data)
+	function _Add($data)
 	{
 		$query = $this->db->insert('weeks', $data);
 		echo $this->db->last_query();
@@ -51,7 +56,7 @@ class Weeks_model extends CI_Model
 
 
 
-	function Edit($week_id, $data)
+	function _Edit($week_id, $data)
 	{
 		$this->db->where('week_id', $week_id);
 		$result = $this->db->update('weeks', $data);
@@ -61,7 +66,7 @@ class Weeks_model extends CI_Model
 
 
 
-	function GetAcademicYear()
+	function _GetAcademicYear()
 	{
 		$query_get = $this->db->get('academicyears');
 
@@ -77,7 +82,7 @@ class Weeks_model extends CI_Model
 
 
 
-	function SaveAcademicYear($data)
+	function _SaveAcademicYear($data)
 	{
 		$query_get = $this->db->get('academicyears');
 		if ($query_get->num_rows() == 1) {
@@ -98,7 +103,7 @@ class Weeks_model extends CI_Model
 	 * @param   int   $week_id   ID of week to delete
 	 *
 	 */
-	function Delete($week_id)
+	function _Delete($week_id)
 	{
 		$this->db->where('week_id', $week_id);
 		$this->db->delete('weeks');
@@ -169,7 +174,7 @@ class Weeks_model extends CI_Model
 
 
 
-	function GetMondays($school_id = NULL, $holidays = NULL)
+	function _GetMondays($school_id = NULL, $holidays = NULL)
 	{
 		// Get academic year dates
 		$AcademicYear = $this->GetAcademicYear();
@@ -248,7 +253,7 @@ class Weeks_model extends CI_Model
 
 
 
-	function WeekDateIDs()
+	function _WeekDateIDs()
 	{
 		$weeks_query = $this->db->query("SELECT week_id, date FROM weekdates");
 		$results = $weeks_query->result_array();
@@ -273,7 +278,7 @@ class Weeks_model extends CI_Model
 	 * @return		int		Week_ID on true, otherwise false
 	 *
 	 */
-	function WeekExists($date)
+	function _WeekExists($date)
 	{
 		$this->db->where('date', $date);
 		$this->db->limit('1');
@@ -292,7 +297,7 @@ class Weeks_model extends CI_Model
 
 
 
-	function WeekInHoliday($date, $holidays)
+	function _WeekInHoliday($date, $holidays)
 	{
 		foreach ($holidays as $holiday) {
 			$hol_date_start = strtotime($holiday->date_start);
@@ -310,7 +315,7 @@ class Weeks_model extends CI_Model
 
 
 
-	function UpdateMondays($week_id, $dates)
+	function _UpdateMondays($week_id, $dates)
 	{
 		// First get rid of all current dates for this week
 		$this->db->where('week_id', $week_id);

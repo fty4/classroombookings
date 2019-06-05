@@ -1,195 +1,245 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+
 class Weeks extends MY_Controller
 {
-
-
-	public $WeeksCount = 0;
 
 
 	public function __construct()
 	{
 		parent::__construct();
 
+		$this->load->language('admin');
+		$this->load->language('settings');
+		$this->load->language('weeks');
+		$this->load->language('week');
+		$this->load->language('academic_year');
+
 		$this->require_logged_in();
 		$this->require_auth_level(ADMINISTRATOR);
 
-		$this->load->model('crud_model');
-		$this->load->model('holidays_model');
 		$this->load->model('weeks_model');
+		// $this->load->helper('number');
+		$this->load->helper('week');
+		// $this->load->helper('string');
 	}
 
 
 
-
+	/**
+	* Weeks index page
+	*
+	*/
 	function index()
 	{
+		$this->data['menu_active'] = 'admin/weeks';
+		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
+		$this->data['breadcrumbs'][] = array('weeks', lang('weeks_page_index'));
 
-		$this->data['weeks'] = $this->weeks_model->Get();
-		$this->data['cal'] = NULL;
-		$this->data['academicyear'] = $this->weeks_model->GetAcademicYear();
+		$this->data['title'] = lang('weeks_page_index');
 
-		if ( ! $this->data['academicyear']) {
-			$this->data['body'] = msgbox('warning', "Please configure your academic year first.");
-		} else {
-			$this->data['body'] = '';
-		}
+		$filter = $this->input->get();
+		$filter['sort'] = 'name';
+		$filter['limit'] = NULL;
 
-		$this->data['body'] .= $this->load->view('weeks/weeks_index', $this->data, TRUE);
+		$this->data['filter'] = $filter;
+		$this->data['total'] = $this->weeks_model->count($filter);
+		$this->data['weeks'] = $this->weeks_model->find($filter);
 
-		$this->data['title'] = 'Timetable Week Cycle';
-		$this->data['showtitle'] = $this->data['title'];
+		$this->blocks['tabs'] = 'weeks/menu';
 
-		return $this->render();
+		$this->render('weeks/index');
 	}
 
 
+	/**
+	 * Add a new timetable week
+	 *
+	 */
+	public function add()
+	{
+		$this->data['week'] = NULL;
+
+		$this->data['menu_active'] = 'admin/weeks/add';
+		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
+		$this->data['breadcrumbs'][] = array('weeks', lang('weeks_page_index'));
+		$this->data['breadcrumbs'][] = array('weeks/add', lang('weeks_add_page_title'));
+
+		$this->data['title'] = lang('weeks_add_page_title');
+
+		$this->data['menu_active'] = 'admin/weeks/add';
+		$this->blocks['tabs'] = 'weeks/menu';
+
+		if ($this->input->post()) {
+			$this->save_week();
+		}
+
+		$this->render('weeks/update');
+	}
 
 
 
 	/**
-	 * Controller function to handle the Add page
+	 * Update a timetable week
+	 *
+	 * @param int $id		ID of week to update
 	 *
 	 */
-	function add()
+	public function update($id = 0)
 	{
-		$this->data['academicyear'] = $this->weeks_model->GetAcademicYear();
+		$week = $this->find_week($id);
 
-		if ( ! $this->data['academicyear']) {
-			redirect('weeks');
+		$this->data['week'] = $week;
+
+		$this->data['menu_active'] = 'admin/weeks/update';
+		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
+		$this->data['breadcrumbs'][] = array('weeks', lang('weeks_page_index'));
+		$this->data['breadcrumbs'][] = array('weeks/update/' . $id, lang('weeks_update_page_title'));
+
+		$this->data['title'] = html_escape($week->name) . ': ' . lang('weeks_update_page_title');
+
+		$this->blocks['tabs'] = 'weeks/context/menu';
+
+		if ($this->input->post()) {
+			$this->save_week($week);
 		}
 
-		$this->data['weeks'] = $this->weeks_model->Get();
-		$this->data['mondays'] = $this->weeks_model->GetMondays();
-		$this->data['weekscount'] = (is_array($this->data['weeks']) ? count($this->data['weeks']) : 0);
-
-		// Load view
-		$this->data['title'] = 'Add Week';
-		$this->data['showtitle'] = $this->data['title'];
-		$this->data['body'] = $this->load->view('weeks/weeks_add', $this->data, TRUE);
-
-		return $this->render();
+		$this->render('weeks/update');
 	}
-
-
 
 
 	/**
-	 * Controller function to handle the Edit page
+	 * Save changes to week: update or add new
+	 *
+	 * @param $week		Week object if updating, NULL to add new week.
 	 *
 	 */
-	function edit($id = NULL)
+	private function save_week($week = NULL)
 	{
-		$this->data['week'] = $this->weeks_model->Get($id);
-
-		if (empty($this->data['week']))
-		{
-			show_404();
-		}
-
-		$this->data['weeks'] = $this->weeks_model->Get(NULL);
-		$this->data['mondays'] = $this->weeks_model->GetMondays();
-		$this->data['academicyear'] = $this->weeks_model->GetAcademicYear();
-		$this->data['weekscount'] = count($this->data['weeks']);
-
-		$this->data['title'] = 'Edit Week';
-		$this->data['showtitle'] = $this->data['title'];
-
-		$this->data['body'] = $this->load->view('weeks/weeks_add', $this->data, TRUE);
-
-		return $this->render();
-	}
-
-
-
-
-	function save()
-	{
-		// Get ID from form
-		$week_id = $this->input->post('week_id');
-
 		$this->load->library('form_validation');
 
-		$this->form_validation->set_rules('week_id', 'ID', 'integer');
-		$this->form_validation->set_rules('name', 'Name', 'min_length[1]|max_length[20]');
-		$this->form_validation->set_rules('bgcol', 'Background colour', 'min_length[6]|max_length[7]|callback__is_valid_colour');
-		$this->form_validation->set_rules('fgcol', 'Foreground colour', 'min_length[6]|max_length[7]|callback__is_valid_colour');
+		$this->load->config('form_validation', TRUE);
+		$this->form_validation->set_rules($this->config->item('weeks_add_update', 'form_validation'));
 
 		if ($this->form_validation->run() == FALSE) {
-			return (empty($week_id) ? $this->add() : $this->edit($week_id));
+			$this->notice('error', lang('error_form_validation'));
+			return;
 		}
 
-		// Validation succeeded!
-		$week_data = array(
-			'name' => $this->input->post('name'),
-			'bgcol' => $this->_makecol($this->input->post('bgcol')),
-			'fgcol' => $this->_makecol($this->input->post('fgcol')),
-			'icon' => '',
-		);
+		$keys = [
+			'name',
+			'colour',
+		];
 
-		// Now see if we are editing or adding
-		if (empty($week_id)) {
-			// No ID, adding new record
-			$week_id = $this->weeks_model->Add($week_data);
-			if ($week_id) {
-				$flashmsg = msgbox('info', sprintf($this->lang->line('crbs_action_added'), $week_data['name']));
+		$week_data = array_fill_safe($keys, $this->input->post());
+		$success = FALSE;
+
+		if ($week !== NULL) {
+
+			// Update week
+			$res = $this->weeks_model->update($week_data, ['week_id' => $week->week_id]);
+			$id = $week->week_id;
+
+			if ($res) {
+				$success = TRUE;
+				$this->notice('success', lang('weeks_update_status_success'));
 			} else {
-				$flashmsg = msgbox('error', sprintf($this->lang->line('crbs_action_dberror'), 'adding'));
+				$this->notice('error', lang('weeks_update_status_error'));
 			}
+
 		} else {
-			// We have an ID, updating existing record
-			if ($this->weeks_model->Edit($week_id, $week_data)){
-				$flashmsg = msgbox('info', sprintf($this->lang->line('crbs_action_saved'), $week_data['name']));
+
+			// Add new week
+			$res = $this->weeks_model->insert($week_data);
+			$id = $res;
+
+			if ($res) {
+
+				$success = TRUE;
+
+				$this->notice('success', lang('weeks_add_status_success'));
+
 			} else {
-				$flashmsg = msgbox('error', sprintf($this->lang->line('crbs_action_dberror'), 'editing'));
+				$this->notice('error', lang('weeks_add_status_error'));
 			}
+
+
 		}
 
-		if ($this->input->post('dates')) {
-			$this->weeks_model->UpdateMondays($week_id, $this->input->post('dates'));
+		if ($success) {
+			redirect("weeks");
 		}
-
-		$this->session->set_flashdata('saved', $flashmsg);
-		redirect('weeks');
 	}
-
-
 
 
 
 	/**
-	 * Delete a week
+	 * Delete timetable week
+	 *
+	 * @param integer $id		ID of user to delete
 	 *
 	 */
-	function delete($id = NULL)
+	public function delete($id = 0)
 	{
-		// Check if a form has been submitted; if not - show it to ask user confirmation
-		if ($this->input->post('id')) {
-			// Form has been submitted (so the POST value exists)
-			// Call model function to delete manufacturer
-			$this->weeks_model->delete($this->input->post('id'));
-			$this->session->set_flashdata('saved', msgbox('info', $this->lang->line('crbs_action_deleted')));
-			redirect('weeks');
+		$week = $this->find_week($id);
+
+		$this->data['week'] = $week;
+
+		$this->data['menu_active'] = 'admin/weeks/delete';
+		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
+		$this->data['breadcrumbs'][] = array('weeks', lang('weeks_page_index'));
+		$this->data['breadcrumbs'][] = array('weeks/delete/' . $id, lang('weeks_delete_page_title'));
+
+		$this->data['title'] = html_escape($week->name) . ': ' . lang('weeks_delete_page_title');
+
+		$this->blocks['tabs'] = 'weeks/context/menu';
+
+		if ($this->input->post('week_id') == $week->week_id && $this->input->post('action') == 'delete') {
+
+			$res = $this->weeks_model->delete(['week_id' => $week->week_id]);
+			$success = FALSE;
+
+			if ($res) {
+				$this->notice('success', lang('weeks_delete_status_success'), [
+					'name' => $week->name,
+				]);
+			} else {
+				$this->notice('error', lang('weeks_delete_status_error'));
+			}
+
+			return redirect("weeks");
 		}
-		// Initialise page
-		$this->data['action'] = 'weeks/delete';
-		$this->data['id'] = $id;
-		$this->data['cancel'] = 'weeks';
-		$this->data['text'] = 'If you delete this week, <strong>all recurring bookings</strong> attached to this week will no longer be visible.';
 
-		$row = $this->weeks_model->Get($id);
-		$this->data['title'] = 'Delete Week (' . html_escape($row->name) . ')';
-		$this->data['showtitle'] = $this->data['title'];
-		$this->data['body'] = $this->load->view('partials/deleteconfirm', $this->data, TRUE);
+		$this->render('weeks/delete');
+	}
 
-		return $this->render();
+
+	private function find_week($id = 0, $include = [])
+	{
+		$default_inc = [];
+		$all_inc = array_merge($default_inc, $include);
+
+		$week = $this->weeks_model->find_one([
+			'week_id' => $id,
+			'include' => $all_inc,
+		]);
+
+		if ( ! $week) {
+			$this->render_error(array(
+				'http' => 404,
+				'title' => lang('not_found'),
+				'description' => lang('weeks_not_found'),
+			));
+		}
+
+		return $week;
 	}
 
 
 
 
-	 function academicyear()
+	 function _academicyear()
 	 {
 	 	$this->data['academicyear'] = $this->weeks_model->GetAcademicYear();
 
@@ -210,7 +260,7 @@ class Weeks extends MY_Controller
 
 
 
-	 function saveacademicyear()
+	 function _saveacademicyear()
 	 {
 	 	$this->load->library('form_validation');
 
@@ -235,43 +285,6 @@ class Weeks extends MY_Controller
 
 	 	redirect('weeks/academicyear');
 	 }
-
-
-
-
-
-	 function _is_valid_colour($colour)
-	 {
-	 	$hex = array('0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F');
-		#print_r($hex);
-		// Remove the hash
-	 	$colour = strtoupper(str_replace('#', '', $colour));
-		// Make sure we do have 6 digits
-	 	if (strlen($colour) == 6) {
-	 		$ret = true;
-	 		for($i=0;$i<strlen($colour);$i++){
-	 			if(!in_array($colour{$i}, $hex)){
-	 				$this->form_validation->set_message('_is_valid_colour', $this->lang->line('colour_invalid'));
-	 				return false;
-	 				$ret = false;
-	 			}
-	 		}
-	 	} else {
-	 		$this->form_validation->set_message('_is_valid_colour', $this->lang->line('colour_invalid'));
-	 		$ret = false;
-	 	}
-	 	return $ret;
-	 }
-
-
-
-
-	 function _makecol($colour)
-	 {
-	 	return strtoupper(str_replace('#', '', $colour));
-	 }
-
-
 
 
 }
