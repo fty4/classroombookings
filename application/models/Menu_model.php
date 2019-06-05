@@ -120,16 +120,22 @@ class Menu_model extends CI_Model
 			'url' => 'users',
 			'icon' => 'users',
 			'visible' => $is_admin,
-			'link_class' => 'card-menu-item-clrs-green',
+		);
+
+		$items[] = array(
+			'label' => 'Academic years',
+			'description' => 'Manage the dates and weeks of the academic year.',
+			'url' => 'academic_years',
+			'icon' => 'award',
+			'visible' => $is_admin,
 		);
 
 		$items[] = array(
 			'label' => 'Week cycle',
-			'description' => 'Set the dates of your academic year and timetable weeks.',
+			'description' => 'Add or remove timetable weeks to aid recurring bookings.',
 			'url' => 'weeks',
 			'icon' => 'calendar',
 			'visible' => $is_admin,
-			'link_class' => 'card-menu-item-clrs-red',
 		);
 
 		$items[] = array(
@@ -138,7 +144,6 @@ class Menu_model extends CI_Model
 			'url' => 'periods',
 			'icon' => 'clock',
 			'visible' => $is_admin,
-			'link_class' => 'card-menu-item-clrs-purple',
 		);
 
 		$items[] = array(
@@ -147,7 +152,6 @@ class Menu_model extends CI_Model
 			'url' => 'holidays',
 			'icon' => 'sun',
 			'visible' => $is_admin,
-			'link_class' => 'card-menu-item-clrs-yellow',
 		);
 
 		$items[] = array(
@@ -156,7 +160,6 @@ class Menu_model extends CI_Model
 			'url' => 'rooms',
 			'icon' => 'monitor',
 			'visible' => $is_admin,
-			'link_class' => 'card-menu-item-clrs-maroon',
 		);
 
 		$items[] = array(
@@ -165,7 +168,6 @@ class Menu_model extends CI_Model
 			'url' => 'departments',
 			'icon' => 'layers',
 			'visible' => $is_admin,
-			'link_class' => 'card-menu-item-clrs-olive',
 		);
 
 		return $items;

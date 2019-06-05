@@ -14,13 +14,15 @@
 		padding-right: 0;
 	}
 
-	&.user-status-active {
+	&.user-status-active,
+	&.item-status-active {
 		.feather {
 			color: $clrs-olive;
 		}
 	}
 
-	&.user-status-inactive {
+	&.user-status-inactive,
+	&.item-status-inactive {
 		.feather {
 			color: $clrs-red;
 		}

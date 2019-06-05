@@ -3539,10 +3539,10 @@ body {
   padding-left: 0;
   padding-right: 0; }
 
-.chip.user-status-active .feather {
+.chip.user-status-active .feather, .chip.item-status-active .feather {
   color: #3d9970; }
 
-.chip.user-status-inactive .feather {
+.chip.user-status-inactive .feather, .chip.item-status-inactive .feather {
   color: #ff4136; }
 
 .chip.chip-status-positive .feather {
@@ -3554,23 +3554,21 @@ body {
 .chip.chip-week .feather {
   stroke-width: 0; }
 
-.view-item-info dt, .view-item-info dd {
-  margin: 0;
-  padding: 0;
-  font-size: 0.7rem; }
-
-.view-item-info dt {
-  font-weight: normal;
-  color: #66758c;
-  margin-bottom: 0.2rem; }
-
-.view-item-info dd {
-  font-weight: 600; }
-
-.view-item-info .popover {
-  vertical-align: middle;
-  margin-left: 0.4rem; }
-
-.view-item-info .chip {
-  margin: 0;
-  font-size: 0.7rem; }
+.view-item-info {
+  margin: 0 0 1.6rem 0; }
+  .view-item-info dt, .view-item-info dd {
+    margin: 0;
+    padding: 0;
+    font-size: 0.7rem; }
+  .view-item-info dt {
+    font-weight: normal;
+    color: #66758c;
+    margin-bottom: 0.2rem; }
+  .view-item-info dd {
+    font-weight: 600; }
+  .view-item-info .popover {
+    vertical-align: middle;
+    margin-left: 0.4rem; }
+  .view-item-info .chip {
+    margin: 0;
+    font-size: 0.7rem; }
