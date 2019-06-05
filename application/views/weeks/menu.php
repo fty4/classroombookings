@@ -16,13 +16,6 @@ $items[] = [
 	'url' => "weeks/add",
 ];
 
-// $items[] = [
-// 	'icon' => 'award',
-// 	'label' => lang('academic_year_page_index'),
-// 	'id' => 'admin/academic_year',
-// 	'url' => "academic_year",
-// ];
-
 echo "<ul class='tab tab-menu'>";
 
 echo render_menu(array(

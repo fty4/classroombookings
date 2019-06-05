@@ -14,15 +14,12 @@ class Weeks extends MY_Controller
 		$this->load->language('settings');
 		$this->load->language('weeks');
 		$this->load->language('week');
-		$this->load->language('academic_year');
 
 		$this->require_logged_in();
 		$this->require_auth_level(ADMINISTRATOR);
 
 		$this->load->model('weeks_model');
-		// $this->load->helper('number');
 		$this->load->helper('week');
-		// $this->load->helper('string');
 	}
 
 
