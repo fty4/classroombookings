@@ -20,7 +20,7 @@ $lang['weeks_not_found'] = 'Could not find the requsted week.';
 // Update
 //
 
-$lang['weeks_update_status_success'] = 'The timetable weeok has been updated.';
+$lang['weeks_update_status_success'] = 'The timetable week has been updated.';
 $lang['weeks_update_status_error'] = 'There was an error updating the timetable week.';
 $lang['weeks_update_fieldset_details'] = 'Week details';
 
