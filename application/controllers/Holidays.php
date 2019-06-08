@@ -20,6 +20,7 @@ class Holidays extends MY_Controller
 
 		$this->load->model('years_model');
 		$this->load->model('holidays_model');
+		$this->load->model('dates_model');
 		$this->load->helper('holiday');
 	}
 
@@ -198,6 +199,7 @@ class Holidays extends MY_Controller
 		}
 
 		if ($success) {
+			$this->dates_model->refresh_holidays($this->data['year']->year_id);
 			redirect("holidays/year/{$this->data['year']->year_id}");
 		}
 	}
@@ -234,6 +236,7 @@ class Holidays extends MY_Controller
 			$success = FALSE;
 
 			if ($res) {
+				$this->dates_model->refresh_holidays($year->year_id);
 				$this->notice('success', lang('holidays_delete_status_success'), [
 					'name' => $holiday->name,
 				]);

@@ -20,6 +20,7 @@ class Academic_years extends MY_Controller
 
 		$this->load->model('years_model');
 		$this->load->model('weeks_model');
+		$this->load->model('dates_model');
 		$this->load->helper('year');
 	}
 
@@ -193,10 +194,11 @@ class Academic_years extends MY_Controller
 				$this->notice('error', lang('years_add_status_error'));
 			}
 
-
 		}
 
 		if ($success) {
+			$this->dates_model->refresh_year($id);
+			$this->dates_model->refresh_holidays($id);
 			redirect("academic_years/view/{$id}");
 		}
 	}
