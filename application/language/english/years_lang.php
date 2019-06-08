@@ -33,5 +33,5 @@ $lang['years_add_status_error'] = 'There was an error adding the new academic ye
 
 // Delete
 $lang['years_delete_title'] = 'Delete academic year';
-$lang['years_delete_description'] = 'Deleting this academic year will also remove all bookings associated with this year. This is permanent and cannot be undone.';
+$lang['years_delete_description'] = 'Deleting this academic year will also remove holidays and all bookings associated with this year. This is permanent and cannot be undone.';
 $lang['years_delete_action'] = 'Permanently delete %s and all bookings';

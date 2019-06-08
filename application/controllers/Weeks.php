@@ -25,9 +25,9 @@ class Weeks extends MY_Controller
 
 
 	/**
-	* Weeks index page
-	*
-	*/
+	 * Weeks index page
+	 *
+	 */
 	function index()
 	{
 		$this->data['menu_active'] = 'admin/weeks';

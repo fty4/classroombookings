@@ -11,4 +11,5 @@ $config['user_password'] = require("validation_rules/user_password.php");
 $config['users_add_update'] = require("validation_rules/users_add_update.php");
 $config['weeks_add_update'] = require("validation_rules/weeks_add_update.php");
 $config['years_add_update'] = require("validation_rules/years_add_update.php");
+$config['holidays_add_update'] = require("validation_rules/holidays_add_update.php");
 

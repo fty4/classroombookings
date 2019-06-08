@@ -2,16 +2,8 @@
 
 $items = [];
 
-
 $items[] = [
-	'icon' => 'award',
-	'label' => lang('years_page_view'),
-	'id' => 'admin/years/view',
-	'url' => "academic_years/view/{$year->year_id}",
-];
-
-$items[] = [
-	'icon' => 'sun',
+	'icon' => 'corner-up-left',
 	'label' => lang('holidays_page_year'),
 	'id' => 'admin/holidays/year',
 	'url' => "holidays/year/{$year->year_id}",
@@ -19,16 +11,16 @@ $items[] = [
 
 $items[] = [
 	'icon' => 'edit-2',
-	'label' => lang('years_page_update'),
-	'id' => 'admin/years/update',
-	'url' => "academic_years/update/{$year->year_id}",
+	'label' => lang('holidays_page_update'),
+	'id' => 'admin/holidays/update',
+	'url' => "holidays/update/{$holiday->holiday_id}",
 ];
 
 $items[] = [
 	'icon' => 'trash-2',
-	'label' => lang('years_page_delete'),
-	'id' => 'admin/years/delete',
-	'url' => "academic_years/delete/{$year->year_id}",
+	'label' => lang('holidays_page_delete'),
+	'id' => 'admin/holidays/delete',
+	'url' => "holidays/delete/{$holiday->holiday_id}",
 ];
 
 echo "<ul class='tab tab-menu'>";

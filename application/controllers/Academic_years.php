@@ -13,6 +13,7 @@ class Academic_years extends MY_Controller
 		$this->load->language('admin');
 		$this->load->language('years');
 		$this->load->language('year');
+		$this->load->language('holidays');
 
 		$this->require_logged_in();
 		$this->require_auth_level(ADMINISTRATOR);
@@ -25,9 +26,9 @@ class Academic_years extends MY_Controller
 
 
 	/**
-	* Years index page
-	*
-	*/
+	 * Years index page
+	 *
+	 */
 	function index()
 	{
 		$this->data['menu_active'] = 'admin/years';

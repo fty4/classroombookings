@@ -145,7 +145,6 @@ function form_group($params = [])
 		$data['group_class'] .= " {$data['required_class']}";
 	}
 
-
 	$error_field = strlen($data['error_field']) ? $data['error_field'] : $data['field'];
 	$error = form_error($error_field, '', '');
 	if ($error) {

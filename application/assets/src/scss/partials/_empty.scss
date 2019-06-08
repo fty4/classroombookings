@@ -1,7 +1,7 @@
 .empty {
 
-	border: 1px solid $border-color;
-	background: $light-color;
+	border: $unit-o solid $border-color;
+	background: $gray-color-light;
 
 	&.empty-danger {
 		.feather {
@@ -9,6 +9,13 @@
 		}
 		// background: mix($error-color, $gray-color-light, 5%);
 		border-color: $error-color;
+	}
+
+	&.empty-warning {
+		.feather {
+			color: $warning-color;
+		}
+		border-color: $warning-color;
 	}
 
 }

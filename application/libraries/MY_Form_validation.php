@@ -106,4 +106,70 @@ class MY_Form_validation extends CI_Form_validation
 	}
 
 
+	public function date_after($value, $start_date = '')
+	{
+		$check_date = new \DateTime($value);
+		$check_date->setTime(0, 0, 0);
+
+		if ( ! $check_date) {
+			$this->set_message('date_after', $this->CI->lang->line('form_validation_invalid_date'));
+			return FALSE;
+		}
+
+		// If $start_date is a field reference, use that value
+		if (isset($this->_field_data[$start_date], $this->_field_data[$start_date]['postdata'])) {
+			$start_date = $this->_field_data[$start_date]['postdata'];
+		}
+
+		$start_date = new \DateTime($start_date);
+		$start_date->setTime(0, 0, 0);
+		if ( ! $start_date) {
+			$this->set_message('date_after', $this->CI->lang->line('form_validation_invalid_date'));
+			return FALSE;
+		}
+
+		if ($check_date < $start_date) {
+			$fmt = $start_date->format('d/m/Y');
+			$str = $this->CI->lang->line('form_validation_error_date_after');
+			$this->set_message('date_after', sprintf($str, $fmt));
+			return FALSE;
+		}
+
+		return TRUE;
+	}
+
+
+	public function date_before($value, $end_date = '')
+	{
+		$check_date = new \DateTime($value);
+		$check_date->setTime(0, 0, 0);
+
+		if ( ! $check_date) {
+			$this->set_message('date_before', $this->CI->lang->line('form_validation_invalid_date'));
+			return FALSE;
+		}
+
+		// If $end_date is a field reference, use that value
+		if (isset($this->_field_data[$end_date], $this->_field_data[$end_date]['postdata'])) {
+			$end_date = $this->_field_data[$end_date]['postdata'];
+		}
+
+		$end_date = new \DateTime($end_date);
+		$end_date->setTime(0, 0, 0);
+		if ( ! $end_date) {
+			$this->set_message('date_before', $this->CI->lang->line('form_validation_invalid_date'));
+			return FALSE;
+		}
+
+		if ($check_date > $end_date) {
+			$fmt = $end_date->format('d/m/Y');
+			$str = $this->CI->lang->line('form_validation_error_date_before');
+			$this->set_message('date_before', sprintf($str, $fmt));
+			return FALSE;
+		}
+
+		return TRUE;
+	}
+
+
 }

@@ -30,9 +30,9 @@ class Users extends MY_Controller
 
 
 	/**
-	* Users index page
-	*
-	*/
+	 * Users index page
+	 *
+	 */
 	function index($page = 0)
 	{
 		// Cleanup import-related files if necessary
