@@ -1,0 +1,17 @@
+/* Week {week_id} */
+
+.calendar .calendar-range.week-{week_id}::before {
+	background: {range_bg};
+}
+
+.calendar .week-{week_id} .date-item {
+	color: {range_fg};
+}
+
+.calendar .range-start.week-{week_id} .date-item,
+.calendar .range-end.week-{week_id} .date-item {
+	background: {boundary_bg};		/*  $primary-color-dark;*/
+	border-color: {boundary_border};	/* darken($primary-color-dark, 5%); */
+	color: {boundary_fg};
+}
+

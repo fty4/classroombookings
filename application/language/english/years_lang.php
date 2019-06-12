@@ -10,6 +10,7 @@ $lang['years_page_delete'] = 'Delete';
 // Actions
 $lang['years_action_add'] = 'Add new academic year';
 $lang['years_action_update'] = 'Update academic year';
+$lang['years_action_update_week_assignments'] = 'Save week assignments';
 
 // Page titles
 $lang['years_add_page_title'] = 'Add new academic year';
@@ -35,3 +36,7 @@ $lang['years_add_status_error'] = 'There was an error adding the new academic ye
 $lang['years_delete_title'] = 'Delete academic year';
 $lang['years_delete_description'] = 'Deleting this academic year will also remove holidays and all bookings associated with this year. This is permanent and cannot be undone.';
 $lang['years_delete_action'] = 'Permanently delete %s and all bookings';
+
+// Weeks
+$lang['years_set_weeks_status_success'] = 'The week assignments for the academic year have been updated.';
+$lang['years_set_weeks_status_error'] = 'There was an error updating the week assignments for the academic year.';

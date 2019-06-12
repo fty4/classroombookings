@@ -1,0 +1,41 @@
+.calendar {
+
+	margin-bottom: $layout-spacing * 2;
+
+	.calendar-nav {
+		padding: $unit-3 0;
+		display: block;
+		text-align: center;
+	}
+
+	.calendar-header,
+	.calendar-body {
+		padding: $unit-1 0;
+	}
+
+	.badge[data-badge]::after,
+	.badge:not([data-badge])::after {
+		background: $dark-color;
+	}
+
+	.calendar-date {
+		.date-item {
+			&:focus {
+				background: inherit;
+				// border-width: 0;
+				border-color: transparent;
+				box-shadow: none;
+				color: inherit;
+			}
+
+			&:hover {
+				background: $dark-color;	// $gray-color-light;
+				border-color: $gray-color-dark;
+				color: $light-color;
+				text-decoration: none;
+			}
+
+		}
+	}
+
+}

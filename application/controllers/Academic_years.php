@@ -2,6 +2,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
+use app\components\Calendar;
+
+
 class Academic_years extends MY_Controller
 {
 
@@ -22,6 +25,9 @@ class Academic_years extends MY_Controller
 		$this->load->model('weeks_model');
 		$this->load->model('dates_model');
 		$this->load->helper('year');
+		$this->load->helper('week');
+		$this->load->helper('colour');
+		$this->load->helper('json');
 	}
 
 
@@ -60,7 +66,7 @@ class Academic_years extends MY_Controller
 	 */
 	public function view($id = 0)
 	{
-		$year = $this->find_year($id);
+		$year = $this->find_year($id, ['dates', 'holidays']);
 
 		$this->data['year'] = $year;
 
@@ -73,11 +79,36 @@ class Academic_years extends MY_Controller
 
 		$this->blocks['tabs'] = 'years/context/menu';
 
-		// if ($this->input->post()) {
-		// 	$this->save_year($year);
-		// }
+		$weeks = $this->weeks_model->find(['limit' => NULL]);
+		$this->data['weeks'] = $weeks;
+
+		$calendar = new Calendar($year, $weeks);
+		$this->data['calendar'] = $calendar;
+
+		if ($this->input->post()) {
+			$this->save_view($year);
+		}
 
 		$this->render('years/view');
+	}
+
+
+	private function save_view($year)
+	{
+		$values = $this->input->post('dates');
+
+		if (empty($values)) {
+			$this->notice('error', lang('error_form_validation'));
+			return;
+		}
+
+		if ($this->dates_model->set_weeks($year->year_id, $values) !== FALSE) {
+				$this->notice('success', lang('years_set_weeks_status_success'));
+		} else {
+			$this->notice('error', lang('years_set_weeks_status_error'));
+		}
+
+		redirect("academic_years/view/{$year->year_id}");
 	}
 
 

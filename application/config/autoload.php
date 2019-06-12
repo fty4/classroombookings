@@ -134,6 +134,7 @@ $autoload['config'] = array();
 $autoload['language'] = array(
 	'user',
 	'crbs',
+	'dates',
 	'form_validation',
 );
 

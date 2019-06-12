@@ -211,4 +211,31 @@ class MY_Model extends CI_Model
 	}
 
 
+	public function items_to_array($items = [], $keyed_by = NULL)
+	{
+		$out = [];
+
+		foreach ($items as $item) {
+
+			if ($keyed_by !== NULL) {
+				$key = get_property($keyed_by, $item);
+				$out[$key] = $this->item_to_array($item);
+			} else {
+				$out[] = $this->item_to_array($item);
+			}
+		}
+
+		return $out;
+	}
+
+
+	public function item_to_array($item)
+	{
+		$out = [];
+		$str = json_encode($item);
+		$arr = json_decode_safe($str, TRUE);
+		return $arr;
+	}
+
+
 }

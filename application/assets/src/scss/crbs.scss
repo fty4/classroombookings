@@ -5,7 +5,7 @@ $layout-spacing: 1rem;
 
 @import "node_modules/spectre.css/src/spectre";
 // @import "node_modules/spectre.css/src/off-canvas";
-// @import "node_modules/spectre.css/src/icons";
+@import "node_modules/spectre.css/src/calendars";
 
 @import "mixins/toasts";
 @import "mixins/themes";
@@ -28,3 +28,4 @@ $layout-spacing: 1rem;
 @import "partials/tiles";
 @import "partials/chips";
 @import "partials/deflist";
+@import "partials/calendar";

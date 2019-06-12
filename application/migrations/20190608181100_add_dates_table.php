@@ -11,6 +11,11 @@ class Migration_Add_dates_table extends CI_Migration
 				'type' => 'DATE',
 				'null' => FALSE,
 			),
+			'weekday' => array(
+				'type' => 'TINYINT',
+				'constraint' => 1,
+				'null' => FALSE,
+			),
 			'year_id' => array(
 				'type' => 'INT',
 				'constraint' => 11,

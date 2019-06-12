@@ -16,6 +16,58 @@ class Years_model extends MY_Model
 	}
 
 
+	public function wake_values($row, $find_query = NULL)
+	{
+		$row->dates = [];
+		$row->holidays = [];
+
+		if ($find_query) {
+
+			$include = $find_query->get_include();
+
+			if (in_array('dates', $include)) {
+				$row = $this->populate_dates($row);
+			}
+
+			if (in_array('holidays', $include)) {
+				$row = $this->populate_holidays($row);
+			}
+
+		}
+
+
+		return $row;
+	}
+
+
+	public function populate_dates($row)
+	{
+		$this->load->model('dates_model');
+
+		$items = $this->dates_model->find([
+			'year_id' => $row->year_id,
+			'limit' => NULL,
+		]);
+
+		$row->dates = $items;
+		return $row;
+	}
+
+
+	public function populate_holidays($row)
+	{
+		$this->load->model('holidays_model');
+
+		$items = $this->holidays_model->find([
+			'year_id' => $row->year_id,
+			'limit' => NULL,
+		]);
+
+		$row->holidays = $items;
+		return $row;
+	}
+
+
 	function _GetMondays($school_id = NULL, $holidays = NULL)
 	{
 		// Get academic year dates

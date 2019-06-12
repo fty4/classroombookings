@@ -10,19 +10,23 @@ class WeekHelper
 	{
 		$defaults = [
 			'class' => '',
+			'label' => FALSE,
 		];
 
 		$data = array_merge($defaults, $params);
 
 		$class = $data['class'];
-		$class .= 'chip-week';
+		$class .= ' chip-week';
 
 		$icon = 'square';
 		$colour = $week->colour;
 
-		$out = "<div class='chip chip-info chip-no-bg {$class}'>";
+		$out = "<span class='chip chip-info chip-no-bg {$class}'>";
 		$out .= icon($icon, ['fill' => "#{$colour}"]);
-		$out .= "</div>";
+		if ($data['label']) {
+			$out .= $week->name;
+		}
+		$out .= "</span>";
 
 		return $out;
 	}
