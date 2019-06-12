@@ -193,4 +193,14 @@ class User extends MY_Controller
 	}
 
 
+	public function dismiss_tip()
+	{
+		$name = $this->input->post('tip');
+		$this->tips->dismiss($name);
+		$this->output->enable_profiler(FALSE);
+		$this->output->set_header('X-IC-Remove: 1');
+		$this->output->set_output('');
+	}
+
+
 }

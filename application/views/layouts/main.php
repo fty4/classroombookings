@@ -47,6 +47,7 @@ $user_menu = render_menu(array(
 		<meta name="author" content="Craig A Rodway">
 		<meta name="csrf_token_name" content="<?= $this->security->get_csrf_token_name() ?>">
 		<meta name="csrf_token_value" content="<?= $this->security->get_csrf_hash() ?>">
+		<meta name="intercoolerjs:use-data-prefix" content="true">
 		<title><?= implode(' | ', $title_tags) ?></title>
 		<?php
 		foreach ($css as $css_url) {

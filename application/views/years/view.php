@@ -28,9 +28,7 @@
 <div class="divider"></div>
 <br>
 
-<p class="tip">Click on any date to cycle through the available timetable weeks and apply it to that week in the calendar.
-	<a href="javascript:;" data-dismisstip="academic_year_calendar">Dismiss.</a>
-</p>
+<?= $this->tips->show('academic_year_calendar'); ?>
 
 <?php
 $key = '';

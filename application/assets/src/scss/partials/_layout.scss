@@ -70,10 +70,8 @@ body {
 .tip {
 	@include label-variant($body-font-color, lighten($highlight-color, 10%));
 	border: $unit-o solid darken($highlight-color, 15%);
-	// border-radius: $border-radius;
 	padding: $unit-3;
 	font-size: $font-size-sm;
-	// margin-bottom: $unit-12;
 }
 
 

@@ -57,8 +57,9 @@ class MY_Controller extends CI_Controller
 
 			$this->load->library('migration');
 			$this->migration->latest();
-		}
 
+			$this->load->library('tips');
+		}
 
 		// Load menus
 		$this->load->model('menu_model');

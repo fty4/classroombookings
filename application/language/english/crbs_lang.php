@@ -16,6 +16,8 @@ $lang['error_form_validation'] = 'Please check the form fields and try again.';
 
 $lang['max_file_size'] = 'Maximum file size';
 
+$lang['dismiss'] = 'Dismiss';
+
 
 
 // Legacy
