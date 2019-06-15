@@ -26,18 +26,6 @@ class Periods_model extends MY_Model
 	}
 
 
-	function _Get($period_id = NULL)
-	{
-		if ($period_id == NULL) {
-			$rows = $this->crud_model->Get('periods', NULL, NULL, NULL, 'day_1 desc, day_2 desc, day_3 desc, day_4 desc, day_5 desc, day_6 desc, day_7 desc, time_start asc');
-			return $rows;
-		} else {
-			$row = $this->crud_model->Get('periods', 'period_id', $period_id);
-			return $row;
-		}
-	}
-
-
 	public function GetBookable($day_num = NULL)
 	{
 		$out = array();
@@ -62,36 +50,6 @@ class Periods_model extends MY_Model
 
 		return $out;
 	}
-
-
-	function _Add($data)
-	{
-		return $this->crud_model->Add('periods', 'period_id', $data);
-	}
-
-
-
-
-	function _Edit($period_id, $data)
-	{
-		return $this->crud_model->Edit('periods', 'period_id', $period_id, $data);
-	}
-
-
-
-
-	/**
-	 * Deletes a period with the given ID
-	 *
-	 * @param   int   $id   ID of period to delete
-	 *
-	 */
-	function _Delete($id)
-	{
-		return $this->crud_model->Delete('periods', 'period_id', $id);
-	}
-
-
 
 
 }
