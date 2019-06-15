@@ -3,7 +3,7 @@
 $items = [];
 
 $items[] = [
-	'icon' => 'calendar',
+	'icon' => 'repeat',
 	'label' => lang('weeks_page_index'),
 	'id' => 'admin/weeks',
 	'url' => "weeks",

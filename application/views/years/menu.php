@@ -3,7 +3,7 @@
 $items = [];
 
 $items[] = [
-	'icon' => 'award',
+	'icon' => 'calendar',
 	'label' => lang('years_page_index'),
 	'id' => 'admin/years',
 	'url' => "academic_years",

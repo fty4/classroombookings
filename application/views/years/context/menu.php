@@ -4,7 +4,7 @@ $items = [];
 
 
 $items[] = [
-	'icon' => 'award',
+	'icon' => 'calendar',
 	'label' => lang('years_page_view'),
 	'id' => 'admin/years/view',
 	'url' => "academic_years/view/{$year->year_id}",

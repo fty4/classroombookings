@@ -115,17 +115,17 @@ class Menu_model extends CI_Model
 
 		$items[] = array(
 			'label' => 'Academic years',
-			'description' => 'Manage the dates and weeks of the academic year.',
+			'description' => 'Set up the dates of the academic year and manage holidays.',
 			'url' => 'academic_years',
-			'icon' => 'award',
+			'icon' => 'calendar',
 			'visible' => $is_admin,
 		);
 
 		$items[] = array(
 			'label' => 'Week cycle',
-			'description' => 'Add or remove timetable weeks to aid recurring bookings.',
+			'description' => 'Add or remove timetable weeks for recurring bookings.',
 			'url' => 'weeks',
-			'icon' => 'calendar',
+			'icon' => 'repeat',
 			'visible' => $is_admin,
 		);
 
@@ -142,6 +142,14 @@ class Menu_model extends CI_Model
 			'description' => 'Manage the rooms that can be booked.',
 			'url' => 'rooms',
 			'icon' => 'monitor',
+			'visible' => $is_admin,
+		);
+
+		$items[] = array(
+			'label' => 'Custom fields',
+			'description' => 'Configure custom fields for rooms and bookings.',
+			'url' => 'fields',
+			'icon' => 'code',
 			'visible' => $is_admin,
 		);
 
