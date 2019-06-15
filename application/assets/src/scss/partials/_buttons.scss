@@ -97,3 +97,29 @@ a.btn {
 
 	}
 }
+
+
+.btn-group-numbers {
+
+	.btn {
+		margin-right: $unit-2;
+		margin-bottom: $unit-2;
+		border: $border-width solid $border-color-dark;
+		border-radius: $border-radius;
+		color: $body-font-color;
+	}
+
+	input[type=radio] {
+		clip: rect(0, 0, 0, 0);
+		height: 1px;
+		margin: -1px;
+		overflow: hidden;
+		position: absolute;
+		width: 1px;
+	}
+
+	input:checked + .btn {
+		@include button-variant($clrs-blue);
+	}
+
+}

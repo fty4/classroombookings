@@ -81,6 +81,20 @@ body {
 	}
 }
 
+.period-day-list {
+	span,
+	s {
+		margin-right: $unit-2;
+	}
+	s {
+		color: $gray-color;
+	}
+}
+
+.filter-body.filter-body-block {
+	display: block;
+}
+
 
 @include margin-variant(4, $unit-4);
 @include margin-variant(6, $unit-6);

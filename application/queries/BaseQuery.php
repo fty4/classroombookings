@@ -227,6 +227,7 @@ class BaseQuery
 			$sort_cols = explode(',', $this->data['sort']);
 			$sort_cols = array_filter($sort_cols, 'trim');
 			foreach ($sort_cols as $sort_col) {
+				$sort_col = trim($sort_col);
 				$dir = ($sort_col[0] === '-' ? 'DESC' : 'ASC');
 				$col = str_replace('-', '', $sort_col);
 				$col = $this->db->escape_identifiers($col);

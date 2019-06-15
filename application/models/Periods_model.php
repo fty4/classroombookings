@@ -1,9 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Periods_model extends CI_Model
+
+class Periods_model extends MY_Model
 {
 
+
+	public $table = 'periods';
+	public $primary_key = 'period_id';
 
 	public $days = array();
 
@@ -22,9 +26,7 @@ class Periods_model extends CI_Model
 	}
 
 
-
-
-	function Get($period_id = NULL)
+	function _Get($period_id = NULL)
 	{
 		if ($period_id == NULL) {
 			$rows = $this->crud_model->Get('periods', NULL, NULL, NULL, 'day_1 desc, day_2 desc, day_3 desc, day_4 desc, day_5 desc, day_6 desc, day_7 desc, time_start asc');
@@ -62,7 +64,7 @@ class Periods_model extends CI_Model
 	}
 
 
-	function Add($data)
+	function _Add($data)
 	{
 		return $this->crud_model->Add('periods', 'period_id', $data);
 	}
@@ -70,7 +72,7 @@ class Periods_model extends CI_Model
 
 
 
-	function Edit($period_id, $data)
+	function _Edit($period_id, $data)
 	{
 		return $this->crud_model->Edit('periods', 'period_id', $period_id, $data);
 	}
@@ -84,7 +86,7 @@ class Periods_model extends CI_Model
 	 * @param   int   $id   ID of period to delete
 	 *
 	 */
-	function Delete($id)
+	function _Delete($id)
 	{
 		return $this->crud_model->Delete('periods', 'period_id', $id);
 	}

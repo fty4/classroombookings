@@ -1,27 +1,12 @@
 <?php
 
-class YearHelper
+class PeriodHelper
 {
 
 	use app\helpers\DataTrait;
 
 
-	public static function is_current($year)
-	{
-		$start_date = new \DateTime($year->date_start);
-		$end_date = new \DateTime($year->date_end);
-
-		if ( ! $start_date || ! $end_date) {
-			return FALSE;
-		}
-
-		$today = new \DateTime();
-		return ($today >= $start_date && $today <= $end_date);
-	}
-
-
-
-	public static function current_chip($year, $params = [])
+	public static function bookable_chip($period, $params = [])
 	{
 		$defaults = [
 			'class' => '',
@@ -31,7 +16,7 @@ class YearHelper
 
 		$class = $data['class'];
 
-		if (self::is_current($year)) {
+		if ($period->bookable == 1) {
 			$icon = icon('check');
 			$label = lang('yes');
 			$class = 'item-status-active';

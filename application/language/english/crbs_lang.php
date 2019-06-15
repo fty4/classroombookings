@@ -9,6 +9,7 @@ $lang['not_set'] = 'Not set';
 $lang['not_found'] = 'Not found';
 $lang['unknown'] = 'Unknown';
 $lang['never'] = 'Never';
+$lang['all'] = 'All';
 
 $lang['action_confirm'] = 'Are you sure?';
 $lang['action_save'] = 'Save';

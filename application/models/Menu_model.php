@@ -104,15 +104,6 @@ class Menu_model extends CI_Model
 			'link_class' => 'card-menu-item-clrs-navy',
 		);
 
-		// $items[] = array(
-		// 	'label' => 'Look and feel',
-		// 	'description' => 'Customise the branding and appearance of the Bookings page.',
-		// 	'url' => 'settings/visual',
-		// 	'icon' => 'eye',
-		// 	'visible' => $is_admin,
-		// 	'link_class' => 'card-menu-item-clrs-blue',
-		// );
-
 		$items[] = array(
 			'id' => 'settings/users',
 			'label' => 'Users',
@@ -143,14 +134,6 @@ class Menu_model extends CI_Model
 			'description' => 'Set up the time periods of the school day.',
 			'url' => 'periods',
 			'icon' => 'clock',
-			'visible' => $is_admin,
-		);
-
-		$items[] = array(
-			'label' => 'Holidays',
-			'description' => 'Add holiday dates when bookings cannot be made.',
-			'url' => 'holidays',
-			'icon' => 'sun',
 			'visible' => $is_admin,
 		);
 
