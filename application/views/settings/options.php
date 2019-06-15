@@ -81,6 +81,33 @@ $fields[] = form_group([
 ]);
 
 
+$field = 'week_starts';
+$value = set_value('week_starts', element('week_starts', $settings), FALSE);
+
+$inputs = [];
+foreach ($days as $day_num) {
+
+	$title = lang("day_{$day_num}_long");
+
+	$check = form_radio([
+		'name' => $field,
+		'id' => "{$field}_{$day_num}",
+		'value' => $day_num,
+		'checked' => ($value == $day_num),
+	]);
+	$inputs[] = "<label class='form-radio'>{$check}<i class='form-icon'></i>{$title}</label>";
+}
+
+$fields[] = form_group([
+	'layout' => $layout,
+	'size' => '',
+	'field' => $field,
+	'label' => lang("settings_general_field_{$field}"),
+	'hint' => lang("settings_general_field_hint_{$field}"),
+	'input' => implode("\n", $inputs),
+]);
+
+
 echo form_fieldset([
 	'title' => lang('settings_options_section_preferences'),
 	'content' => implode("\n", $fields),

@@ -17,4 +17,9 @@ return [
 		'label' => 'lang:settings_general_field_bia',
 		'rules' => 'required|integer',
 	],
+	[
+		'field' => 'week_starts',
+		'label' => 'lang:settings_general_field_week_starts',
+		'rules' => 'required|is_natural_no_zero',
+	],
 ];

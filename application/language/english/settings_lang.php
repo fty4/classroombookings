@@ -23,6 +23,9 @@ $lang['settings_general_field_hint_website'] = 'The name of your school in the f
 $lang['settings_general_field_bia'] = 'Booking day limit';
 $lang['settings_general_field_hint_bia'] = 'How many days in the future users can make their own bookings. Enter 0 for no restriction.';
 
+$lang['settings_general_field_week_starts'] = 'Start of week';
+$lang['settings_general_field_hint_week_starts'] = 'Specify which day your week starts on. If you change this, please check the week assignments in Academic Years.';
+
 $lang['settings_general_field_login_hint'] = 'Login hint';
 $lang['settings_general_field_hint_login_hint'] = 'Helpful details or instructions about logging in that will be displayed on the login page or who to contact for support.';
 

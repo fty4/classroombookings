@@ -2,6 +2,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
+use app\components\Calendar;
+
+
 class Settings extends MY_Controller
 {
 
@@ -34,6 +37,7 @@ class Settings extends MY_Controller
 		$this->data['title'] = lang('settings_page_title');
 
 		$this->data['settings'] = $this->settings_model->get_all('crbs');
+		$this->data['days'] = Calendar::get_days_of_week();
 
 		$this->blocks['tabs'] = 'settings/menu';
 
@@ -59,6 +63,7 @@ class Settings extends MY_Controller
 			'website' => $this->input->post('website'),
 			'bia' => $this->input->post('bia'),
 			'login_hint' => $this->input->post('login_hint'),
+			'week_starts' => $this->input->post('week_starts'),
 		];
 
 		// Update

@@ -48,8 +48,7 @@ class Calendar
 		$this->year_end = new DateTime($year->date_end);
 
 		// First day of week
-		// @TODO get from settings
-		$this->first_day = (int) '1';
+		$this->first_day = (int) setting('week_starts');
 
 		// Get last day of week
 		$day_name = $this->day_names["{$this->first_day}"];
@@ -96,9 +95,9 @@ class Calendar
 	 * Get array of day numbers, in order, starting from the configured first day of week.
 	 *
 	 */
-	public function get_days_of_week()
+	public static function get_days_of_week()
 	{
-		$day = (int) $this->first_day;
+		$day = (int) setting('week_starts');
 		if ($day > 7 || $day < 1) {
 			$day = 1;
 		}
@@ -206,7 +205,7 @@ class Calendar
 
 		// Header
 		$columns = [];
-		$days = $this->get_days_of_week();
+		$days = self::get_days_of_week();
 		foreach ($days as $day_num) {
 			$label = lang("day_{$day_num}_short");
 			$columns[] = "<div class='calendar-date'>{$label}</div>";
