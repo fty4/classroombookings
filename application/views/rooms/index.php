@@ -55,7 +55,7 @@ if (count($rooms) > 0) {
 	$this->load->view('partials/empty', [
 		'title' => lang('rooms_none'),
 		'description' => lang('rooms_none_hint'),
-		'icon' => 'sun',
+		'icon' => 'monitor',
 		'action' => anchor("rooms/add", lang('rooms_action_add'), 'class="btn btn-primary"'),
 	]);
 

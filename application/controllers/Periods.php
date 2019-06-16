@@ -194,7 +194,7 @@ class Periods extends MY_Controller
 		$this->data['menu_active'] = 'admin/periods/delete';
 		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
 		$this->data['breadcrumbs'][] = array('periods', lang('periods_page_index'));
-		$this->data['breadcrumbs'][] = array('periods/delete', lang('periods_delete_page_title'));
+		$this->data['breadcrumbs'][] = array("periods/delete/{$period->period_id}", lang('periods_delete_page_title'));
 
 		$this->data['title'] = html_escape($period->name) . ': ' . lang('periods_delete_page_title');
 

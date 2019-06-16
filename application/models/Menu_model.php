@@ -148,7 +148,7 @@ class Menu_model extends CI_Model
 		$items[] = array(
 			'label' => 'Custom fields',
 			'description' => 'Configure custom fields for rooms and bookings.',
-			'url' => 'fields',
+			'url' => 'custom_fields',
 			'icon' => 'code',
 			'visible' => $is_admin,
 		);
