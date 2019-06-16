@@ -95,7 +95,7 @@ class Periods extends MY_Controller
 		$this->data['menu_active'] = 'admin/periods/update';
 		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
 		$this->data['breadcrumbs'][] = array('periods', lang('periods_page_index'));
-		$this->data['breadcrumbs'][] = array('periods/update', lang('periods_update_page_title'));
+		$this->data['breadcrumbs'][] = array("periods/update/{$period->period_id}", lang('periods_update_page_title'));
 
 		$this->data['title'] = html_escape($period->name) . ': ' . lang('periods_update_page_title');
 

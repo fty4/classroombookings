@@ -107,7 +107,7 @@ class Holidays extends MY_Controller
 		$this->data['breadcrumbs'][] = array('academic_years', lang('years_page_index'));
 		$this->data['breadcrumbs'][] = array('academic_years/view/' . $year->year_id, html_escape($year->name));
 		$this->data['breadcrumbs'][] = array('holidays/year/' . $year->year_id, lang('holidays_page_year'));
-		$this->data['breadcrumbs'][] = array('holidays/add/' . $year->year_id, lang('holidays_add_page_title'));
+		$this->data['breadcrumbs'][] = array("holidays/update/{$holiday->holiday_id}", lang('holidays_update_page_title'));
 
 		$this->data['title'] = html_escape($holiday->name) . ': ' . lang('holidays_update_page_title');
 
