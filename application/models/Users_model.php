@@ -44,8 +44,6 @@ class Users_model extends MY_Model
 			}
 		}
 
-		print_r($data);
-
 		return parent::sleep_values($data);
 	}
 
