@@ -1,21 +1,26 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+
 class Rooms extends MY_Controller
 {
-
-
 
 
 	public function __construct()
 	{
 		parent::__construct();
 
-		$this->require_logged_in();
+		$this->load->language('admin');
+		$this->load->language('rooms');
+		$this->load->language('room');
 
-		$this->load->model('crud_model');
+		$this->require_logged_in();
+		$this->require_auth_level(ADMINISTRATOR);
+
 		$this->load->model('rooms_model');
 		$this->load->model('users_model');
+		$this->load->helper('room');
+		$this->load->helper('user');
 		$this->load->helper('number');
 
 		$this->data['max_size_bytes'] = max_upload_file_size();
@@ -23,331 +28,332 @@ class Rooms extends MY_Controller
 	}
 
 
-
-	function info($room_id = NULL)
-	{
-		if (empty($room_id))
-		{
-			show_error('No room to show');
-		}
-
-		$this->data['room'] = $this->rooms_model->Get($room_id);
-
-		if (empty($this->data['room'])) {
-			show_error("The requested room could not be found.", 404, "Room Not Found");
-		}
-
-		$this->data['fields'] = $this->rooms_model->GetFields();
-		$this->data['fieldvalues'] = $this->rooms_model->GetFieldValues($room_id);
-
-		$this->data['body'] = $this->load->view('rooms/room_info', $this->data, TRUE);
-		$this->data['title'] = $this->data['room']->name;
-
-		return $this->render('minilayout');
-	}
-
-
-
-
-
+	/**
+	 * Rooms index page
+	 *
+	 */
 	function index()
 	{
-		$this->require_auth_level(ADMINISTRATOR);
+		$this->data['menu_active'] = 'admin/rooms';
+		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
+		$this->data['breadcrumbs'][] = array('rooms', lang('rooms_page_index'));
 
-		$this->data['rooms'] = $this->rooms_model->Get();
+		$this->data['title'] = lang('rooms_page_index');
 
-		$this->data['title'] = 'Rooms';
-		$this->data['showtitle'] = $this->data['title'];
-		$this->data['body'] = $this->load->view('rooms/rooms_index', $this->data, TRUE);
+		$filter = $this->input->get();
+		$filter['sort'] = 'name';
+		$filter['limit'] = NULL;
+		$filter['include'] = ['user'];
 
-		return $this->render();
+		$this->data['filter'] = $filter;
+		$this->data['total'] = $this->rooms_model->count($filter);
+		$this->data['rooms'] = $this->rooms_model->find($filter);
+
+		$this->blocks['tabs'] = 'rooms/menu';
+
+		$this->render('rooms/index');
 	}
-
-
-
 
 
 	/**
-	 * Controller function to handle the Add page
+	 * Add a room
+	 *
 	 */
 	function add()
 	{
-		$this->require_auth_level(ADMINISTRATOR);
+		$this->data['room'] = NULL;
 
-		// Get list of users
-		$this->data['users'] = $this->users_model->Get();
-		$this->data['fields'] = $this->rooms_model->GetFields();
-		$this->data['fieldvalues'] = array();
+		$this->data['menu_active'] = 'admin/rooms/add';
+		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
+		$this->data['breadcrumbs'][] = array('rooms', lang('rooms_page_index'));
+		$this->data['breadcrumbs'][] = array('rooms/add', lang('rooms_add_page_title'));
 
-		$this->data['title'] = 'Add Room';
-		$this->data['showtitle'] = $this->data['title'];
+		$this->init_form_elements();
 
-		$columns = array(
-			'c1' => array(
-				'content' => $this->load->view('rooms/rooms_add', $this->data, TRUE),
-				'width' => '70%',
-			),
-			'c2' => array(
-				'content' => $this->load->view('rooms/rooms_add_side', $this->data, TRUE),
-				'width' => '30%',
-			),
-		);
+		$this->data['title'] = lang('rooms_add_page_title');
 
-		$this->data['body'] = $this->load->view('columns', $columns, TRUE);
+		$this->blocks['tabs'] = 'rooms/menu';
 
-		return $this->render();
-	}
-
-
-
-
-
-	/**
-	 * Controller function to handle an edit
-	 */
-	function edit($id = NULL)
-	{
-		$this->require_auth_level(ADMINISTRATOR);
-
-		$this->data['room'] = $this->rooms_model->Get($id);
-
-		if (empty($this->data['room'])) {
-			show_404();
+		if ($this->input->post()) {
+			$this->save_room();
 		}
 
-		$this->data['users'] = $this->users_model->Get();
-		$this->data['fields'] = $this->rooms_model->GetFields();
-		$this->data['fieldvalues'] = $this->rooms_model->GetFieldValues($id);
-
-		$this->data['title'] = 'Edit Room';
-		$this->data['showtitle'] = $this->data['title'];
-
-		$columns = array(
-			'c1' => array(
-				'content' => $this->load->view('rooms/rooms_add', $this->data, TRUE),
-				'width' => '70%',
-			),
-			'c2' => array(
-				'content' => $this->load->view('rooms/rooms_add_side', $this->data, TRUE),
-				'width' => '30%',
-			),
-		);
-
-		$this->data['body'] = $this->load->view('columns', $columns, TRUE);
-
-		return $this->render();
+		$this->render('rooms/update');
 	}
 
 
-
-
 	/**
-	 * Save
+	 * Update a room
+	 *
+	 * @param int $id		ID of room to update
 	 *
 	 */
-	function save()
+	public function update($room_id = 0)
 	{
-		$this->require_auth_level(ADMINISTRATOR);
+		$room = $this->find_room($room_id);
 
-		$room_id = $this->input->post('room_id');
+		$this->data['room'] = $room;
 
-		$this->load->library('form_validation');
+		$this->data['menu_active'] = 'admin/rooms/update';
+		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
+		$this->data['breadcrumbs'][] = array('rooms', lang('rooms_page_index'));
+		$this->data['breadcrumbs'][] = array("rooms/update/{$room->room_id}", lang('rooms_update_page_title'));
 
-		$this->form_validation->set_rules('room_id', 'ID', 'integer');
-		$this->form_validation->set_rules('name', 'Name', 'required|min_length[1]|max_length[20]');
-		$this->form_validation->set_rules('user_id', 'User', 'integer');
-		$this->form_validation->set_rules('location', 'Location', 'max_length[40]');
-		$this->form_validation->set_rules('notes', 'Notes', 'max_length[255]');
-		$this->form_validation->set_rules('bookable', 'Bookable', 'integer');
+		$this->init_form_elements();
 
-		if ($this->form_validation->run() == FALSE) {
-			return (empty($room_id) ? $this->add() : $this->edit($room_id));
+		$this->data['title'] = html_escape($room->name) . ': ' . lang('rooms_update_page_title');
+
+		$this->blocks['tabs'] = 'rooms/context/menu';
+
+		if ($this->input->post()) {
+			$this->save_room($room);
 		}
 
-		$room_data = array(
-			'name' => $this->input->post('name'),
-			'user_id' => $this->input->post('user_id'),
-			'location' => $this->input->post('location'),
-			'notes' => $this->input->post('notes'),
-			'bookable' => $this->input->post('bookable'),
-		);
+		$this->render('rooms/update');
+	}
 
-		if (empty($room_id)) {
 
-			$room_id = $this->rooms_model->add($room_data);
+	/**
+	 * Save changes to room: update or add new
+	 *
+	 * @param $room		room object if updating, NULL to add new room.
+	 *
+	 */
+	private function save_room($room = NULL)
+	{
+		$this->load->library('form_validation');
+		$this->load->config('form_validation', TRUE);
 
-			if ($room_id) {
-				$line = sprintf($this->lang->line('crbs_action_added'), $room_data['name']);
-				$flashmsg = msgbox('info', $line);
+		$rules = $this->config->item('rooms_add_update', 'form_validation');
+		$this->form_validation->set_rules($rules);
+
+		if ($this->form_validation->run() == FALSE) {
+			$this->notice('error', lang('error_form_validation'));
+			return;
+		}
+
+		$keys = [
+			'name',
+			'user_id',
+			'bookable',
+		];
+
+		$room_data = array_fill_safe($keys, $this->input->post());
+		$success = FALSE;
+
+		// Got a new photo?
+		$upload_data = $this->handle_upload('userfile');
+
+		if ($upload_data['success'] == FALSE) {
+			$this->notice('error', $upload_data['reason']);
+			return;
+		}
+
+		if (strlen($upload_data['filename']) || $this->input->post('delete_photo') == 1) {
+
+			$this->delete_photo();
+			$room_data['photo'] = '';
+
+			if (strlen($upload_data['filename'])) {
+				$room_data['photo'] = $upload_data['filename'];
+			}
+		}
+
+		if ($room !== NULL) {
+
+			// Update room
+			$res = $this->rooms_model->update($room_data, ['room_id' => $room->room_id]);
+			$id = $room->room_id;
+
+			if ($res) {
+				$success = TRUE;
+				$this->notice('success', lang('rooms_update_status_success'));
 			} else {
-				$line = sprintf($this->lang->line('crbs_action_dberror'), 'adding');
-				$flashmsg = msgbox('error', $line);
+				$this->notice('error', lang('rooms_update_status_error'));
 			}
 
 		} else {
 
-			if ($this->rooms_model->edit($room_id, $room_data)) {
-				$line = sprintf($this->lang->line('crbs_action_saved'), $room_data['name']);
-				$flashmsg = msgbox('info', $line);
+			// Add new room
+			$res = $this->rooms_model->insert($room_data);
+			$id = $res;
+
+			if ($res) {
+				$success = TRUE;
+				$this->notice('success', lang('rooms_add_status_success'));
 			} else {
-				$line = sprintf($this->lang->line('crbs_action_dberror'), 'editing');
-				$flashmsg = msgbox('error', $line);
+				$this->notice('error', lang('rooms_add_status_error'));
 			}
 
 		}
 
-		$this->session->set_flashdata('saved', $flashmsg);
-
-		// Process image things
-		//
-		$image_status = $this->process_image($room_id);
-		if ( ! $image_status) {
-			return (empty($room_id) ? $this->add() : $this->edit($room_id));
+		if ($success) {
+			redirect('rooms');
 		}
-
-		// Process field-related things
-		//
-		$fields_status = $this->process_fields($room_id);
-		if ( ! $fields_status) {
-			return (empty($room_id) ? $this->add() : $this->edit($room_id));
-		}
-
-		redirect('rooms');
 	}
 
 
 	/**
-	 * Handle the uploading of an image when saving a room.
+	 * Delete room
+	 *
+	 * @param integer $room_id		ID of room to delete
 	 *
 	 */
-	private function process_image($room_id = NULL)
+	public function delete($room_id = 0)
 	{
-		if (empty($room_id)) {
-			return TRUE;
+		$room = $this->find_room($room_id);
+
+		$this->data['room'] = $room;
+
+		$this->data['menu_active'] = 'admin/rooms/delete';
+		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
+		$this->data['breadcrumbs'][] = array('rooms', lang('rooms_page_index'));
+		$this->data['breadcrumbs'][] = array('rooms/delete', lang('rooms_delete_page_title'));
+
+		$this->data['title'] = html_escape($room->name) . ': ' . lang('rooms_delete_page_title');
+
+		$this->blocks['tabs'] = 'rooms/context/menu';
+
+		if ($this->input->post('room_id') == $room->room_id && $this->input->post('action') == 'delete') {
+
+			$res = $this->rooms_model->delete(['room_id' => $room->room_id]);
+			$success = FALSE;
+
+			if ($res) {
+				$this->notice('success', lang('rooms_delete_status_success'), [
+					'name' => $room->name,
+				]);
+			} else {
+				$this->notice('error', lang('rooms_delete_status_error'));
+			}
+
+			return redirect('rooms');
 		}
 
-		if ($this->input->post('photo_delete')) {
-			$this->rooms_model->delete_photo($room_id);
+		$this->render('rooms/delete');
+	}
+
+
+	private function init_form_elements()
+	{
+		$users = $this->users_model->find([
+			'sort' => 'username',
+			'limit' => NULL,
+		]);
+
+		$this->data['users'] = results_dropdown('user_id', function($user) {
+			return $user->username . ' (' . UserHelper::best_display_name($user) . ')';
+		}, $users, '');
+
+	}
+
+
+	private function find_room($id = 0, $include = [])
+	{
+		$default_inc = [];
+		$all_inc = array_merge($default_inc, $include);
+
+		$room = $this->rooms_model->find_one([
+			'room_id' => $id,
+			'include' => $all_inc,
+		]);
+
+		if ( ! $room) {
+			$this->render_error(array(
+				'http' => 404,
+				'title' => lang('not_found'),
+				'description' => lang('rooms_not_found'),
+			));
 		}
 
-		$has_image = (isset($_FILES['userfile'])
-		              && isset($_FILES['userfile']['name'])
-		              && ! empty($_FILES['userfile']['name']));
+		return $room;
+	}
 
-		if ( ! $has_image) {
-			return TRUE;
+
+
+	private function handle_upload($name)
+	{
+		$out = [
+			'success' => FALSE,
+			'reason' => '',
+			'filename' => '',
+		];
+
+		$has_file = (isset($_FILES[$name]) && isset($_FILES[$name]['name']) && ! empty($_FILES[$name]['name']));
+
+		if ( ! $has_file) {
+			$out['success'] = TRUE;
+			return $out;
 		}
 
-		// Upload config
-		//
-
-		$upload_config = array(
+		$upload_config = [
 			'upload_path' => FCPATH . 'uploads',
 			'allowed_types' => 'jpg|jpeg|png|gif',
-			'max_size' => $this->data['max_size_bytes'],
+			'max_width' => 2560,
+			'max_height' => 2560,
 			'encrypt_name' => TRUE,
-		);
+		];
 
 		$this->load->library('upload', $upload_config);
 
-		if ( ! $this->upload->do_upload()) {
-			$error = $this->upload->display_errors('','');
-			$this->session->set_flashdata('image_error', $error);
-			$image_error = $error;
-			return FALSE;
+		if ( ! $this->upload->do_upload($name)) {
+			// Not uploaded
+			$error = $this->upload->display_errors('', '');
+			if ($error !== 'You did not select a file to upload') {
+				$out['success'] = FALSE;
+				$out['reason'] = $error;
+				return $out;
+			}
+
+			$out['success'] = TRUE;
+			return $out;
 		}
 
 		// File uploaded
-		//
-
 		$upload_data = $this->upload->data();
 
-		$this->load->library('image_lib');
+		$width = 400;
 
-		$image_config = array(
-			'image_library' => 'gd2',
-			'source_image' => $upload_data['full_path'],
-			'maintain_ratio' => TRUE,
-			'width' => 1280,
-			'height' => 1280,
-			'master_dim' => 'auto',
-		);
+		if ($upload_data['image_width'] > $width) {
 
-		$this->image_lib->initialize($image_config);
+			// Resize
+			$this->load->library('image_lib');
 
-		$res = $this->image_lib->resize();
+			$image_config = array(
+				'image_library' => 'gd2',
+				'source_image' => $upload_data['full_path'],
+				'maintain_ratio' => TRUE,
+				'width' => $width,
+				'master_dim' => 'auto',
+			);
 
-		if ( ! $res) {
-			$this->session->set_flashdata('image_error', $this->image_lib->display_errors());
-			return FALSE;
+			$this->image_lib->initialize($image_config);
+
+			$res = $this->image_lib->resize();
+
+			if ( ! $res) {
+				$out['success'] = FALSE;
+				$out['reason'] = $this->image_lib->display_errors('', '');
+				return $out;
+			}
 		}
 
-		// Remove previous photo
-		$this->rooms_model->delete_photo($room_id);
-
-		// Update DB with new photo
-		$this->rooms_model->edit($room_id, array(
-			'photo' => $upload_data['file_name'],
-		));
-
-		return TRUE;
+		$out['success'] = TRUE;
+		$out['filename'] = $upload_data['file_name'];
+		return $out;
 	}
 
 
-	/**
-	 * Process the updating of field values when saving a room
-	 *
-	 */
-	private function process_fields($room_id = NULL)
+	private function delete_photo()
 	{
-		if (empty($room_id)) {
-			return TRUE;
-		}
-
-		$fieldvalues = array();
-		$fields = $this->rooms_model->GetFields();
-		$fields = (is_array($fields) ? $fields : array());
-
-		foreach ($fields as $field) {
-			$key = $field->field_id;
-			$value = $this->input->post("f{$key}");
-			$fieldvalues[ $key ] = $value;
-		}
-
-		return $this->rooms_model->save_field_values($room_id, $fieldvalues);
+		$photo = setting('photo');
+		@unlink(FCPATH . 'uploads/' . $photo);
+		return;
 	}
 
 
 
-
-	/**
-	 * Controller function to delete a room
-	 *
-	 */
-	function delete($id = NULL)
-	{
-		$this->require_auth_level(ADMINISTRATOR);
-
-		if ($this->input->post('id')) {
-			$this->rooms_model->delete($this->input->post('id'));
-			$flashmsg = msgbox('info', $this->lang->line('crbs_action_deleted'));
-			$this->session->set_flashdata('saved', $flashmsg);
-			redirect('rooms');
-		}
-
-		$this->data['action'] = 'rooms/delete';
-		$this->data['id'] = $id;
-		$this->data['cancel'] = 'rooms';
-		$this->data['text'] = 'If you delete this room, <strong>all bookings</strong> for this room will be <strong>permanently deleted</strong> as well.';
-
-		$row = $this->rooms_model->Get($id);
-		$this->data['title'] = 'Delete Room ('.html_escape($row->name).')';
-		$this->data['showtitle'] = $this->data['title'];
-		$this->data['body'] = $this->load->view('partials/deleteconfirm', $this->data, TRUE);
-
-		return $this->render();
-	}
-
+	// legacy
 
 
 
@@ -360,7 +366,7 @@ class Rooms extends MY_Controller
 
 
 
-	function fields()
+	function _fields()
 	{
 		$this->require_auth_level(ADMINISTRATOR);
 
@@ -377,7 +383,7 @@ class Rooms extends MY_Controller
 
 
 
-	function add_field()
+	function _add_field()
 	{
 		$this->require_auth_level(ADMINISTRATOR);
 
@@ -409,7 +415,7 @@ class Rooms extends MY_Controller
 	 * Controller function to handle an edit
 	 *
 	 */
-	function edit_field($id = NULL)
+	function _edit_field($id = NULL)
 	{
 		$this->require_auth_level(ADMINISTRATOR);
 
@@ -438,7 +444,7 @@ class Rooms extends MY_Controller
 
 
 
-	function save_field()
+	function _save_field()
 	{
 		$this->require_auth_level(ADMINISTRATOR);
 
@@ -482,7 +488,7 @@ class Rooms extends MY_Controller
 	 * Delete a field
 	 *
 	 */
-	function delete_field($id = NULL)
+	function _delete_field($id = NULL)
 	{
 		$this->require_auth_level(ADMINISTRATOR);
 

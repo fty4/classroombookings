@@ -111,7 +111,12 @@ function results_dropdown($id_key = '', $value_key = '', $results = array(), $de
 
 	foreach ($results as $row)
 	{
-		$out[ $row->$id_key ] = $row->$value_key;
+		if (is_callable($value_key)) {
+			$value = $value_key($row);
+		} else {
+			$value = $row->$value_key;
+		}
+		$out[ $row->$id_key ] = $value;
 	}
 
 	return $out;

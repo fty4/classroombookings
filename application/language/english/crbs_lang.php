@@ -19,6 +19,8 @@ $lang['max_file_size'] = 'Maximum file size';
 
 $lang['dismiss'] = 'Dismiss';
 
+$lang['max_file_size'] = 'Maximum file size: %s';
+
 
 
 // Legacy

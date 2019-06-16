@@ -1,26 +1,68 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Rooms_model extends CI_Model
+
+class Rooms_model extends MY_Model
 {
 
 
-	const FIELD_CHECKBOX = 'CHECKBOX';
-	const FIELD_SELECT = 'SELECT';
-	const FIELD_TEXT = 'TEXT';
-
-
-	public $options = array();
+	public $table = 'rooms';
+	public $primary_key = 'room_id';
 
 
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->options[self::FIELD_CHECKBOX] = 'Checkbox';
-		$this->options[self::FIELD_SELECT] = 'Dropdown list';
-		$this->options[self::FIELD_TEXT] = 'Text';
 	}
+
+
+	public function wake_values($row, $find_query = NULL)
+	{
+		$row->user = null;
+
+		if ($find_query) {
+
+			$include = $find_query->get_include();
+
+			if (in_array('user', $include)) {
+				$row = $this->populate_user($row);
+			}
+
+		}
+
+		return $row;
+	}
+
+
+	public function populate_user($row)
+	{
+		$this->load->model('users_model');
+
+		$user = $this->users_model->find_one([
+			'user_id' => $row->user_id,
+		]);
+
+		$row->user = $user;
+
+		return $row;
+	}
+
+
+	// const FIELD_CHECKBOX = 'CHECKBOX';
+	// const FIELD_SELECT = 'SELECT';
+	// const FIELD_TEXT = 'TEXT';
+
+	// public $options = array();
+
+
+	// public function __construct()
+	// {
+	// 	parent::__construct();
+
+	// 	$this->options[self::FIELD_CHECKBOX] = 'Checkbox';
+	// 	$this->options[self::FIELD_SELECT] = 'Dropdown list';
+	// 	$this->options[self::FIELD_TEXT] = 'Text';
+	// }
 
 
 
@@ -31,7 +73,7 @@ class Rooms_model extends CI_Model
 	 * @return				array				All items in table
 	 *
 	 */
-	function Get($room_id = NULL)
+	function _Get($room_id = NULL)
 	{
 		$this->db->select(
 			'rooms.*,'
@@ -70,7 +112,7 @@ class Rooms_model extends CI_Model
 	 * Gets all information on the room - joins all the fields as well
 	 *
 	 */
-	function GetInfo($room_id)
+	function _GetInfo($room_id)
 	{
 		$data = array();
 
@@ -124,7 +166,7 @@ class Rooms_model extends CI_Model
 	 * @return	mixed	object if result, false on no results
 	 *
 	 */
-	function GetByUser($user_id)
+	function _GetByUser($user_id)
 	{
 		$user_id = (int) $user_id;
 
@@ -146,7 +188,7 @@ class Rooms_model extends CI_Model
 
 
 
-	function add($data)
+	function _add($data)
 	{
 		// Run query to insert blank row
 		$this->db->insert('rooms', array('room_id' => NULL));
@@ -160,7 +202,7 @@ class Rooms_model extends CI_Model
 
 
 
-	function edit($room_id, $data)
+	function _edit($room_id, $data)
 	{
 		$this->db->where('room_id', $room_id);
 		$result = $this->db->update('rooms', $data);
@@ -181,7 +223,7 @@ class Rooms_model extends CI_Model
 	 * @param   int   $id   ID of room to delete
 	 *
 	 */
-	function delete($id)
+	function _delete($id)
 	{
 		$this->delete_photo($id);
 		$this->db->where('room_id', $id);
@@ -196,7 +238,7 @@ class Rooms_model extends CI_Model
 	 * Deletes a photo
 	 *
 	 */
-	function delete_photo($room_id)
+	function _delete_photo($room_id)
 	{
 		$row = $this->Get($room_id);
 		$photo = $row->photo;
@@ -217,7 +259,7 @@ class Rooms_model extends CI_Model
 	 * Get room fields
 	 *
 	 */
-	function GetFields($field_id = NULL)
+	function _GetFields($field_id = NULL)
 	{
 		$this->db->select('*');
 		$this->db->from('roomfields');
@@ -267,7 +309,7 @@ class Rooms_model extends CI_Model
 
 
 
-	function field_add($data)
+	function _field_add($data)
 	{
 		// Run query to insert blank row
 		$this->db->insert('roomfields', array('field_id' => NULL));
@@ -281,7 +323,7 @@ class Rooms_model extends CI_Model
 
 
 
-	function field_edit($field_id, $data)
+	function _field_edit($field_id, $data)
 	{
 		// We don't add the options column to the roomfields table, so get it then remove it from the array that gets added
 		$options = $data['options'];
@@ -323,7 +365,7 @@ class Rooms_model extends CI_Model
 	 * @param   int   $id   ID of field to delete
 	 *
 	 */
-	function field_delete($id)
+	function _field_delete($id)
 	{
 		$this->db->where('field_id', $id);
 		$this->db->delete('roomfields');
@@ -338,7 +380,7 @@ class Rooms_model extends CI_Model
 	 * Get options for a field
 	 *
 	 */
-	function GetOptions($field_id)
+	function _GetOptions($field_id)
 	{
 		$this->db->select('*');
 		$this->db->from('roomoptions');
@@ -361,7 +403,7 @@ class Rooms_model extends CI_Model
 	 * Delete all options for a given field
 	 *
 	 */
-	function delete_field_options($field_id)
+	function _delete_field_options($field_id)
 	{
 		$this->db->where('field_id', $field_id);
 		return $this->db->delete('roomoptions');
@@ -371,7 +413,7 @@ class Rooms_model extends CI_Model
 
 
 
-	function save_field_values($room_id, $data)
+	function _save_field_values($room_id, $data)
 	{
 		$this->db->where('room_id', $room_id);
 		$this->db->delete('roomvalues');
@@ -390,7 +432,7 @@ class Rooms_model extends CI_Model
 
 
 
-	function GetFieldValues($room_id)
+	function _GetFieldValues($room_id)
 	{
 		$this->db->select('field_id, value');
 		$this->db->from('roomvalues');

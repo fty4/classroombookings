@@ -3818,3 +3818,6 @@ body {
     border-color: #66758c;
     color: #fff;
     text-decoration: none; }
+
+.popover .popover-container {
+  transition: none; }
