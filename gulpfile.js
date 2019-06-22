@@ -20,8 +20,10 @@ var paths = {
 			"node_modules/jquery/dist/jquery.js",
 			"node_modules/intercooler/src/intercooler.js",
 			"application/assets/src/js/crbs.js",
+			"application/assets/src/js/form-toggles.js",
 			"application/assets/src/js/settings-visual.js",
 			"application/assets/src/js/academic-year.js",
+			"application/assets/src/js/fields-update.js",
 		],
 		dist: "application/assets/dist"
 	}
