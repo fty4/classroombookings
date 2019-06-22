@@ -182,7 +182,7 @@ function form_group($params = [])
 			$right .= $error_el . "\n";
 			$right .= "</div>";
 
-			$group_el = "<div class='{$data['group_class']}'>\n";
+			$group_el = "<div class='{$data['group_class']}' data-field='{$data['field']}'>\n";
 			$group_el .= $left;
 			$group_el .= $right;
 			$group_el .= "</div>\n";

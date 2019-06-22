@@ -1,7 +1,7 @@
 <?php
 
 $table = \Jupitern\Table\Table::instance();
-$table->attr('class', 'table');
+$table->attr('table', 'class', 'table');
 $table->setData($holidays);
 
 $table->column()
@@ -9,7 +9,7 @@ $table->column()
 	->value(function($holiday) {
 		return anchor('holidays/update/' . $holiday->holiday_id, html_escape($holiday->name));
 	})
-	->attr('class', 'table-title-cell')
+	->attr('td', 'class', 'table-title-cell')
 	->add();
 
 $table->column()

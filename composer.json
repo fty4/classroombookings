@@ -8,14 +8,8 @@
 		"php": ">=5.5.0",
 		"codeigniter/framework": "^3",
 		"pixelrobin/php-feather": "^1.0",
-		"jupitern/table": "dev-master"
+		"jupitern/table": "^2"
 	},
-	"repositories": [
-		{
-			"type": "vcs",
-			"url": "https://github.com/craigrodway/table.git"
-		}
-	],
 	"license": "AGPLv3",
 	"authors": [
 		{

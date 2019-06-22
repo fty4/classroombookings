@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e8c2672f083ef00fd8da9fb634996c55",
+    "content-hash": "877d66ff04b7e892ddf96d0cdf405894",
     "packages": [
         {
             "name": "codeigniter/framework",
@@ -41,20 +41,21 @@
         },
         {
             "name": "jupitern/table",
-            "version": "dev-master",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/craigrodway/table.git",
-                "reference": "b4c3cf4ca83115bb8de220776940d5e236d33a1d"
+                "url": "https://github.com/jupitern/table.git",
+                "reference": "7d58739c2988d104b36e801da05a5cf8a212f827"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/craigrodway/table/zipball/b4c3cf4ca83115bb8de220776940d5e236d33a1d",
-                "reference": "b4c3cf4ca83115bb8de220776940d5e236d33a1d",
+                "url": "https://api.github.com/repos/jupitern/table/zipball/7d58739c2988d104b36e801da05a5cf8a212f827",
+                "reference": "7d58739c2988d104b36e801da05a5cf8a212f827",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4"
+                "ext-json": "*",
+                "php": ">=5.6"
             },
             "type": "library",
             "autoload": {
@@ -62,9 +63,7 @@
                     "Jupitern\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": []
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -78,18 +77,14 @@
             "description": "HTML table generation for PHP. integrates with your favourite orm and js library",
             "homepage": "https://github.com/jupitern/table",
             "keywords": [
-                "ORM",
                 "PHP html table generation",
-                "UI",
-                "dataTables",
+                "datatables",
                 "framework",
-                "jQuery"
+                "jquery",
+                "orm",
+                "ui"
             ],
-            "support": {
-                "source": "https://github.com/jupitern/table",
-                "issues": "https://github.com/jupitern/table/issues"
-            },
-            "time": "2019-06-15T10:44:29+00:00"
+            "time": "2019-06-19T16:44:28+00:00"
         },
         {
             "name": "pixelrobin/php-feather",
@@ -140,9 +135,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "jupitern/table": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

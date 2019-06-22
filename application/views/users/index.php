@@ -1,7 +1,7 @@
 <?php
 
 $table = \Jupitern\Table\Table::instance();
-$table->attr('class', 'table');
+$table->attr('table', 'class', 'table');
 $table->setData($users);
 
 $table->column()
@@ -9,7 +9,7 @@ $table->column()
 	->value(function($user) {
 		return anchor('users/view/' . $user->user_id, html_escape($user->username));
 	})
-	->attr('class', 'table-title-cell')
+	->attr('td', 'class', 'table-title-cell')
 	->add();
 
 $table->column()

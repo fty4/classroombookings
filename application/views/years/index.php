@@ -1,7 +1,7 @@
 <?php
 
 $table = \Jupitern\Table\Table::instance();
-$table->attr('class', 'table');
+$table->attr('table', 'class', 'table');
 $table->setData($years);
 
 $table->column()
@@ -9,7 +9,7 @@ $table->column()
 	->value(function($year) {
 		return anchor('academic_years/view/' . $year->year_id, html_escape($year->name));
 	})
-	->attr('class', 'table-title-cell')
+	->attr('td', 'class', 'table-title-cell')
 	->add();
 
 $table->column()

@@ -1,7 +1,7 @@
 <?php
 
 $table = \Jupitern\Table\Table::instance();
-$table->attr('class', 'table');
+$table->attr('table', 'class', 'table');
 $table->setData($periods);
 
 $table->column()
@@ -9,12 +9,12 @@ $table->column()
 	->value(function($period) {
 		return anchor('periods/update/' . $period->period_id, html_escape($period->name));
 	})
-	->attr('class', 'table-title-cell')
+	->attr('td', 'class', 'table-title-cell')
 	->add();
 
 $table->column()
 	->title(lang('period_field_time_start'))
-	->css('width', '15%', true)
+	->css('td', 'width', '15%', true)
 	->value(function($period) {
 		return nice_date($period->time_start, 'H:i');
 	})
@@ -22,7 +22,7 @@ $table->column()
 
 $table->column()
 	->title(lang('period_field_time_end'))
-	->css('width', '15%', true)
+	->css('td', 'width', '15%', true)
 	->value(function($period) {
 		return nice_date($period->time_end, 'H:i');
 	})
@@ -30,7 +30,7 @@ $table->column()
 
 $table->column()
 	->title(lang('period_field_days'))
-	->css('width', '35%', true)
+	->css('td', 'width', '35%', true)
 	->value(function($period) use ($days) {
 		$week = [];
 		foreach ($days as $day_num) {
@@ -50,7 +50,7 @@ $table->column()
 
 $table->column()
 	->title(lang('period_field_bookable'))
-	->css('width', '15%')
+	->css('td', 'width', '15%')
 	->value(function($period) {
 		if ($period->bookable) {
 			return PeriodHelper::bookable_chip($period);
@@ -58,7 +58,7 @@ $table->column()
 	})
 	->add();
 
-$table->rowAttr('data-tag', function($period) use ($days) {
+$table->attr('tr', 'data-tag', function($period) use ($days) {
 	$tags = [];
 	foreach ($days as $day_num) {
 		$prop = "day_{$day_num}";
@@ -70,7 +70,7 @@ $table->rowAttr('data-tag', function($period) use ($days) {
 	return implode(' ', $tags);
 });
 
-$table->rowAttr('class', 'filter-item');
+$table->attr('tr', 'class', 'filter-item');
 
 $content = $table->render(true);
 

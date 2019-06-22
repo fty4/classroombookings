@@ -1,7 +1,7 @@
 <?php
 
 $table = \Jupitern\Table\Table::instance();
-$table->attr('class', 'table');
+$table->attr('table', 'class', 'table');
 $table->setData($rooms);
 
 $table->column()
@@ -9,7 +9,7 @@ $table->column()
 	->value(function($room) {
 		return anchor('rooms/update/' . $room->room_id, html_escape($room->name));
 	})
-	->attr('class', 'table-title-cell')
+	->attr('td', 'class', 'table-title-cell')
 	->add();
 
 $table->column()
@@ -24,7 +24,7 @@ $table->column()
 
 $table->column()
 	->title(lang('room_field_photo'))
-	->css('width', '15%')
+	->css('td', 'width', '15%')
 	->value(function($room) {
 		$icon = icon('image');
 		return RoomHelper::photo_popover($room, $icon);
@@ -33,7 +33,7 @@ $table->column()
 
 $table->column()
 	->title(lang('room_field_bookable'))
-	->css('width', '15%')
+	->css('td', 'width', '15%')
 	->value(function($room) {
 		if ($room->bookable) {
 			return RoomHelper::bookable_chip($room);
