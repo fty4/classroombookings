@@ -199,7 +199,7 @@ window.crbs = (function($) {
 
 	function initDataMethods() {
 		var handler = function (event) {
-			console.log("handle");
+			// console.log("handle");
 			var $this = $(this),
 				method = $this.data('method'),
 				message = $this.data('confirm');

@@ -12827,7 +12827,7 @@ window.crbs = (function($) {
 
 	function initDataMethods() {
 		var handler = function (event) {
-			console.log("handle");
+			// console.log("handle");
 			var $this = $(this),
 				method = $this.data('method'),
 				message = $this.data('confirm');
@@ -12873,6 +12873,39 @@ window.jQuery(function() {
 	window.crbs.initModule(window.crbs);
 });
 
+window.crbs.formToggles = (function($) {
+
+	var pub = {
+
+		isActive: true,
+
+		hideField: function($form, input) {
+			$form.find(input).hide();
+		},
+
+		showField: function($form, input) {
+			$form.find(input).show();
+		},
+
+		disableField: function($form, input) {
+			$form.find(input)
+				.prop("checked", false)
+				.removeAttr("checked")
+				.prop("disabled", true);
+		},
+
+		enableField: function($form, input) {
+			$form.find(input)
+				.prop("disabled", false)
+				.removeAttr("disabled");
+		}
+
+	};
+
+	return pub;
+
+})(window.jQuery);
+
 window.crbs.settingsVisual = (function($) {
 
 	var pub = {
@@ -12885,48 +12918,48 @@ window.crbs.settingsVisual = (function($) {
 	};
 
 	// Handle for form
-	var $from;
+	var $settingsFrom = null,
+		formToggles = window.crbs.formToggles;
+
 
 	function initShowIf() {
-		$form = $("form[data-form='settings_visual']");
-		$form.on('change', "input[name='displaytype']", toggleDisplayAxis);
+		$settingsFrom = $("form[data-form='settings_visual']");
+		$settingsFrom.on('change', "input[name='displaytype']", toggleDisplayAxis);
 		toggleDisplayAxis();
 	}
 
 	function toggleDisplayAxis() {
-		var checkedVal = $form.find("input[name='displaytype']:checked").val();
+		var checkedVal = $settingsFrom.find("input[name='displaytype']:checked").val();
+
 		switch (checkedVal) {
 			case 'day':
-				enableField("input[data-name='d_columns'][data-value='periods']");
-				enableField("input[data-name='d_columns'][data-value='rooms']");
-				disableField("input[data-name='d_columns'][data-value='days']");
+				formToggles.enableField($settingsFrom, "input[data-name='d_columns'][data-value='periods']");
+				formToggles.enableField($settingsFrom, "input[data-name='d_columns'][data-value='rooms']");
+				formToggles.disableField($settingsFrom, "input[data-name='d_columns'][data-value='days']");
 			break;
 			case 'room':
-				enableField("input[data-name='d_columns'][data-value='periods']");
-				enableField("input[data-name='d_columns'][data-value='days']");
-				disableField("input[data-name='d_columns'][data-value='rooms']");
+				formToggles.enableField($settingsFrom, "input[data-name='d_columns'][data-value='periods']");
+				formToggles.enableField($settingsFrom, "input[data-name='d_columns'][data-value='days']");
+				formToggles.disableField($settingsFrom, "input[data-name='d_columns'][data-value='rooms']");
 			break;
 		}
-	}
-
-	function disableField(input) {
-		$form.find(input)
-			.prop("checked", false)
-			.removeAttr("checked")
-			.prop("disabled", true);
-	}
-
-	function enableField(input) {
-		$form.find(input)
-			.prop("disabled", false)
-			.removeAttr("disabled");
 	}
 
 	return pub;
 
 })(window.jQuery);
 
-(function AcademicYear(window, document, $) {
+window.crbs.academicYear = (function($) {
+
+	var pub = {
+
+		isActive: true,
+
+		init: function() {
+			initAcademicYear();
+		}
+
+	};
 
 
 	var $document = $(document),
@@ -12937,32 +12970,9 @@ window.crbs.settingsVisual = (function($) {
 		dates = {};
 
 
-	function init(event) {
-		findElements();
-		run();
-	}
-
-
-	$document.ready(init);
-
-
-	//
-
-
-	function findElements() {
+	function initAcademicYear() {
 
 		$yearCalendar = $("[data-ui='year_calendar']");
-
-		// $yearCalendar.find("[data-ui='calendar_date']").each(function(a, b) {
-		// 	var data = $(this).data();
-		// 	dates[data.date] = data;
-		// });
-		// console.log(dates);
-
-	}
-
-
-	function run() {
 
 		if ( ! $yearCalendar) {
 			return;
@@ -12973,6 +12983,7 @@ window.crbs.settingsVisual = (function($) {
 
 		setupHandlers();
 	}
+
 
 
 	function processWeeks() {
@@ -13054,5 +13065,41 @@ window.crbs.settingsVisual = (function($) {
 		}
 	}
 
+	return pub;
 
-})(window, document, jQuery);
+})(window.jQuery);
+
+window.crbs.fieldsUpdate = (function($) {
+
+	var pub = {
+
+		isActive: true,
+
+		init: function() {
+			initShowIf();
+		},
+	};
+
+	// Handle for form
+	var $fieldsForm,
+		formToggles = window.crbs.formToggles;
+
+	function initShowIf() {
+		$fieldsForm = $("form[data-form='field_update']");
+		$fieldsForm.on('change', "input[name='type']", toggleOptions);
+		toggleOptions();
+	}
+
+	function toggleOptions() {
+		var target = '[data-field="options"]';
+		var checkedVal = $fieldsForm.find("input[name='type']:checked").val();
+		if (checkedVal == 'LS') {
+			formToggles.showField($fieldsForm, target);
+		} else {
+			formToggles.hideField($fieldsForm, target);
+		}
+	}
+
+	return pub;
+
+})(window.jQuery);

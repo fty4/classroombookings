@@ -10,41 +10,31 @@ window.crbs.settingsVisual = (function($) {
 	};
 
 	// Handle for form
-	var $from;
+	var $settingsFrom = null,
+		formToggles = window.crbs.formToggles;
+
 
 	function initShowIf() {
-		$form = $("form[data-form='settings_visual']");
-		$form.on('change', "input[name='displaytype']", toggleDisplayAxis);
+		$settingsFrom = $("form[data-form='settings_visual']");
+		$settingsFrom.on('change', "input[name='displaytype']", toggleDisplayAxis);
 		toggleDisplayAxis();
 	}
 
 	function toggleDisplayAxis() {
-		var checkedVal = $form.find("input[name='displaytype']:checked").val();
+		var checkedVal = $settingsFrom.find("input[name='displaytype']:checked").val();
+
 		switch (checkedVal) {
 			case 'day':
-				enableField("input[data-name='d_columns'][data-value='periods']");
-				enableField("input[data-name='d_columns'][data-value='rooms']");
-				disableField("input[data-name='d_columns'][data-value='days']");
+				formToggles.enableField($settingsFrom, "input[data-name='d_columns'][data-value='periods']");
+				formToggles.enableField($settingsFrom, "input[data-name='d_columns'][data-value='rooms']");
+				formToggles.disableField($settingsFrom, "input[data-name='d_columns'][data-value='days']");
 			break;
 			case 'room':
-				enableField("input[data-name='d_columns'][data-value='periods']");
-				enableField("input[data-name='d_columns'][data-value='days']");
-				disableField("input[data-name='d_columns'][data-value='rooms']");
+				formToggles.enableField($settingsFrom, "input[data-name='d_columns'][data-value='periods']");
+				formToggles.enableField($settingsFrom, "input[data-name='d_columns'][data-value='days']");
+				formToggles.disableField($settingsFrom, "input[data-name='d_columns'][data-value='rooms']");
 			break;
 		}
-	}
-
-	function disableField(input) {
-		$form.find(input)
-			.prop("checked", false)
-			.removeAttr("checked")
-			.prop("disabled", true);
-	}
-
-	function enableField(input) {
-		$form.find(input)
-			.prop("disabled", false)
-			.removeAttr("disabled");
 	}
 
 	return pub;

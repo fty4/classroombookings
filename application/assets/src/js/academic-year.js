@@ -1,4 +1,14 @@
-(function AcademicYear(window, document, $) {
+window.crbs.academicYear = (function($) {
+
+	var pub = {
+
+		isActive: true,
+
+		init: function() {
+			initAcademicYear();
+		}
+
+	};
 
 
 	var $document = $(document),
@@ -9,32 +19,9 @@
 		dates = {};
 
 
-	function init(event) {
-		findElements();
-		run();
-	}
-
-
-	$document.ready(init);
-
-
-	//
-
-
-	function findElements() {
+	function initAcademicYear() {
 
 		$yearCalendar = $("[data-ui='year_calendar']");
-
-		// $yearCalendar.find("[data-ui='calendar_date']").each(function(a, b) {
-		// 	var data = $(this).data();
-		// 	dates[data.date] = data;
-		// });
-		// console.log(dates);
-
-	}
-
-
-	function run() {
 
 		if ( ! $yearCalendar) {
 			return;
@@ -45,6 +32,7 @@
 
 		setupHandlers();
 	}
+
 
 
 	function processWeeks() {
@@ -126,5 +114,6 @@
 		}
 	}
 
+	return pub;
 
-})(window, document, jQuery);
+})(window.jQuery);
