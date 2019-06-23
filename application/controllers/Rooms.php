@@ -19,9 +19,11 @@ class Rooms extends MY_Controller
 
 		$this->load->model('rooms_model');
 		$this->load->model('users_model');
+		$this->load->model('fields_model');
 		$this->load->helper('room');
 		$this->load->helper('user');
 		$this->load->helper('number');
+		$this->load->helper('field');
 
 		$this->data['max_size_bytes'] = max_upload_file_size();
 		$this->data['max_size_human'] = byte_format(max_upload_file_size());
@@ -62,6 +64,8 @@ class Rooms extends MY_Controller
 	function add()
 	{
 		$this->data['room'] = NULL;
+
+		$this->data['custom_fields'] = $this->fields_model->get_field_values('RM');
 
 		$this->data['menu_active'] = 'admin/rooms/add';
 		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
@@ -125,6 +129,8 @@ class Rooms extends MY_Controller
 		$this->load->config('form_validation', TRUE);
 
 		$rules = $this->config->item('rooms_add_update', 'form_validation');
+		$custom_rules = $this->fields_model->get_validation_rules('RM');
+		$rules = array_merge($rules, $custom_rules);
 		$this->form_validation->set_rules($rules);
 
 		if ($this->form_validation->run() == FALSE) {
@@ -136,6 +142,7 @@ class Rooms extends MY_Controller
 			'name',
 			'user_id',
 			'bookable',
+			'custom_fields',
 		];
 
 		$room_data = array_fill_safe($keys, $this->input->post());
@@ -244,13 +251,12 @@ class Rooms extends MY_Controller
 		$this->data['users'] = results_dropdown('user_id', function($user) {
 			return $user->username . ' (' . UserHelper::best_display_name($user) . ')';
 		}, $users, '');
-
 	}
 
 
 	private function find_room($id = 0, $include = [])
 	{
-		$default_inc = [];
+		$default_inc = ['custom_fields'];
 		$all_inc = array_merge($default_inc, $include);
 
 		$room = $this->rooms_model->find_one([
@@ -268,7 +274,6 @@ class Rooms extends MY_Controller
 
 		return $room;
 	}
-
 
 
 	private function handle_upload($name)
@@ -350,168 +355,6 @@ class Rooms extends MY_Controller
 		@unlink(FCPATH . 'uploads/' . $photo);
 		return;
 	}
-
-
-
-	// legacy
-
-
-
-	/**
-	 * Fields
-	 *
-	 */
-
-
-
-
-
-	function _fields()
-	{
-		$this->require_auth_level(ADMINISTRATOR);
-
-		$this->data['options_list'] = $this->rooms_model->options;
-		$this->data['fields'] = $this->rooms_model->GetFields();
-		$this->data['title'] = 'Room Fields';
-		$this->data['showtitle'] = 'Custom Fields';
-		$this->data['body'] = $this->load->view('rooms/fields/index', $this->data, TRUE);
-
-		return $this->render();
-	}
-
-
-
-
-
-	function _add_field()
-	{
-		$this->require_auth_level(ADMINISTRATOR);
-
-		$this->data['options_list'] = $this->rooms_model->options;
-
-		$this->data['title'] = 'Add Field';
-		$this->data['showtitle'] = $this->data['title'];
-
-		$columns = array(
-			'c1' => array(
-				'content'=> $this->load->view('rooms/fields/add', $this->data, TRUE),
-				'width' => '70%',
-			),
-			'c2' => array(
-				'content' => '',
-				'width' => '30%',
-			),
-		);
-
-		$this->data['body'] = $this->load->view('columns', $columns, TRUE);
-
-		return $this->render();
-	}
-
-
-
-
-	/**
-	 * Controller function to handle an edit
-	 *
-	 */
-	function _edit_field($id = NULL)
-	{
-		$this->require_auth_level(ADMINISTRATOR);
-
-		$this->data['field'] = $this->rooms_model->GetFields($id);
-		$this->data['options_list'] = $this->rooms_model->options;
-
-		$this->data['title'] = 'Edit Field';
-		$this->data['showtitle'] = $this->data['title'];
-
-		$columns = array(
-			'c1' => array(
-				'content'=> $this->load->view('rooms/fields/add', $this->data, TRUE),
-				'width' => '70%',
-			),
-			'c2' => array(
-				'content' => '',
-				'width' => '30%',
-			),
-		);
-
-		$this->data['body'] = $this->load->view('columns', $columns, TRUE);
-
-		return $this->render();
-	}
-
-
-
-
-	function _save_field()
-	{
-		$this->require_auth_level(ADMINISTRATOR);
-
-		// Get ID from form
-		$field_id = $this->input->post('field_id');
-
-		$this->load->library('form_validation');
-
-		$this->form_validation->set_rules('field_id', 'ID', 'integer');
-		$this->form_validation->set_rules('name', 'Name', 'required|min_length[1]|max_length[64]');
-		$this->form_validation->set_rules('options', 'Items', '');
-
-		if ($this->form_validation->run() == FALSE){
-			return (empty($field_id) ? $this->add_field() : $this->edit_field($field_id));
-		}
-
-		// Validation succeeded!
-		$field_data = array(
-			'name' => $this->input->post('name'),
-			'type' => $this->input->post('type'),
-			'options' => $this->input->post('options'),
-		);
-
-		if (empty($field_id)) {
-			$field_id = $this->rooms_model->field_add($field_data);
-			$flashmsg = msgbox('info', "The {$field_data['name']} field has been added.");
-		} else {
-			$this->rooms_model->field_edit($field_id, $field_data);
-			$flashmsg = msgbox('info', "The {$field_data['name']} field has been updated.");
-		}
-
-		$this->session->set_flashdata('saved', $flashmsg, TRUE);
-		redirect('rooms/fields');
-	}
-
-
-
-
-
-	/**
-	 * Delete a field
-	 *
-	 */
-	function _delete_field($id = NULL)
-	{
-		$this->require_auth_level(ADMINISTRATOR);
-
-		if ($this->input->post('id')) {
-			$this->rooms_model->field_delete($this->input->post('id'));
-			$flashmsg = msgbox('info', $this->lang->line('crbs_action_deleted'));
-			return redirect('rooms/fields');
-		}
-
-		$this->data['action'] = 'rooms/delete_field';
-		$this->data['id'] = $id;
-		$this->data['cancel'] = 'rooms/fields';
-
-		$row = $this->rooms_model->GetFields($id);
-		$this->data['title'] = 'Delete Field ('.html_escape($row->name).')';
-		$this->data['showtitle'] = $this->data['title'];
-		$this->data['body'] = $this->load->view('partials/deleteconfirm', $this->data, TRUE);
-
-		return $this->render();
-	}
-
-
-
 
 
 }

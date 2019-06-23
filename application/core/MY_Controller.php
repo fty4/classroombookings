@@ -89,6 +89,7 @@ class MY_Controller extends CI_Controller
 	public function require_logged_in()
 	{
 		if ( ! $this->userauth->loggedin()) {
+			$_SESSION['redirect_uri'] = $this->uri->uri_string();
 			redirect('user/login');
 		}
 	}

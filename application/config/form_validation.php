@@ -14,4 +14,5 @@ $config['years_add_update'] = require("validation_rules/years_add_update.php");
 $config['holidays_add_update'] = require("validation_rules/holidays_add_update.php");
 $config['periods_add_update'] = require("validation_rules/periods_add_update.php");
 $config['rooms_add_update'] = require("validation_rules/rooms_add_update.php");
+$config['fields_add_update'] = require("validation_rules/fields_add_update.php");
 

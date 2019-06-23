@@ -13093,7 +13093,8 @@ window.crbs.fieldsUpdate = (function($) {
 	function toggleOptions() {
 		var target = '[data-field="options"]';
 		var checkedVal = $fieldsForm.find("input[name='type']:checked").val();
-		if (checkedVal == 'LS') {
+		var hiddenValue = $fieldsForm.find("input[type='hidden'][name='type']").val();
+		if (checkedVal == 'select' || hiddenValue == 'select') {
 			formToggles.showField($fieldsForm, target);
 		} else {
 			formToggles.hideField($fieldsForm, target);

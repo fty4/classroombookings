@@ -144,6 +144,31 @@ echo form_fieldset([
 ]);
 
 
+// Custom fields
+//
+
+$custom_fields = empty($room) ? $custom_fields : $room->custom_fields;
+if ( ! empty($custom_fields)) {
+
+	$fields = [];
+
+	foreach ($custom_fields as $custom_field) {
+
+		$group_data = FieldHelper::custom_field_group($custom_field);
+		$group_data['layout'] = $layout;
+
+		$fields[] = form_group($group_data);
+
+	}
+
+	echo form_fieldset([
+		'title' => 'Custom fields',
+		'content' => implode("\n", $fields),
+	]);
+
+}
+
+
 
 
 $submit_button = form_button([

@@ -168,7 +168,12 @@ class User extends MY_Controller
 				// Validation passed.
 				if ($this->userauth->trylogin($this->input->post('username'), $this->input->post('password'))) {
 					$this->notice("success", lang('user_login_form_success'));
-					redirect();
+					$uri = '';
+					if (isset($_SESSION['redirect_uri'])) {
+						$uri = $_SESSION['redirect_uri'];
+						unset($_SESSION['redirect_uri']);
+					}
+					redirect($uri);
 				} else {
 					// $this->notice('error', "Incorrect username/password");
 				}
