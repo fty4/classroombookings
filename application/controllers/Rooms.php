@@ -143,6 +143,7 @@ class Rooms extends MY_Controller
 			'user_id',
 			'bookable',
 			'custom_fields',
+			'booking_field_ids',
 		];
 
 		$room_data = array_fill_safe($keys, $this->input->post());
@@ -251,12 +252,15 @@ class Rooms extends MY_Controller
 		$this->data['users'] = results_dropdown('user_id', function($user) {
 			return $user->username . ' (' . UserHelper::best_display_name($user) . ')';
 		}, $users, '');
+
+		$fields_bookings = $this->fields_model->fields_by_entity('BK');
+		$this->data['fields_bookings'] = results_dropdown('field_id', 'title', $fields_bookings);
 	}
 
 
 	private function find_room($id = 0, $include = [])
 	{
-		$default_inc = ['custom_fields'];
+		$default_inc = ['custom_fields', 'fields_bookings'];
 		$all_inc = array_merge($default_inc, $include);
 
 		$room = $this->rooms_model->find_one([

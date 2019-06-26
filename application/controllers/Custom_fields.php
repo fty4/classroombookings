@@ -21,6 +21,7 @@ class Custom_fields extends MY_Controller
 		$this->require_auth_level(ADMINISTRATOR);
 
 		$this->load->model('fields_model');
+		$this->load->model('rooms_model');
 
 		$this->load->helper('field');
 		$this->load->helper('url');
@@ -65,6 +66,7 @@ class Custom_fields extends MY_Controller
 		$this->init_form_elements();
 
 		$this->data['custom_field'] = NULL;
+		$this->data['position'] = $this->fields_model->get_next_position();
 
 		$this->data['menu_active'] = 'admin/fields/add';
 		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
@@ -92,6 +94,8 @@ class Custom_fields extends MY_Controller
 	public function update($field_id = 0)
 	{
 		$field = $this->find_field($field_id);
+
+		$this->init_form_elements();
 
 		$this->data['custom_field'] = $field;
 
@@ -139,6 +143,7 @@ class Custom_fields extends MY_Controller
 			'required',
 			'hint',
 			'position',
+			'room_ids',
 		];
 
 		$field_data = array_fill_safe($keys, $this->input->post());
@@ -227,12 +232,18 @@ class Custom_fields extends MY_Controller
 	{
 		$this->data['entity_options'] = $this->fields_model->get_entities();
 		$this->data['type_options'] = $this->fields_model->get_types();
+
+		$rooms = $this->rooms_model->find([
+			'limit' => NULL,
+			'sort' => 'name',
+		]);
+		$this->data['rooms'] = results_dropdown('room_id', 'name', $rooms);
 	}
 
 
 	private function find_field($id = 0, $include = [])
 	{
-		$default_inc = [];
+		$default_inc = ['rooms'];
 		$all_inc = array_merge($default_inc, $include);
 
 		$field = $this->fields_model->find_one([

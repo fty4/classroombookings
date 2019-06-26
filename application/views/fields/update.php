@@ -105,12 +105,17 @@ if (empty($custom_field)) {
 	}
 }
 
+$style = '';
+if ( ! $custom_field || $custom_field->type !== 'select') {
+	$style = "display:none";
+}
 $fields[] = form_group([
 	'layout' => $layout,
 	'size' => '',
 	'field' => $field,
 	'label' => $label,
 	'hint' => $hint,
+	'group_attrs' => "style='{$style}'",
 	'input' => form_textarea([
 		'class' => 'form-input',
 		'name' => $field,
@@ -171,7 +176,8 @@ $fields[] = form_group([
 $field = 'position';
 $label = lang("field_field_{$field}");
 $hint = lang("field_field_hint_{$field}");
-$value = set_value($field, get_property($field, $custom_field), FALSE);
+$position = isset($position) ? $position : 0;
+$value = set_value($field, get_property($field, $custom_field, $position), FALSE);
 
 $fields[] = form_group([
 	'layout' => $layout,
@@ -197,6 +203,41 @@ echo form_fieldset([
 	'content' => implode("\n", $fields),
 ]);
 
+
+// Rooms
+//
+
+$fields = [];
+
+$field = 'room_ids';
+$field_rooms = get_property('rooms', $custom_field, []);
+$field_room_ids = array_column($field_rooms, 'room_id');
+$value = set_value($field, $field_room_ids, FALSE);
+$label = 'Rooms';
+$hint = '';
+
+$fields[] = form_group([
+	'layout' => $layout,
+	'size' => '',
+	'field' => $field,
+	'label' => $label,
+	'hint' => $hint,
+	'input' => form_check_list([
+		'options' => $rooms,
+		'columns' => 1,
+		'name' => "{$field}",
+		'value' => $value,
+	]),
+]);
+
+
+echo form_fieldset([
+	'title' => 'Applicable rooms',
+	// 'subtitle' => 'Choose which custom fields for Bookings will be displayed when making bookings in this room.',
+	'subtitle' => "This custom field can be turned on or off depending on the room being booked.\n\nSpecify which rooms will display this field when a booking is being made in it.",
+	'content' => implode("\n", $fields),
+	'attrs' => 'data-fieldset="rooms"',
+]);
 
 
 

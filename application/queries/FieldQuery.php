@@ -35,6 +35,13 @@ class FieldQuery extends BaseQuery
 	{
 		$joins = [];
 
+		foreach ($this->data as $k => $v) {
+			if (preg_match('/^link_fields_rooms\./', $k)) {
+				$joins[] = 'LEFT JOIN link_fields_rooms USING (field_id)';
+				break;
+			}
+		}
+
 		foreach ($this->fields as $field) {
 
 			switch ($field->entity) {

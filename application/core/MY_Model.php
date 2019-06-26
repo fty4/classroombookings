@@ -238,4 +238,43 @@ class MY_Model extends CI_Model
 	}
 
 
+	public function set_link_table($params = [])
+	{
+		$defaults = [
+			'table' => '',
+			'local_field' => '',
+			'local_value' => '',
+			'foreign_field' => '',
+			'values' => [],
+		];
+
+		$data = array_merge($defaults, $params);
+		extract($data);
+
+		if (empty($table) || empty($local_field) || empty($local_value) || empty($foreign_field)) {
+			return FALSE;
+		}
+
+		$this->db->delete($table, [$local_field => $local_value]);
+
+		if ( ! is_array($values)) {
+			$values = [];
+		}
+
+		$inserts = [];
+		foreach ($values as $v) {
+			$inserts[] = [
+				$local_field => $local_value,
+				$foreign_field => $v,
+			];
+		}
+
+		if ( ! empty($inserts)) {
+			return $this->db->insert_batch($table, $inserts);
+		}
+
+		return TRUE;
+	}
+
+
 }

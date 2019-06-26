@@ -8,6 +8,7 @@ class Fields_model extends MY_Model
 
 	public $table = 'fields';
 	public $primary_key = 'field_id';
+	public $query_class = 'FieldQuery';
 
 
 	public function __construct()
@@ -45,7 +46,8 @@ class Fields_model extends MY_Model
 		// On creating a new field, generate an internal name based on the title.
 		// Used to make the table name
 		if ( ! array_key_exists('field_id', $data)) {
-			$data['name'] = strtolower(url_title($data['title']));
+			$name = url_title($data['title'], '_', TRUE);
+			$data['name'] = substr($name, 0, 54);
 		}
 
 		// If we have options, encode them for storage
@@ -64,6 +66,30 @@ class Fields_model extends MY_Model
 	public function wake_values($row, $find_query = NULL)
 	{
 		$row->options = $this->decode_options($row->options);
+		$row->rooms = [];
+
+		if ($find_query) {
+
+			$include = $find_query->get_include();
+
+			if ($row->entity == 'BK' && in_array('rooms', $include)) {
+				$row = $this->populate_rooms($row);
+			}
+		}
+
+		return $row;
+	}
+
+
+
+	public function populate_rooms($row)
+	{
+		$this->load->model('rooms_model');
+
+		$row->rooms = $this->rooms_model->find([
+			'link_fields_rooms.field_id' => $row->field_id,
+			'limit' => NULL,
+		]);
 
 		return $row;
 	}
@@ -78,12 +104,45 @@ class Fields_model extends MY_Model
 		$insert = parent::insert($data);
 
 		if ($insert && $insert > 0) {
-			$row = $this->find_one(['field_id' => $insert]);
+
 			// Create the field data storage table itself
+			$row = $this->find_one(['field_id' => $insert]);
 			$this->create_field($row);
+
+			// Set the rooms that it can be used in, if RM entity.
+			if ($data['entity'] == 'BK') {
+				$set_rooms = $this->set_link_table([
+					'table' => 'link_fields_rooms',
+					'local_field' => 'field_id',
+					'local_value' => $insert,
+					'foreign_field' => 'room_id',
+					'values' => isset($data['room_ids']) ? $data['room_ids'] : [],
+				]);
+			}
+
 		}
 
 		return $insert;
+	}
+
+
+	public function update($data = array(), $where = array())
+	{
+		$update = parent::update($data, $where);
+
+		if ($update) {
+			$row = $this->find_one($where);
+			if ($row->entity == 'BK') {
+				$set_rooms = $this->set_link_table([
+					'table' => 'link_fields_rooms',
+					'local_field' => 'field_id',
+					'local_value' => $row->field_id,
+					'foreign_field' => 'room_id',
+					'values' => isset($data['room_ids']) ? $data['room_ids'] : [],
+				]);
+			}
+		}
+		return $update;
 	}
 
 
@@ -187,6 +246,15 @@ class Fields_model extends MY_Model
 		return "field_{$row->name}_{$row->field_id}";
 	}
 
+
+	public function get_next_position()
+	{
+		$sql = 'SELECT MAX(position) AS last_pos FROM fields';
+		$query = $this->db->query($sql);
+		$row = $query->row();
+		$next_pos = ( (int) $row->last_pos) + 1;
+		return $next_pos;
+	}
 
 	/**
 	 * Given a row for a field, generate the required schema for the DB table.

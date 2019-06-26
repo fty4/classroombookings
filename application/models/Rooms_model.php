@@ -8,6 +8,7 @@ class Rooms_model extends MY_Model
 
 	public $table = 'rooms';
 	public $primary_key = 'room_id';
+	public $query_class = 'RoomQuery';
 
 
 	public function __construct()
@@ -20,9 +21,22 @@ class Rooms_model extends MY_Model
 	{
 		$insert = parent::insert($data);
 
-		if ($insert && $insert > 0 && array_key_exists('custom_fields', $data)) {
-			$row = self::find_one(['room_id' => $insert]);
-			$this->fields_model->save_field_values('RM', $insert, $data['custom_fields']);
+		if ($insert && $insert > 0) {
+
+			// Save custom field values
+			if (array_key_exists('custom_fields', $data)) {
+				$row = self::find_one(['room_id' => $insert]);
+				$this->fields_model->save_field_values('RM', $insert, $data['custom_fields']);
+			}
+
+			// Set the rooms that it can be used in, if RM entity.
+			$set_bookings_fields = $this->set_link_table([
+				'table' => 'link_fields_rooms',
+				'local_field' => 'room_id',
+				'local_value' => $insert,
+				'foreign_field' => 'field_id',
+				'values' => isset($data['booking_field_ids']) ? $data['booking_field_ids'] : [],
+			]);
 		}
 
 		return $insert;
@@ -33,9 +47,21 @@ class Rooms_model extends MY_Model
 	{
 		$update = parent::update($data, $where);
 
-		if ($update && array_key_exists('custom_fields', $data)) {
-			$row = self::find_one($where);
-			$this->fields_model->save_field_values('RM', $row->room_id, $data['custom_fields']);
+		if ($update) {
+			if (array_key_exists('custom_fields', $data)) {
+				$row = self::find_one($where);
+				$this->fields_model->save_field_values('RM', $row->room_id, $data['custom_fields']);
+			}
+
+			// Set the Bookings fields
+			$row = $this->find_one($where);
+			$set_bookings_fields = $this->set_link_table([
+				'table' => 'link_fields_rooms',
+				'local_field' => 'room_id',
+				'local_value' => $row->room_id,
+				'foreign_field' => 'field_id',
+				'values' => isset($data['booking_field_ids']) ? $data['booking_field_ids'] : [],
+			]);
 		}
 
 		return $update;
@@ -71,6 +97,10 @@ class Rooms_model extends MY_Model
 				$row = $this->populate_custom_fields($row);
 			}
 
+			if (in_array('fields_bookings', $include)) {
+				$row = $this->populate_fields_bookings($row);
+			}
+
 		}
 
 		return $row;
@@ -95,6 +125,19 @@ class Rooms_model extends MY_Model
 	{
 		$this->load->model('fields_model');
 		$row->custom_fields = $this->fields_model->get_field_values('RM', $row->room_id);
+		return $row;
+	}
+
+
+	public function populate_fields_bookings($row)
+	{
+		$this->load->model('fields_model');
+
+		$row->fields_bookings = $this->fields_model->find([
+			'link_fields_rooms.room_id' => $row->room_id,
+			'limit' => NULL,
+		]);
+
 		return $row;
 	}
 

@@ -16,6 +16,7 @@ function form_fieldset($params = [])
 		'title' => '',
 		'subtitle' => '',
 		'content' => '',
+		'attrs' => '',
 	];
 
 	$data = array_merge($defaults, $params);
@@ -33,6 +34,7 @@ function form_fieldset($params = [])
 		'content' => $data['content'],
 		'left_class' => $data['left_class'],
 		'right_class' => $data['right_class'],
+		'attrs' => $data['attrs'],
 	];
 
 	if (strlen($data['title'])) {
@@ -40,7 +42,8 @@ function form_fieldset($params = [])
 	}
 
 	if (strlen($data['subtitle'])) {
-		$vars['subtitle'] = "<p class='form-legend-subtitle'>{$data['subtitle']}</p>";
+		$subtitle = nl2br($data['subtitle']);
+		$vars['subtitle'] = "<p class='form-legend-subtitle'>{$subtitle}</p>";
 	}
 
 	if (empty($vars['title']) && empty($vars['subtitle']) /*&& $data['actions'] === FALSE*/) {
@@ -53,13 +56,13 @@ function form_fieldset($params = [])
 
 		switch ($data['layout']) {
 			case 'vertical':
-				$template = "<fieldset class='form-fieldset {class}'>";
+				$template = "<fieldset class='form-fieldset {class}' {attrs}>";
 				$template .= "<div class='form-legend-wrapper'>{title}\n{subtitle}\n</div>";
 				$template .= "<div class='form-content-wrapper'>{content}</div>";
 				$template .= "</fieldset>";
 			break;
 			case 'horizontal':
-				$template = "<fieldset class='form-fieldset {class}'>";
+				$template = "<fieldset class='form-fieldset {class}' {attrs}>";
 				$template .= "<div class='columns'>";
 				$template .= "<div class='column {left_class}'>{title}{subtitle}</div>";
 				$template .= "<div class='column {right_class}'>{content}</div>";
@@ -94,6 +97,7 @@ function form_group($params = [])
 		'error_class' => 'has-error',
 		'field' => '',
 		'error_field' => '',
+		'group_attrs' => '',
 	);
 
 	$data = array_merge($defaults, $params);
@@ -182,7 +186,7 @@ function form_group($params = [])
 			$right .= $error_el . "\n";
 			$right .= "</div>";
 
-			$group_el = "<div class='{$data['group_class']}' data-field='{$data['field']}'>\n";
+			$group_el = "<div class='{$data['group_class']}' data-field='{$data['field']}' {$data['group_attrs']}>\n";
 			$group_el .= $left;
 			$group_el .= $right;
 			$group_el .= "</div>\n";
@@ -204,7 +208,7 @@ function form_group($params = [])
 				case 'after': $label_after_el = $label_el; break;
 			}
 
-			$group_el = "<div class='{$data['group_class']}' data-field='{$data['field']}'>\n";
+			$group_el = "<div class='{$data['group_class']}' data-field='{$data['field']}' {$data['group_attrs']}>\n";
 			$group_el .= $label_before_el . "\n";
 			$group_el .= $hint_el . "\n";
 			$group_el .= "<div class='{$data['right_class']}'>\n{$input_el}\n</div>\n";
@@ -276,6 +280,115 @@ function form_radio_list($params = [])
 
 	return '';
 }
+
+
+function form_checkbox_input($params = [])
+{
+	$defaults = [
+		'name' => '',
+		'id' => '',
+		'label' => '',
+		'class' => '',
+		'value' => 0,
+		'input_value' => 1,
+		'hidden_value' => 0,
+		'include_hidden' => TRUE,
+		'tabindex' => FALSE,
+	];
+
+	$data = array_merge($defaults, $params);
+
+	$input_options = [
+		'name' => $data['name'],
+		'id' => $data['id'],
+		'value' => $data['input_value'],
+		'checked' => FALSE,
+		'data-field' => $data['name'],
+		'data-value' => $data['input_value'],
+	];
+
+	if (array_key_exists('checked', $data)) {
+		$input_options['checked'] = $data['checked'];
+	} else {
+		$input_options['checked'] = ($data['value'] == $data['input_value']);
+	}
+
+	if ($data['tabindex']) {
+		$input_options['tabindex'] = $data['tabindex'];
+	}
+
+	$input = form_checkbox($input_options);
+	$hidden = '';
+	if ($data['include_hidden']) {
+		$hidden = form_hidden($data['name'], $data['hidden_value']);
+	}
+
+	$out = '';
+	$out .= "<label class='form-checkbox {$data['class']}'>";
+	$out .= $hidden . $input;
+	$out .= "<i class='form-icon'></i> ";
+	$out .= $data['label'];
+	$out .= "</label>";
+
+	return $out;
+}
+
+
+function form_check_list($params = [])
+{
+	$defaults = [
+		'options' => [],
+		'columns' => 1,
+		'col_class' => '',
+		'name' => '',
+		// simple array of `values`
+		'value' => [],
+	];
+
+	$data = array_merge($defaults, $params);
+
+	$options = $data['options'];
+
+	if ( ! is_array($options)) {
+		$options = [];
+	}
+
+	if ($data['columns'] > 1) {
+		$options = array_partition($options, $data['columns']);
+	} else {
+		$options = [ $options ];
+	}
+
+	$out = "<div class='columns'>";
+
+	foreach ($options as $items) {
+
+		$out .= "<div class='column {$data['col_class']}'>";
+
+		foreach ($items as $value => $label) {
+
+			$id = md5($data['name'].$value);
+			$checked = in_array($value, $data['value']);
+
+			$out .= form_checkbox_input([
+				'id' => $id,
+				'input_value' => $value,
+				'include_hidden' => FALSE,
+				'label' => $label,
+				'name' => "{$data['name']}[]",
+				'checked' => $checked,
+			]);
+
+		}
+
+		$out .= "</div>";
+	}
+
+	$out .= "</div>";
+
+	return $out;
+}
+
 
 
 function form_colour_picker($options = [])

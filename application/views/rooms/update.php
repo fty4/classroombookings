@@ -168,6 +168,42 @@ if ( ! empty($custom_fields)) {
 
 }
 
+// Custom Booking fields for this room
+//
+
+if ( ! empty($fields_bookings)) {
+
+	$fields = [];
+
+	$field = 'booking_field_ids';
+	$room_fields = get_property('fields_bookings', $room, []);
+	$room_field_ids = array_column($room_fields, 'field_id');
+	$value = set_value($field, $room_field_ids, FALSE);
+	$label = 'Fields';
+	$hint = '';
+
+	$fields[] = form_group([
+		'layout' => $layout,
+		'size' => '',
+		'field' => $field,
+		'label' => $label,
+		'hint' => $hint,
+		'input' => form_check_list([
+			'options' => $fields_bookings,
+			'columns' => 1,
+			'name' => "{$field}",
+			'value' => $value,
+		]),
+	]);
+
+
+	echo form_fieldset([
+		'title' => 'Booking fields',
+		'subtitle' => "Custom fields for Bookings can be turned on or off depending on the room being booked.\n\nSpecify those Bookings fields that should be displayed to users when making a booking in this room.",
+		'content' => implode("\n", $fields),
+		'attrs' => 'data-fieldset="fields"',
+	]);
+}
 
 
 

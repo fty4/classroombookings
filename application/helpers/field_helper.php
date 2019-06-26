@@ -84,7 +84,7 @@ class FieldHelper
 				$size = 'xl';
 				$options = ['' => ''];
 				foreach ($field->options as $k => $v) {
-					$options["{$k}"] = $v;
+					$options["{$k}"] = html_escape($v);
 				}
 				$input = form_dropdown($name, $options, $value, 'class="form-select"');
 			break;
