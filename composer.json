@@ -36,5 +36,8 @@
 			"composer.json",
 			"composer.lock"
 		]
+	},
+	"scripts": {
+		"create-migration": "@php index.php commands/create_migration"
 	}
 }
