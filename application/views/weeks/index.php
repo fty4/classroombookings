@@ -1,29 +1,21 @@
 <?php
 
-$table = \Jupitern\Table\Table::instance();
-$table->attr('table', 'class', 'table');
-$table->setData($weeks);
+if (count($weeks) > 0) {
 
+	$cards = [];
+	foreach ($weeks as $week) {
+		$cards[] = render_view('weeks/card', ['week' => $week]);
+	}
 
-$table->column()
-	->title('')
-	->value(function($week) {
-		return WeekHelper::icon($week);
-	})
-	->attr('td', 'style', 'width:5%')
-	->add();
+	echo "<div class='columns'>" . implode("\n", $cards) . "</div>";
 
-$table->column()
-	->title('Name')
-	->value(function($week) {
-		return anchor('weeks/update/' . $week->week_id, html_escape($week->name));
-	})
-	->attr('td', 'class', 'table-title-cell')
-	->add();
+} else {
 
-$content = $table->render(true);
+	$this->load->view('partials/empty', [
+		'title' => lang('weeks_none'),
+		'description' => lang('weeks_none_hint'),
+		'icon' => 'repeat',
+		'action' => anchor("weeks/add", lang('weeks_action_add'), 'class="btn btn-primary"'),
+	]);
 
-echo table_box([
-	'title' => '',
-	'table' => $content,
-]);
+}
