@@ -1,175 +1,244 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+
 class Departments extends MY_Controller
 {
-
-
 
 
 	public function __construct()
 	{
 		parent::__construct();
 
+		$this->load->language('admin');
+		$this->load->language('departments');
+		$this->load->language('department');
+
 		$this->require_logged_in();
 		$this->require_auth_level(ADMINISTRATOR);
 
-		$this->load->library('pagination');
-		$this->load->model('crud_model');
 		$this->load->model('departments_model');
+		$this->load->config('lookups');
+		$this->load->helper('department');
 	}
 
 
-
-
-	function index($page = NULL)
+	/**
+	 * Departments index page
+	 *
+	 */
+	function index()
 	{
-		$pagination_config = array(
-			'base_url' => site_url('departments/index'),
-			'total_rows' => $this->crud_model->Count('departments'),
-			'per_page' => 25,
-			'full_tag_open' => '<p class="pagination">',
-			'full_tag_close' => '</p>',
-		);
+		$this->data['menu_active'] = 'admin/departments';
+		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
+		$this->data['breadcrumbs'][] = array('departments', lang('departments_page_index'));
 
-		$this->pagination->initialize($pagination_config);
+		$this->data['title'] = lang('departments_page_index');
 
-		$this->data['pagelinks'] = $this->pagination->create_links();
-		// Get list of rooms from database
-		$this->data['departments'] = $this->departments_model->Get(NULL, $pagination_config['per_page'], $page);
+		$filter = $this->input->get();
+		$filter['sort'] = 'name';
+		$filter['limit'] = NULL;
 
-		$this->data['title'] = 'Departments';
-		$this->data['showtitle'] = $this->data['title'];
-		$this->data['body'] = $this->load->view('departments/departments_index', $this->data, TRUE);
+		$this->data['filter'] = $filter;
+		$this->data['total'] = $this->departments_model->count($filter);
+		$this->data['departments'] = $this->departments_model->find($filter);
 
-		return $this->render();
+		$this->blocks['tabs'] = 'departments/menu';
+
+		$this->render('departments/index');
 	}
 
 
+	/**
+	 * Update a department
+	 *
+	 * @param int $id		ID of department to update
+	 *
+	 */
+	public function update($id = 0)
+	{
+		$this->data['menu_active'] = 'admin/departments/update';
+		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
+		$this->data['breadcrumbs'][] = array('departments', lang('departments_page_index'));
 
+		$department = $this->find_department($id);
+
+		$this->init_form_elements();
+
+		$this->data['department'] = $department;
+		$this->data['title'] = $department->name . ': ' . lang('departments_update_page_title');
+		$this->data['breadcrumbs'][] = array('departments/update/' . $department->department_id, lang('departments_update_page_title'));
+
+		$this->blocks['tabs'] = 'departments/context/menu';
+
+		if ($this->input->post()) {
+			$this->save_department($department);
+		}
+
+		$this->render('departments/update');
+	}
 
 
 	/**
 	 * Add a new department
 	 *
 	 */
-	function add()
+	public function add()
 	{
-		// Load view
-		$this->data['title'] = 'Add Department';
-		$this->data['showtitle'] = $this->data['title'];
-		$this->data['body'] = $this->load->view('departments/departments_add', NULL, TRUE);
+		$this->data['department'] = NULL;
 
-		return $this->render();
-	}
+		$this->init_form_elements();
 
+		$this->data['menu_active'] = 'admin/departments/add';
+		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
+		$this->data['breadcrumbs'][] = array('departments', lang('departments_page_index'));
+		$this->data['breadcrumbs'][] = array('departments/add', lang('departments_add_page_title'));
 
+		$this->data['title'] = lang('departments_add_page_title');
 
+		$this->data['menu_active'] = 'admin/departments/add';
+		$this->blocks['tabs'] = 'departments/menu';
 
-	/**
-	 * Edit a department
-	 *
-	 */
-	function edit($department_id = NULL)
-	{
-		$this->data['department'] = $this->departments_model->Get($department_id);
-
-		if (empty($this->data['department'])) {
-			show_404();
+		if ($this->input->post()) {
+			$this->save_department();
 		}
 
-		$this->data['title'] = 'Edit Department';
-		$this->data['showtitle'] = $this->data['title'];
-		$this->data['body'] = $this->load->view('departments/departments_add', $this->data, TRUE);
-
-		return $this->render();
+		$this->render('departments/update');
 	}
 
 
-
-
 	/**
-	 * Save changes to add/edit a department
+	 * Save changes to department: update or add new
+	 *
+	 * @param $department		department object if updating, NULL to add new department.
 	 *
 	 */
-	function save()
+	private function save_department($department = NULL)
 	{
-		$department_id = $this->input->post('department_id');
-
 		$this->load->library('form_validation');
 
-		$this->form_validation->set_rules('department_id', 'ID', 'integer');
-		$this->form_validation->set_rules('name', 'Name', 'required|min_length[1]|max_length[50]');
-		$this->form_validation->set_rules('description', 'Description', 'max_length[255]');
+		$this->load->config('form_validation', TRUE);
+		$this->form_validation->set_rules($this->config->item('departments_add_update', 'form_validation'));
 
 		if ($this->form_validation->run() == FALSE) {
-			return (empty($department_id) ? $this->add() : $this->edit($department_id));
+			$this->notice('error', lang('error_form_validation'));
+			return;
 		}
 
-		$department_data = array(
-			'name' => $this->input->post('name'),
-			'description' => $this->input->post('description'),
-			'icon' => '',
-		);
+		$keys = [
+			'name',
+			'description',
+			'colour',
+			'icon',
+		];
 
-		if (empty($department_id)) {
+		$department_data = array_fill_safe($keys, $this->input->post());
+		$success = FALSE;
 
-			$department_id = $this->departments_model->Add($department_data);
+		if ($department !== NULL) {
 
-			if ($department_id) {
-				$line = sprintf($this->lang->line('crbs_action_added'), $department_data['name']);
-				$flashmsg = msgbox('info', $line);
+			// Update department
+			$res = $this->departments_model->update($department_data, ['department_id' => $department->department_id]);
+			$id = $department->department_id;
+
+			if ($res) {
+				$success = TRUE;
+				$this->notice('success', lang('departments_update_status_success'));
 			} else {
-				$line = sprintf($this->lang->line('crbs_action_dberror'), 'adding');
-				$flashmsg = msgbox('error', $line);
+				$this->notice('error', lang('departments_update_status_error'));
 			}
 
 		} else {
 
-			if ($this->departments_model->Edit($department_id, $department_data)) {
-				$line = sprintf($this->lang->line('crbs_action_saved'), $department_data['name']);
-				$flashmsg = msgbox('info', $line);
+			// Add new department
+			$res = $this->departments_model->insert($department_data);
+			$id = $res;
+
+			if ($res) {
+
+				$success = TRUE;
+
+				$this->notice('success', lang('departments_add_status_success'));
+
 			} else {
-				$line = sprintf($this->lang->line('crbs_action_dberror'), 'editing');
-				$flashmsg = msgbox('error', $line);
+				$this->notice('error', lang('departments_add_status_error'));
 			}
 
 		}
 
-		$this->session->set_flashdata('saved', $flashmsg);
-		redirect('departments');
+		if ($success) {
+			redirect("departments");
+		}
 	}
 
 
+	private function init_form_elements()
+	{
+		$this->data['icons'] = $this->config->item('department_icons', 'lookups');
+	}
 
 
 	/**
-	 * Delete a department
+	 * Delete department
+	 *
+	 * @param integer $id		ID of department to delete
 	 *
 	 */
-	function delete($id = NULL)
+	public function delete($id = 0)
 	{
-		if ($this->input->post('id')) {
-			$this->departments_model->Delete($this->input->post('id'));
-			$flashmsg = msgbox('info', $this->lang->line('crbs_action_deleted'));
-			$this->session->set_flashdata('saved', $flashmsg);
-			redirect('departments');
+		$this->data['menu_active'] = 'admin/departments/delete';
+		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
+		$this->data['breadcrumbs'][] = array('departments', lang('departments_page_index'));
+
+		$department = $this->find_department($id);
+
+		$this->data['department'] = $department;
+		$this->data['title'] = html_escape($department->name) . ': ' . lang('departments_delete_page_title');
+		$this->data['breadcrumbs'][] = array("departments/delete/{$department->department_id}", lang('departments_delete_page_title'));
+
+		$this->blocks['tabs'] = 'departments/context/menu';
+
+		if ($this->input->post('department_id') == $department->department_id && $this->input->post('action') == 'delete') {
+
+			$res = $this->departments_model->delete(['department_id' => $department->department_id]);
+			$success = FALSE;
+
+			if ($res) {
+				$this->notice('success', lang('departments_delete_status_success'), [
+					'name' => $department->name,
+				]);
+			} else {
+				$this->notice('error', lang('departments_delete_status_error'));
+			}
+
+			return redirect("departments");
 		}
 
-		$this->data['action'] = 'departments/delete';
-		$this->data['id'] = $id;
-		$this->data['cancel'] = 'departments';
-		$this->data['text'] = 'If you delete this department, you must re-assign any of its members to another department.';
-
-		$row = $this->departments_model->Get($id);
-		$this->data['title'] = 'Delete Department ('.html_escape($row->name).')';
-		$this->data['showtitle'] = $this->data['title'];
-		$this->data['body'] = $this->load->view('partials/deleteconfirm', $this->data, TRUE);
-
-		return $this->render();
+		$this->render('departments/delete');
 	}
 
 
+
+	private function find_department($id = 0, $include = [])
+	{
+		$default_inc = [];
+		$all_inc = array_merge($default_inc, $include);
+
+		$department = $this->departments_model->find_one([
+			'department_id' => $id,
+			'include' => $all_inc,
+		]);
+
+		if ( ! $department) {
+			$this->render_error(array(
+				'http' => 404,
+				'title' => lang('not_found'),
+				'description' => lang('departments_not_found'),
+			));
+		}
+
+		return $department;
+	}
 
 
 }

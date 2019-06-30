@@ -3085,6 +3085,31 @@ a.btn {
   outline: none;
   border-left: 0.05rem dotted #bcc3ce; }
 
+.icon-picker .icon-picker-item {
+  border: 0;
+  display: inline-block;
+  margin: 0 0.2rem 0.2rem 0; }
+  .icon-picker .icon-picker-item input[type=radio] {
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    position: absolute;
+    width: 1px; }
+    .icon-picker .icon-picker-item input[type=radio]:focus + .icon-picker-icon,
+    .icon-picker .icon-picker-item input[type=radio]:checked + .icon-picker-icon {
+      outline: 0.1rem solid #0074d9; }
+
+.icon-picker .icon-picker-icon {
+  height: 1.8rem;
+  line-height: 1.2rem;
+  max-width: 100%;
+  outline: none;
+  padding: 0.25rem 0.4rem; }
+  .icon-picker .icon-picker-icon .feather {
+    height: 1.2rem;
+    width: 1.2rem; }
+
 .colour-picker .colour-picker-item {
   border: 0;
   display: inline-block;
@@ -3258,6 +3283,10 @@ body {
 .filter-body.filter-body-block {
   display: block; }
 
+.icon-department .feather {
+  fill: currentColor;
+  stroke-width: 0; }
+
 .m-4 {
   margin: 0.8rem !important; }
 
@@ -3303,6 +3332,29 @@ body {
 .my-6 {
   margin-bottom: 1.2rem !important;
   margin-top: 1.2rem !important; }
+
+.m-8 {
+  margin: 1.6rem !important; }
+
+.mb-8 {
+  margin-bottom: 1.6rem !important; }
+
+.ml-8 {
+  margin-left: 1.6rem !important; }
+
+.mr-8 {
+  margin-right: 1.6rem !important; }
+
+.mt-8 {
+  margin-top: 1.6rem !important; }
+
+.mx-8 {
+  margin-left: 1.6rem !important;
+  margin-right: 1.6rem !important; }
+
+.my-8 {
+  margin-bottom: 1.6rem !important;
+  margin-top: 1.6rem !important; }
 
 .header {
   margin: 0;
@@ -3752,6 +3804,9 @@ body {
   width: 16px;
   height: 16px;
   margin-right: 0.2rem; }
+
+.chip.chip-inline {
+  display: inline; }
 
 .chip.chip-no-bg {
   background: transparent;

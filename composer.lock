@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "877d66ff04b7e892ddf96d0cdf405894",
+    "content-hash": "473878d4d952fcef784e4f97ee137ffe",
     "packages": [
         {
             "name": "codeigniter/framework",
@@ -87,21 +87,44 @@
             "time": "2019-06-19T16:44:28+00:00"
         },
         {
+            "name": "npm-asset/feather-icons",
+            "version": "4.22.1",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/feather-icons/-/feather-icons-4.22.1.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "npm-asset/classnames": ">=2.2.5,<3.0.0",
+                "npm-asset/core-js": ">=3.1.3,<4.0.0"
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
             "name": "pixelrobin/php-feather",
-            "version": "v1.0.2",
+            "version": "dev-feather-dependency",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Pixelrobin/php-feather.git",
-                "reference": "54fe84a44ada5c314ece1727747dc132d60f8acb"
+                "url": "https://github.com/craigrodway/php-feather.git",
+                "reference": "e7769f53e2a53f94e0a99e4728f1ba51c03f719a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Pixelrobin/php-feather/zipball/54fe84a44ada5c314ece1727747dc132d60f8acb",
-                "reference": "54fe84a44ada5c314ece1727747dc132d60f8acb",
+                "url": "https://api.github.com/repos/craigrodway/php-feather/zipball/e7769f53e2a53f94e0a99e4728f1ba51c03f719a",
+                "reference": "e7769f53e2a53f94e0a99e4728f1ba51c03f719a",
                 "shasum": ""
             },
             "require": {
+                "npm-asset/feather-icons": ">=4",
                 "php": ">=5.3.0"
+            },
+            "replace": {
+                "npm-asset/classnames": "*",
+                "npm-asset/core-js": "*"
             },
             "require-dev": {
                 "phpunit/phpunit": "7"
@@ -112,7 +135,11 @@
                     "Feather\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "scripts": {
+                "test": [
+                    "phpunit --verbose --bootstrap vendor/autoload.php ./tests/FeatherTest"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -129,13 +156,18 @@
                 "pixelrobin",
                 "svg"
             ],
-            "time": "2019-01-03T00:33:07+00:00"
+            "support": {
+                "source": "https://github.com/craigrodway/php-feather/tree/feather-dependency"
+            },
+            "time": "2019-06-19T15:30:19+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "pixelrobin/php-feather": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

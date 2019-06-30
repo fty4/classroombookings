@@ -1,55 +1,15 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/*
-function render_user_menu()
+
+function render_view($name = '', $data = [])
 {
-	$out = '';
-
-	$CI =& get_instance();
-	$CI->load->model('menu_model');
-
-	$items = $CI->menu_model->get_user_menu();
-
-	foreach ($items as $item)
-	{
-		if ( ! $item['visible']) {
-			continue;
-		}
-
-		$icon = icon($item['icon']);
-		$label = html_escape($item['label']);
-		$url = $item['url'];
-
-		$out .= "<a class='btn btn-link' href='{$url}'>{$icon}<span>{$label}</span></a>\n";
+	if (empty($name)) {
+		return '';
 	}
 
-	return $out;
+	return get_instance()->load->view($name, $data, TRUE);
 }
-
-
-function render_main_menu()
-{
-	$out = '';
-
-	$CI =& get_instance();
-	$CI->load->model('menu_model');
-
-	$items = $CI->menu_model->get_main_menu();
-
-	foreach ($main_menu as $item)
-	{
-		if ( ! $item['visible']) {
-			continue;
-		}
-		$icon = icon($item['icon']);
-		$label = html_escape($item['label']);
-		$url = $item['url'];
-		$out .= "<a class='btn btn-link' href='{$url}'>{$icon}<span>{$label}</span></a>\n";
-	}
-
-	return $out;
-}*/
 
 
 function render_menu($params = array())

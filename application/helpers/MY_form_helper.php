@@ -491,3 +491,59 @@ function form_colour_picker($options = [])
 
 	return $CI->parser->parse_string($data['template'], $vars, TRUE);
 }
+
+
+function form_icon_picker($options = [])
+{
+	$defaults = [
+		'name' => '',
+		'value' => '',
+		'attrs' => '',
+		'class' => '',
+		'random' => TRUE,	// if value empty, pick random colour
+		'items' => [],
+		'item_template' => "<label class='icon-picker-item' for='{id}'>{input}</label>",
+		'input_template' => "<input type='radio' name='{name}' value='{value}' id='{id}' {checked}><div class='icon-picker-icon'>{icon}</div>",
+		'template' => "<div class='icon-picker {class}' {attrs}>{items}</div>",
+	];
+
+	$data = array_merge($defaults, $options);
+
+	if (empty($data['value'])) {
+		$data['value'] = $data['items'][ array_rand($data['items']) ];
+	}
+
+	$CI =& get_instance();
+	$CI->load->library('parser');
+
+	// Build items
+	$items = [];
+	foreach ($data['items'] as $icon_name) {
+
+		$checked = $icon_name == $data['value'] ? 'checked="checked"' : '';
+
+		$vars = [
+			'id' => "{$data['name']}_icon_{$icon_name}",
+			'name' => $data['name'],
+			'value' => $icon_name,
+			'icon' => icon($icon_name),
+			'checked' => $checked,
+		];
+
+		$vars['input'] = $CI->parser->parse_string($data['input_template'], $vars, TRUE);
+
+		$items[] = $CI->parser->parse_string($data['item_template'], $vars, TRUE) . "\n";
+	}
+
+	// Build final output
+
+	$items_html = implode("\n", $items);
+
+	$vars = [
+		'attrs' => $data['attrs'],
+		'class' => $data['class'],
+		'items' => $items_html,
+	];
+
+	return $CI->parser->parse_string($data['template'], $vars, TRUE);
+}

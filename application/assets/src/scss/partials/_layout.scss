@@ -96,5 +96,14 @@ body {
 }
 
 
+.icon-department {
+	.feather {
+		fill: currentColor;
+		stroke-width: 0;
+	}
+}
+
+
 @include margin-variant(4, $unit-4);
 @include margin-variant(6, $unit-6);
+@include margin-variant(8, $unit-8);

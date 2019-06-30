@@ -15,6 +15,8 @@ class Feather extends Feather\Icons
 
 	public function __construct()
 	{
+		parent::__construct();
+
 		$this->setAttributes(array(
 			'width' => 20,
 			'height' => 20,

@@ -49,6 +49,42 @@ a.btn {
 }
 
 
+.icon-picker {
+	.icon-picker-item {
+		border: 0;
+		display: inline-block;
+		margin: 0 $unit-1 $unit-1 0;
+
+		input[type=radio] {
+			clip: rect(0, 0, 0, 0);
+			height: 1px;
+			margin: -1px;
+			overflow: hidden;
+			position: absolute;
+			width: 1px;
+			&:focus + .icon-picker-icon,
+			&:checked + .icon-picker-icon {
+				outline: $unit-h solid $clrs-blue;
+			}
+		}
+	}
+
+	.icon-picker-icon {
+		height: $control-size;
+		line-height: $line-height;
+		max-width: 100%;
+		outline: none;
+		padding: $control-padding-y $control-padding-x;
+		.feather {
+			// width: 100%;
+			height: $line-height;
+			width: $line-height;
+		}
+	}
+
+}
+
+
 
 .colour-picker {
 	.colour-picker-item {

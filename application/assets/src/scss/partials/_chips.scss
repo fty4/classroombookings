@@ -8,6 +8,10 @@
 		}
 	}
 
+	&.chip-inline {
+		display: inline;
+	}
+
 	&.chip-no-bg {
 		background: transparent;
 		padding-left: 0;

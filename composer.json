@@ -7,9 +7,19 @@
 	"require": {
 		"php": ">=5.5.0",
 		"codeigniter/framework": "^3",
-		"pixelrobin/php-feather": "^1.0",
+		"pixelrobin/php-feather": "dev-feather-dependency",
 		"jupitern/table": "^2"
 	},
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/craigrodway/php-feather.git"
+		},
+		{
+	        "type": "composer",
+	        "url": "https://asset-packagist.org"
+	    }
+	],
 	"license": "AGPLv3",
 	"authors": [
 		{
