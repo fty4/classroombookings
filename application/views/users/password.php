@@ -4,7 +4,7 @@ $layout = 'horizontal';
 
 echo form_open(current_url(), ['class' => 'form-horizontal']);
 
-$new_password = random_string('alnum', 8);
+$new_password = random_password(8);
 
 // Password
 //

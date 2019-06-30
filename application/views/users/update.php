@@ -220,7 +220,7 @@ echo form_fieldset([
 
 if ( ! $user) {
 
-	$new_password = random_string('alnum', 8);
+	$new_password = random_password(8);
 
 	$fields = [];
 
