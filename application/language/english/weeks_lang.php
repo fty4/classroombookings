@@ -17,6 +17,10 @@ $lang['weeks_delete_page_title'] = 'Delete week';
 
 $lang['weeks_not_found'] = 'Could not find the requsted week.';
 
+$lang['weeks_none'] = "No timetable weeks have been added yet.";
+$lang['weeks_none_hint'] = "Add at least one timetable week to specify which weeks of the academic year your timetable runs on.";
+
+
 // Update
 //
 

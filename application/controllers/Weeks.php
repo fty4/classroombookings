@@ -85,16 +85,15 @@ class Weeks extends MY_Controller
 	 */
 	public function update($id = 0)
 	{
-		$week = $this->find_week($id);
-
-		$this->data['week'] = $week;
-
 		$this->data['menu_active'] = 'admin/weeks/update';
 		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
 		$this->data['breadcrumbs'][] = array('weeks', lang('weeks_page_index'));
-		$this->data['breadcrumbs'][] = array('weeks/update/' . $id, lang('weeks_update_page_title'));
 
+		$week = $this->find_week($id);
+
+		$this->data['week'] = $week;
 		$this->data['title'] = html_escape($week->name) . ': ' . lang('weeks_update_page_title');
+		$this->data['breadcrumbs'][] = array("weeks/update/{$week->week_id}", lang('weeks_update_page_title'));
 
 		$this->blocks['tabs'] = 'weeks/context/menu';
 
@@ -179,16 +178,16 @@ class Weeks extends MY_Controller
 	 */
 	public function delete($id = 0)
 	{
-		$week = $this->find_week($id);
-
-		$this->data['week'] = $week;
-
 		$this->data['menu_active'] = 'admin/weeks/delete';
 		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
 		$this->data['breadcrumbs'][] = array('weeks', lang('weeks_page_index'));
-		$this->data['breadcrumbs'][] = array('weeks/delete/' . $id, lang('weeks_delete_page_title'));
 
+		$week = $this->find_week($id);
+
+		$this->data['week'] = $week;
 		$this->data['title'] = html_escape($week->name) . ': ' . lang('weeks_delete_page_title');
+		$this->data['breadcrumbs'][] = array("weeks/delete/{$week->week_id}", lang('weeks_delete_page_title'));
+
 
 		$this->blocks['tabs'] = 'weeks/context/menu';
 
@@ -232,56 +231,6 @@ class Weeks extends MY_Controller
 
 		return $week;
 	}
-
-
-
-
-	 function _academicyear()
-	 {
-	 	$this->data['academicyear'] = $this->weeks_model->GetAcademicYear();
-
-	 	if ( ! $this->data['academicyear'])
-	 	{
-	 		$this->data['academicyear'] = new Stdclass();
-	 		$this->data['academicyear']->date_start = date("Y-m-d");
-	 		$this->data['academicyear']->date_end = date("Y-m-d", strtotime("+1 Year", strtotime(date("Y-m-d"))));
-	 	}
-
-	 	$this->data['title'] = 'Academic Year';
-	 	$this->data['showtitle'] = $this->data['title'];
-	 	$this->data['body'] = $this->load->view('weeks/weeks_academicyear', $this->data, True);
-
-	 	return $this->render();
-	 }
-
-
-
-
-	 function _saveacademicyear()
-	 {
-	 	$this->load->library('form_validation');
-
-		$this->form_validation->set_rules('date_start', 'Start date', 'required|min_length[8]|max_length[10]');
-		$this->form_validation->set_rules('date_end', 'End date', 'required|min_length[8]|max_length[10]');
-
-		if ($this->form_validation->run() == FALSE) {
-			return $this->academicyear();
-		}
-
- 		$start_date = explode('/', $this->input->post('date_start'));
- 		$end_date = explode('/', $this->input->post('date_end'));
-
- 		$year_data = array(
- 			'date_start' => sprintf("%s-%s-%s", $start_date[2], $start_date[1], $start_date[0]),
- 			'date_end' => sprintf("%s-%s-%s", $end_date[2], $end_date[1], $end_date[0]),
- 		);
-
- 		$this->weeks_model->SaveAcademicYear($year_data);
-
- 		$this->session->set_flashdata('saved', msgbox('info', 'The Academic Year dates have been updated.'));
-
-	 	redirect('weeks/academicyear');
-	 }
 
 
 }

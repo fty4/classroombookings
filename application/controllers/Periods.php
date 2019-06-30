@@ -88,16 +88,15 @@ class Periods extends MY_Controller
 	 */
 	public function update($period_id = 0)
 	{
-		$period = $this->find_period($period_id);
-
-		$this->data['period'] = $period;
-
 		$this->data['menu_active'] = 'admin/periods/update';
 		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
 		$this->data['breadcrumbs'][] = array('periods', lang('periods_page_index'));
-		$this->data['breadcrumbs'][] = array("periods/update/{$period->period_id}", lang('periods_update_page_title'));
 
+		$period = $this->find_period($period_id);
+
+		$this->data['period'] = $period;
 		$this->data['title'] = html_escape($period->name) . ': ' . lang('periods_update_page_title');
+		$this->data['breadcrumbs'][] = array("periods/update/{$period->period_id}", lang('periods_update_page_title'));
 
 		$this->blocks['tabs'] = 'periods/context/menu';
 
@@ -187,16 +186,15 @@ class Periods extends MY_Controller
 	 */
 	public function delete($period_id = 0)
 	{
-		$period = $this->find_period($period_id);
-
-		$this->data['period'] = $period;
-
 		$this->data['menu_active'] = 'admin/periods/delete';
 		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
 		$this->data['breadcrumbs'][] = array('periods', lang('periods_page_index'));
-		$this->data['breadcrumbs'][] = array("periods/delete/{$period->period_id}", lang('periods_delete_page_title'));
 
+		$period = $this->find_period($period_id);
+
+		$this->data['period'] = $period;
 		$this->data['title'] = html_escape($period->name) . ': ' . lang('periods_delete_page_title');
+		$this->data['breadcrumbs'][] = array("periods/delete/{$period->period_id}", lang('periods_delete_page_title'));
 
 		$this->blocks['tabs'] = 'periods/context/menu';
 

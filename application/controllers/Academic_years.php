@@ -66,16 +66,15 @@ class Academic_years extends MY_Controller
 	 */
 	public function view($id = 0)
 	{
-		$year = $this->find_year($id, ['dates', 'holidays']);
-
-		$this->data['year'] = $year;
-
 		$this->data['menu_active'] = 'admin/years/view';
 		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
 		$this->data['breadcrumbs'][] = array('academic_years', lang('years_page_index'));
-		$this->data['breadcrumbs'][] = array('academic_years/view/' . $id, html_escape($year->name));
 
+		$year = $this->find_year($id, ['dates', 'holidays']);
+
+		$this->data['year'] = $year;
 		$this->data['title'] = html_escape($year->name) . ': ' . lang('years_update_page_title');
+		$this->data['breadcrumbs'][] = array("academic_years/view/{$year->year_id}", html_escape($year->name));
 
 		$this->blocks['tabs'] = 'years/context/menu';
 
@@ -147,17 +146,17 @@ class Academic_years extends MY_Controller
 	 */
 	public function update($id = 0)
 	{
-		$year = $this->find_year($id);
-
-		$this->data['year'] = $year;
-
 		$this->data['menu_active'] = 'admin/years/update';
 		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
 		$this->data['breadcrumbs'][] = array('academic_years', lang('years_page_index'));
+
+		$year = $this->find_year($id);
+
+		$this->data['year'] = $year;
+		$this->data['title'] = html_escape($year->name) . ': ' . lang('years_update_page_title');
+
 		$this->data['breadcrumbs'][] = array('academic_years/view/' . $id, html_escape($year->name));
 		$this->data['breadcrumbs'][] = array('academic_years/update/' . $id, lang('years_update_page_title'));
-
-		$this->data['title'] = html_escape($year->name) . ': ' . lang('years_update_page_title');
 
 		$this->blocks['tabs'] = 'years/context/menu';
 
@@ -244,17 +243,18 @@ class Academic_years extends MY_Controller
 	 */
 	public function delete($id = 0)
 	{
-		$year = $this->find_year($id);
-
-		$this->data['year'] = $year;
-
 		$this->data['menu_active'] = 'admin/years/delete';
 		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
 		$this->data['breadcrumbs'][] = array('academic_years', lang('years_page_index'));
-		$this->data['breadcrumbs'][] = array('academic_years/view/' . $id, html_escape($year->name));
-		$this->data['breadcrumbs'][] = array('academic_years/delete/' . $id, lang('years_delete_page_title'));
 
+		$year = $this->find_year($id);
+
+		$this->data['year'] = $year;
 		$this->data['title'] = html_escape($year->name) . ': ' . lang('years_delete_page_title');
+
+		$this->data['breadcrumbs'][] = array("academic_years/view/{$year->year_id}", html_escape($year->name));
+		$this->data['breadcrumbs'][] = array("academic_years/delete/{$year->year_id}", lang('years_delete_page_title'));
+
 
 		$this->blocks['tabs'] = 'years/context/menu';
 

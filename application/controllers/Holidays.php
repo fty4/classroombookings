@@ -32,16 +32,16 @@ class Holidays extends MY_Controller
 	 */
 	function year($year_id = 0)
 	{
-		$year = $this->find_year($year_id);
-		$this->data['year'] = $year;
-
 		$this->data['menu_active'] = 'admin/holidays/year';
 		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
 		$this->data['breadcrumbs'][] = array('academic_years', lang('years_page_index'));
-		$this->data['breadcrumbs'][] = array('academic_years/view/' . $year_id, html_escape($year->name));
-		$this->data['breadcrumbs'][] = array('holidays/year/' . $year_id, lang('holidays_page_year'));
 
+		$year = $this->find_year($year_id);
+
+		$this->data['year'] = $year;
 		$this->data['title'] = lang('holidays_page_year');
+		$this->data['breadcrumbs'][] = array("academic_years/view/{$year->year_id}", html_escape($year->name));
+		$this->data['breadcrumbs'][] = array("holidays/year/{$year_id}", lang('holidays_page_year'));
 
 		$filter = $this->input->get();
 		$filter['sort'] = 'date_start';
@@ -64,19 +64,20 @@ class Holidays extends MY_Controller
 	 */
 	function add($year_id = 0)
 	{
-		$year = $this->find_year($year_id);
-		$this->data['year'] = $year;
-
-		$this->data['holiday'] = NULL;
-
 		$this->data['menu_active'] = 'admin/holidays/add';
 		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
 		$this->data['breadcrumbs'][] = array('academic_years', lang('years_page_index'));
-		$this->data['breadcrumbs'][] = array('academic_years/view/' . $year_id, html_escape($year->name));
-		$this->data['breadcrumbs'][] = array('holidays/year/' . $year_id, lang('holidays_page_year'));
-		$this->data['breadcrumbs'][] = array('holidays/add/' . $year_id, lang('holidays_add_page_title'));
 
+		$year = $this->find_year($year_id);
+
+		$this->data['year'] = $year;
 		$this->data['title'] = lang('holidays_add_page_title');
+
+		$this->data['breadcrumbs'][] = array("academic_years/view/{$year->year_id}", html_escape($year->name));
+		$this->data['breadcrumbs'][] = array("holidays/year/{$year->year_id}", lang('holidays_page_year'));
+		$this->data['breadcrumbs'][] = array("holidays/add/{$year->year_id}", lang('holidays_add_page_title'));
+
+		$this->data['holiday'] = NULL;
 
 		$this->blocks['tabs'] = 'holidays/menu';
 
@@ -96,20 +97,20 @@ class Holidays extends MY_Controller
 	 */
 	public function update($holiday_id = 0)
 	{
+		$this->data['menu_active'] = 'admin/holidays/update';
+		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
+		$this->data['breadcrumbs'][] = array('academic_years', lang('years_page_index'));
+
 		$holiday = $this->find_holiday($holiday_id);
 		$year = $this->find_year($holiday->year_id);
 
 		$this->data['holiday'] = $holiday;
 		$this->data['year'] = $year;
 
-		$this->data['menu_active'] = 'admin/holidays/update';
-		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
-		$this->data['breadcrumbs'][] = array('academic_years', lang('years_page_index'));
-		$this->data['breadcrumbs'][] = array('academic_years/view/' . $year->year_id, html_escape($year->name));
-		$this->data['breadcrumbs'][] = array('holidays/year/' . $year->year_id, lang('holidays_page_year'));
-		$this->data['breadcrumbs'][] = array("holidays/update/{$holiday->holiday_id}", lang('holidays_update_page_title'));
-
 		$this->data['title'] = html_escape($holiday->name) . ': ' . lang('holidays_update_page_title');
+		$this->data['breadcrumbs'][] = array("academic_years/view/{$year->year_id}", html_escape($year->name));
+		$this->data['breadcrumbs'][] = array("holidays/year/{$year->year_id}", lang('holidays_page_year'));
+		$this->data['breadcrumbs'][] = array("holidays/update/{$holiday->holiday_id}", lang('holidays_update_page_title'));
 
 		$this->blocks['tabs'] = 'holidays/context/menu';
 
@@ -213,20 +214,20 @@ class Holidays extends MY_Controller
 	 */
 	public function delete($holiday_id = 0)
 	{
+		$this->data['menu_active'] = 'admin/holidays/delete';
+		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
+		$this->data['breadcrumbs'][] = array('academic_years', lang('years_page_index'));
+
 		$holiday = $this->find_holiday($holiday_id);
 		$year = $this->find_year($holiday->year_id);
 
 		$this->data['holiday'] = $holiday;
 		$this->data['year'] = $year;
-
-		$this->data['menu_active'] = 'admin/holidays/delete';
-		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
-		$this->data['breadcrumbs'][] = array('academic_years', lang('years_page_index'));
-		$this->data['breadcrumbs'][] = array('academic_years/view/' . $year->year_id, html_escape($year->name));
-		$this->data['breadcrumbs'][] = array('holidays/year/' . $year->year_id, lang('holidays_page_year'));
-		$this->data['breadcrumbs'][] = array('holidays/delete/' . $year->year_id, lang('holidays_delete_page_title'));
-
 		$this->data['title'] = html_escape($holiday->name) . ': ' . lang('holidays_delete_page_title');
+
+		$this->data['breadcrumbs'][] = array("academic_years/view/{$year->year_id}", html_escape($year->name));
+		$this->data['breadcrumbs'][] = array("holidays/year/{$year->year_id}", lang('holidays_page_year'));
+		$this->data['breadcrumbs'][] = array("holidays/delete/{$year->year_id}", lang('holidays_delete_page_title'));
 
 		$this->blocks['tabs'] = 'holidays/context/menu';
 

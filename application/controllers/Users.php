@@ -82,16 +82,15 @@ class Users extends MY_Controller
 	 */
 	public function view($id = 0)
 	{
-		$user = $this->find_user($id);
-
-		$this->data['user'] = $user;
-
 		$this->data['menu_active'] = 'admin/users/view';
 		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
 		$this->data['breadcrumbs'][] = array('users', lang('users_page_index'));
-		$this->data['breadcrumbs'][] = array('users/view/' . $id, html_escape($user->username));
 
+		$user = $this->find_user($id);
+
+		$this->data['user'] = $user;
 		$this->data['title'] = html_escape($user->username);
+		$this->data['breadcrumbs'][] = array("users/view/{$user->user_id}", html_escape($user->username));
 
 		$this->blocks['tabs'] = 'users/context/menu';
 
@@ -135,19 +134,18 @@ class Users extends MY_Controller
 	 */
 	public function update($id = 0)
 	{
-		$user = $this->find_user($id);
-
-		$this->data['user'] = $user;
-
 		$this->data['menu_active'] = 'admin/users/update';
 		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
 		$this->data['breadcrumbs'][] = array('users', lang('users_page_index'));
-		$this->data['breadcrumbs'][] = array('users/view/' . $id, html_escape($user->username));
-		$this->data['breadcrumbs'][] = array('users/update/' . $id, lang('users_update_page_title'));
+
+		$user = $this->find_user($id);
+
+		$this->data['user'] = $user;
+		$this->data['title'] = html_escape($user->username) . ': ' . lang('users_update_page_title');
+		$this->data['breadcrumbs'][] = array("users/view/{$user->user_id}", html_escape($user->username));
+		$this->data['breadcrumbs'][] = array("users/update/{$user->user_id}", lang('users_update_page_title'));
 
 		$this->init_form_elements();
-
-		$this->data['title'] = html_escape($user->username) . ': ' . lang('users_update_page_title');
 
 		$this->blocks['tabs'] = 'users/context/menu';
 
@@ -167,19 +165,18 @@ class Users extends MY_Controller
 	 */
 	public function change_password($id = 0)
 	{
-		$user = $this->find_user($id);
-
-		$this->data['user'] = $user;
-
 		$this->data['menu_active'] = 'admin/users/password';
 		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
 		$this->data['breadcrumbs'][] = array('users', lang('users_page_index'));
-		$this->data['breadcrumbs'][] = array('users/view/' . $id, html_escape($user->username));
-		$this->data['breadcrumbs'][] = array('users/change_password/' . $id, lang('users_change_password_page_title'));
+
+		$user = $this->find_user($id);
+
+		$this->data['user'] = $user;
+		$this->data['title'] = html_escape($user->username) . ': ' . lang('users_change_password_page_title');
+		$this->data['breadcrumbs'][] = array("users/view/{$user->user_id}", html_escape($user->username));
+		$this->data['breadcrumbs'][] = array("users/change_password/{$user->user_id}", lang('users_change_password_page_title'));
 
 		$this->init_form_elements();
-
-		$this->data['title'] = html_escape($user->username) . ': ' . lang('users_change_password_page_title');
 
 		$this->blocks['tabs'] = 'users/context/menu';
 

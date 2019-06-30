@@ -93,18 +93,17 @@ class Custom_fields extends MY_Controller
 	 */
 	public function update($field_id = 0)
 	{
-		$field = $this->find_field($field_id);
-
-		$this->init_form_elements();
-
-		$this->data['custom_field'] = $field;
-
 		$this->data['menu_active'] = 'admin/fields/update';
 		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
 		$this->data['breadcrumbs'][] = array('custom_fields', lang('fields_page_index'));
+
+		$field = $this->find_field($field_id);
+
+		$this->data['custom_field'] = $field;
+		$this->data['title'] = html_escape($field->title) . ': ' . lang('fields_update_page_title');
 		$this->data['breadcrumbs'][] = array("custom_fields/update/{$field->field_id}", lang('fields_update_page_title'));
 
-		$this->data['title'] = html_escape($field->title) . ': ' . lang('fields_update_page_title');
+		$this->init_form_elements();
 
 		$this->blocks['tabs'] = 'fields/context/menu';
 
@@ -195,16 +194,15 @@ class Custom_fields extends MY_Controller
 	 */
 	public function delete($field_id = 0)
 	{
+		$this->data['menu_active'] = 'admin/fields/delete';
+		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
+		$this->data['breadcrumbs'][] = array('custom_fields', lang('fields_page_index'));
+
 		$field = $this->find_field($field_id);
 
 		$this->data['custom_field'] = $field;
-
-		$this->data['menu_active'] = 'admin/fields/delete';
-		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
-		$this->data['breadcrumbs'][] = array('custom_periods', lang('fields_page_index'));
-		$this->data['breadcrumbs'][] = array('custom_periods/delete', lang('fields_delete_page_title'));
-
 		$this->data['title'] = html_escape($field->title) . ': ' . lang('fields_delete_page_title');
+		$this->data['breadcrumbs'][] = array("custom_fields/delete/{$field->field_id}", lang('fields_delete_page_title'));
 
 		$this->blocks['tabs'] = 'fields/context/menu';
 

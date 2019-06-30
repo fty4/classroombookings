@@ -94,18 +94,18 @@ class Rooms extends MY_Controller
 	 */
 	public function update($room_id = 0)
 	{
-		$room = $this->find_room($room_id);
-
-		$this->data['room'] = $room;
-
 		$this->data['menu_active'] = 'admin/rooms/update';
 		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
 		$this->data['breadcrumbs'][] = array('rooms', lang('rooms_page_index'));
+
+		$room = $this->find_room($room_id);
+
+		$this->data['room'] = $room;
+		$this->data['title'] = html_escape($room->name) . ': ' . lang('rooms_update_page_title');
 		$this->data['breadcrumbs'][] = array("rooms/update/{$room->room_id}", lang('rooms_update_page_title'));
 
 		$this->init_form_elements();
 
-		$this->data['title'] = html_escape($room->name) . ': ' . lang('rooms_update_page_title');
 
 		$this->blocks['tabs'] = 'rooms/context/menu';
 
@@ -209,16 +209,14 @@ class Rooms extends MY_Controller
 	 */
 	public function delete($room_id = 0)
 	{
-		$room = $this->find_room($room_id);
-
-		$this->data['room'] = $room;
-
 		$this->data['menu_active'] = 'admin/rooms/delete';
 		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
 		$this->data['breadcrumbs'][] = array('rooms', lang('rooms_page_index'));
-		$this->data['breadcrumbs'][] = array('rooms/delete', lang('rooms_delete_page_title'));
 
+		$room = $this->find_room($room_id);
+		$this->data['room'] = $room;
 		$this->data['title'] = html_escape($room->name) . ': ' . lang('rooms_delete_page_title');
+		$this->data['breadcrumbs'][] = array("rooms/delete/{$room->room_id}", lang('rooms_delete_page_title'));
 
 		$this->blocks['tabs'] = 'rooms/context/menu';
 
