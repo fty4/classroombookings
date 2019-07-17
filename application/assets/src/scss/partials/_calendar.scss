@@ -1,12 +1,6 @@
+
 .calendar {
 
-	margin-bottom: $layout-spacing * 2;
-
-	.calendar-nav {
-		padding: $unit-3 0;
-		display: block;
-		text-align: center;
-	}
 
 	.calendar-header,
 	.calendar-body {
@@ -20,6 +14,7 @@
 
 	.calendar-date {
 		.date-item {
+			display: inline-block;
 			&:focus {
 				background: inherit;
 				// border-width: 0;
@@ -29,13 +24,43 @@
 			}
 
 			&:hover {
-				background: $dark-color;	// $gray-color-light;
+				background: $dark-color;
 				border-color: $gray-color-dark;
 				color: $light-color;
 				text-decoration: none;
 			}
 
+			&.date-item-active {
+				background: $dark-color !important;
+				border-color: $gray-color-dark !important;
+				color: $light-color !important;
+			}
+
 		}
 	}
+
+	&.calendar-picker {
+		background: #fff;
+		.calendar-nav {
+			padding: $unit-1;
+			.btn {
+				flex: none;
+			}
+		}
+	}
+
+	&.calendar-academic-year {
+
+		margin-bottom: $layout-spacing * 2;
+
+		.calendar-nav {
+			padding: $unit-3 0;
+			display: block;
+			text-align: center;
+		}
+
+	}
+
+
 
 }

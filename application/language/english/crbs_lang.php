@@ -21,6 +21,13 @@ $lang['dismiss'] = 'Dismiss';
 
 $lang['max_file_size'] = 'Maximum file size: %s';
 
+// Filter UI
+$lang['filter_done'] = 'Done';
+$lang['filter_remove'] = 'Remove';
+$lang['filter_filter'] = 'Filter';
+$lang['filter_clear'] = 'Clear';
+$lang['filter_any'] = '(Any)';
+
 
 
 // Legacy

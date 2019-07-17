@@ -27,6 +27,7 @@ $lang['user_account_fieldset_details'] = 'Account details';
 $lang['user_password_fieldset_password'] = 'Change password';
 
 // Fields
+$lang['user_field_name'] = 'Name';
 $lang['user_field_username'] = 'Username';
 $lang['user_field_password'] = 'Password';
 $lang['user_field_email'] = 'Email address';

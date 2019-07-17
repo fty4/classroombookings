@@ -8,6 +8,7 @@ class Weeks_model extends MY_Model
 
 	public $table = 'weeks';
 	public $primary_key = 'week_id';
+	public $query_class = 'WeekQuery';
 
 
 	public function __construct()

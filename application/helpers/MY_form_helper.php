@@ -290,6 +290,7 @@ function form_checkbox_input($params = [])
 		'label' => '',
 		'class' => '',
 		'value' => 0,
+		'tooltip' => '',
 		'input_value' => 1,
 		'hidden_value' => 0,
 		'include_hidden' => TRUE,
@@ -323,8 +324,15 @@ function form_checkbox_input($params = [])
 		$hidden = form_hidden($data['name'], $data['hidden_value']);
 	}
 
+	$classes = "form-checkbox {$data['class']}";
+	$tooltip = '';
+	if (strlen($data['tooltip'])) {
+		$classes .= ' tooltip';
+		$tooltip = "data-tooltip='{$data['tooltip']}'";
+	}
+
 	$out = '';
-	$out .= "<label class='form-checkbox {$data['class']}'>";
+	$out .= "<label class='{$classes}' {$tooltip}>";
 	$out .= $hidden . $input;
 	$out .= "<i class='form-icon'></i> ";
 	$out .= $data['label'];

@@ -151,9 +151,9 @@ class BaseQuery
 				if (is_scalar($value)) {
 
 					// No actual value? Carry on.
-					// if (strlen($value) === 0) {
-					// 	continue;
-					// }
+					if (strlen($value) === 0) {
+						continue;
+					}
 
 					$value = $this->db->escape($value);
 					$params[] = "({$col} = {$value})";

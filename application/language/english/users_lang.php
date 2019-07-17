@@ -44,3 +44,6 @@ $lang['users_add_status_error'] = 'There was an error creating the new user acco
 $lang['users_delete_title'] = 'Delete user account';
 $lang['users_delete_description'] = 'Deleting this user will also remove all of their bookings. It is permanent and cannot be undone.';
 $lang['users_delete_action'] = 'Permanently delete %s';
+
+
+$lang['users_field_status'] = 'Status';

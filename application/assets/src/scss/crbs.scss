@@ -2,11 +2,13 @@
 @import "partials/colours";
 
 $layout-spacing: 1rem;
+$font-size-xs: .6rem;
 
 @import "node_modules/spectre.css/src/spectre";
 // @import "node_modules/spectre.css/src/off-canvas";
 @import "node_modules/spectre.css/src/calendars";
 @import "node_modules/spectre.css/src/filters";
+@import "node_modules/spectre.css/src/icons";
 
 @import "mixins/toasts";
 @import "mixins/themes";
@@ -31,3 +33,8 @@ $layout-spacing: 1rem;
 @import "partials/deflist";
 @import "partials/calendar";
 @import "partials/popovers";
+@import "partials/dropdown";
+@import "partials/toggle";
+@import "partials/filter-dropdown";
+@import "partials/menu";
+@import "partials/bookings";

@@ -13,16 +13,21 @@ class Calendar
 
 	private $CI;
 
+	private $config = [];
+
 	private $year;
 	private $weeks;
-	private $dates;
+	private $dates = [];
 
-	private $year_start;
-	private $year_end;
+	private $year_start = null;
+	private $year_end = null;
 
 	private $first_day;
 	private $last_day;
 	private $last_day_name;
+
+	// Should the calendar have nav buttons?
+	private $show_navigation = false;
 
 	// For DateTime calculations
 	private $day_names = [
@@ -36,16 +41,39 @@ class Calendar
 	];
 
 
-	public function __construct($year, $weeks = [])
+	public function __construct($params = [])
 	{
 		$this->CI =& get_instance();
 
-		$this->year = $year;
-		$this->dates = array_index($year->dates, 'date');
-		$this->weeks = $weeks;
+		$defaults = [
+			'year' => NULL,
+			'weeks' => NULL,
+			'navigation' => FALSE,
+			'date_links' => FALSE,
+			'inputs' => FALSE,
+			'nav_url_format' => '',
+			'date_url_format' => '',
+			'class' => '',
+			'active_date' => NULL,
+		];
 
-		$this->year_start = new DateTime($year->date_start);
-		$this->year_end = new DateTime($year->date_end);
+		$options = array_merge($defaults, $params);
+		$this->config = $options;
+
+		$this->weeks = $options['weeks'];
+
+		if ($options['year']) {
+
+			$this->year = $year = $options['year'];
+
+			if (isset($year->dates)) {
+				$this->dates = array_index($year->dates, 'date');
+			}
+
+			$this->year_start = new DateTime($year->date_start);
+			$this->year_end = new DateTime($year->date_end);
+
+		}
 
 		// First day of week
 		$this->first_day = (int) setting('week_starts');
@@ -199,8 +227,62 @@ class Calendar
 		$month_name = strtolower($month->format('F'));
 		$month_label = lang("month_{$month_name}");
 		$title = "{$month_label} {$month->format('Y')}";
+		$nav_left = '';
+		$nav_right = '';
+
+		if ($this->config['navigation']) {
+
+			$vars = [ '{date}', '{yyyy}', '{mm}', '{dd}' ];
+
+			$left_date = clone($month);
+			$left_date->modify('-1 month');
+			$left_date->modify('last day of this month');
+
+			$values = [
+				'date' => $left_date->format('Y-m-d'),
+				'yyyy' => $left_date->format('Y'),
+				'mm' => $left_date->format('m'),
+				'dd' => $left_date->format('d'),
+			];
+
+			$left_url = str_replace($vars, $values, $this->config['nav_url_format']);
+			$left_url = site_url($left_url);
+
+			$disabled = ($left_date < $this->year_start ? 'disabled' : '');
+
+			$nav_left = "<button
+				data-ic-target='.calendar-wrapper'
+				data-ic-get-from='{$left_url}'
+				class='btn btn-action btn-link btn-lg btn-icon-only'
+				{$disabled}
+				>" . icon('chevron-left') . "</button>";
+
+			$right_date = clone($month);
+			$right_date->modify('+1 month');
+			$right_date->modify('first day of this month');
+
+			$values = [
+				'date' => $right_date->format('Y-m-d'),
+				'yyyy' => $right_date->format('Y'),
+				'mm' => $right_date->format('m'),
+				'dd' => $right_date->format('d'),
+			];
+
+			$right_url = str_replace($vars, $values, $this->config['nav_url_format']);
+			$right_url = site_url($right_url);
+
+			$disabled = ($right_date > $this->year_end ? 'disabled' : '');
+
+			$nav_right = "<button
+				data-ic-target='.calendar-wrapper'
+				data-ic-get-from='{$right_url}'
+				class='btn btn-action btn-link btn-lg btn-icon-only'
+				{$disabled}
+				>" . icon('chevron-right') . "</button>";
+		}
+
 		$nav = "<div class='calendar-nav navbar'>";
-		$nav .= "<div class='navbar-primary'>{$title}</div>";
+		$nav .= "{$nav_left}<div class='navbar-primary'>{$title}</div>{$nav_right}";
 		$nav .= "</div>";
 
 		// Header
@@ -274,7 +356,13 @@ class Calendar
 			// Check if date is already configured for a week
 			$week_id = $this->date_week_id($date_ymd);
 			$data['data-weekid'] = $week_id;
-			$input = form_hidden("dates[{$date_ymd}]", $week_id);
+
+			$input = '';
+			if ($this->config['inputs']) {
+				$input = form_hidden("dates[{$date_ymd}]", $week_id);
+			}
+
+
 			// Got a Week ID already? Add range + data-attr
 			if ($week_id) {
 				$classes[] = 'calendar-range';
@@ -287,8 +375,43 @@ class Calendar
 			// Add badge for holidays
 			$date_item_class = $this->has_holiday($date_ymd) ? 'badge' : '';
 
-			$button = "<button type='button' class='date-item {$date_item_class}' data-ui='calendar_date_btn' {$disabled}>{$date_num}</button>";
-			$dates[] = "<div class='calendar-date {$date_class}' {$data_str}>{$button}{$input}</div>\n";
+			// If date is 'current' or 'active' date, add highlighting class.
+			if ($this->config['active_date'] == $dt) {
+				$date_item_class .= 'date-item-active';
+			}
+
+			if ($this->config['date_links']) {
+
+				// `date_links` turn the buttons into <a> tags that go to a URL
+
+				$vars = [ '{date}', '{yyyy}', '{mm}', '{dd}' ];
+
+				$values = [
+					'date' => $dt->format('Y-m-d'),
+					'yyyy' => $dt->format('Y'),
+					'mm' => $dt->format('m'),
+					'dd' => $dt->format('d'),
+				];
+
+				$date_url = str_replace($vars, $values, $this->config['date_url_format']);
+				$date_url = site_url($date_url);
+
+				$button = "<a
+					href='{$date_url}'
+					class='date-item {$date_item_class}'
+					data-ui='calendar_date_btn' {$disabled}>{$date_num}</a>";
+
+			} else {
+
+				$button = "<button
+					type='button'
+					class='date-item {$date_item_class}'
+					data-ui='calendar_date_btn'
+					{$disabled}>{$date_num}</button>";
+
+			}
+
+			$dates[] = "<div href='#' class='calendar-date {$date_class}' {$data_str}>{$button}{$input}</div>\n";
 		}
 
 		$body = "<div class='calendar-body'>";
@@ -297,7 +420,7 @@ class Calendar
 
 		$container = "{$header}\n{$body}";
 
-		$out = "<div class='calendar'>{$nav}\n{$container}\n</div>";
+		$out = "<div class='calendar {$this->config['class']}'>{$nav}\n{$container}\n</div>";
 
 		return $out;
 	}

@@ -81,7 +81,13 @@ class Academic_years extends MY_Controller
 		$weeks = $this->weeks_model->find(['limit' => NULL]);
 		$this->data['weeks'] = $weeks;
 
-		$calendar = new Calendar($year, $weeks);
+		$calendar = new Calendar([
+			'year' => $year,
+			'weeks' => $weeks,
+			'class' => 'calendar-academic-year',
+			'inputs' => TRUE,
+		]);
+
 		$this->data['calendar'] = $calendar;
 
 		if ($this->input->post()) {

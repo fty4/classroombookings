@@ -42,8 +42,30 @@ $table->column()
 
 $content = $table->render(true);
 
-// echo anchor('users/add', icon('plus-circle') . lang('users_action_add'), 'class="btn btn-link btn-action-link"');
-// echo anchor('users/add', icon('download') . lang('users_action_import'), 'class="btn btn-link btn-action-link"');
+// Filter
+//
+echo form_open("users", ['method' => 'get', 'class' => 'mb-8']);
+
+echo $filter_ui->render();
+
+$submit = form_button(array(
+	'type' => 'submit',
+	'name' => '_action',
+	'value' => 'filter',
+	'content' => "<span class='btn-icon'>" . icon('filter') . '</span> ' . lang('filter_filter'),
+	'class' => 'btn btn-primary ml-4',
+	'tabindex' => tab_index(),
+));
+
+$cancel = anchor('users', lang('filter_clear'), array('class' => 'btn btn-link '));
+
+echo "{$submit} \n {$cancel}";
+
+echo form_close();
+
+
+// Table
+//
 
 echo table_box([
 	'title' => '',	//lang('users_index_page_title'),

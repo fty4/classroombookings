@@ -1,0 +1,41 @@
+// Dropdown
+.filter-dropdown {
+
+	display: inline-block;
+	position: relative;
+
+	.btn-filter {
+		@include button-variant(mix($dark-color, $gray-color-light, 10%));
+		color: $dark-color;
+		font-weight: 600;
+		&:active,
+		&:focus,
+		&:hover {
+			color: $dark-color;
+		}
+		font-size: $font-size-sm;
+	}
+
+	.menu {
+		display: none;
+		left: 0;
+		max-height: 50vh;
+		overflow-y: auto;
+		position: absolute;
+		top: 100%;
+	}
+
+	&.has-value {
+		.btn-filter {
+			@include button-variant(mix($clrs-blue, $gray-color-light, 15%));
+			color: $dark-color;
+			&:active,
+			&:focus,
+			&:hover {
+				color: $dark-color;
+			}
+		}
+	}
+
+
+}

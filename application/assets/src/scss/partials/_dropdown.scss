@@ -1,0 +1,39 @@
+// Dropdown
+.dropdown {
+
+	.calendar-wrapper {
+		// background: #fff;
+		z-index: 100;
+		animation: slide-down .15s ease 1;
+		display: none;
+		left: 0;
+		max-height: 50vh;
+		overflow-y: auto;
+		position: absolute;
+		top: 100%;
+	}
+
+	&.dropdown-right {
+		.calendar-wrapper {
+			left: auto;
+			right: 0;
+		}
+	}
+
+	&.active .calendar-wrapper,
+	.dropdown-toggle:focus ~ .calendar-wrapper,
+	.dropdown-toggle:active ~ .calendar-wrapper,
+	.calendar-wrapper:hover,
+	.calendar-wrapper:active,
+	.calendar-wrapper:focus {
+		display: block;
+	}
+
+	// Fix dropdown-toggle border radius in button groups
+	.btn-group {
+		.dropdown-toggle:nth-last-child(2) {
+			border-bottom-right-radius: $border-radius;
+			border-top-right-radius: $border-radius;
+		}
+	}
+}

@@ -2,6 +2,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
+use app\components\Filter;
+
+
 class Users extends MY_Controller
 {
 
@@ -38,6 +41,8 @@ class Users extends MY_Controller
 		// Cleanup import-related files if necessary
 		cleanup_import();
 
+		$this->init_form_elements();
+
 		$this->data['menu_active'] = 'admin/users';
 		$this->data['breadcrumbs'][] = array('admin', lang('admin_page_title'));
 		$this->data['breadcrumbs'][] = array('users', lang('users_page_index'));
@@ -67,6 +72,41 @@ class Users extends MY_Controller
 		];
 		$this->load->library('pagination');
 		$this->pagination->initialize(pagination_config($pagination_config));
+
+		$filter_ui = new Filter([
+			'base_url' => site_url('users/index'),
+			'data' => $filter,
+			'items' => [
+				[
+					'type' => Filter::RADIO_LIST,
+					'name' => 'authlevel',
+					'label' => lang('user_field_authlevel'),
+					'options' => $this->data['authlevel_options'],
+					'blank' => lang('filter_any'),
+				],
+				[
+					'type' => Filter::RADIO_LIST,
+					'name' => 'enabled',
+					'label' => lang('user_field_status'),
+					'options' => [ '0' => lang('user_status_inactive'), '1' => lang('user_status_active') ],
+					'blank' => lang('filter_any'),
+				],
+				[
+					'type' => Filter::TEXT,
+					'size' => 'md',
+					'name' => 'username_like',
+					'label' => lang('user_field_username'),
+				],
+				[
+					'type' => Filter::TEXT,
+					'size' => 'md',
+					'name' => 'name_like',
+					'label' => lang('user_field_name'),
+				],
+			]
+		]);
+
+		$this->data['filter_ui'] = $filter_ui;
 
 		$this->blocks['tabs'] = 'users/menu';
 

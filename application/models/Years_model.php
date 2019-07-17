@@ -8,6 +8,7 @@ class Years_model extends MY_Model
 
 	public $table = 'years';
 	public $primary_key = 'year_id';
+	public $query_class = 'YearQuery';
 
 
 	public function __construct()

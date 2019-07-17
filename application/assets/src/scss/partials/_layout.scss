@@ -59,6 +59,7 @@ body {
 .body {
 	padding-top: $unit-12;
 	padding-bottom: $unit-12;
+	min-height: 66vh;
 }
 
 .logo-login {
@@ -107,3 +108,8 @@ body {
 @include margin-variant(4, $unit-4);
 @include margin-variant(6, $unit-6);
 @include margin-variant(8, $unit-8);
+@include padding-variant(1, $unit-1);
+
+@include padding-variant(4, $unit-4);
+@include padding-variant(6, $unit-6);
+@include padding-variant(8, $unit-8);
