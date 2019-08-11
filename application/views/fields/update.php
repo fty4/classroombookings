@@ -2,7 +2,9 @@
 
 $layout = 'horizontal';
 
-echo form_open(current_url(), ['class' => 'form-horizontal', 'data-form' => 'field_update']);
+$hidden = ['field_id' => get_property('field_id', $custom_field)];
+
+echo form_open(current_url(), ['class' => 'form-horizontal', 'data-form' => 'field_update'], $hidden);
 
 
 // Details
