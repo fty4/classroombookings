@@ -45,7 +45,7 @@ class Fields_model extends MY_Model
 	{
 		// On creating a new field, generate an internal name based on the title.
 		// Used to make the table name
-		if ( ! array_key_exists('field_id', $data)) {
+		if ( ! array_key_exists('field_id', $data) || empty($data['field_id'])) {
 			$name = url_title($data['title'], '_', TRUE);
 			$data['name'] = substr($name, 0, 54);
 		}

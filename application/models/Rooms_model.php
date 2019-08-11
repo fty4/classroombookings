@@ -82,7 +82,8 @@ class Rooms_model extends MY_Model
 
 	public function wake_values($row, $find_query = NULL)
 	{
-		$row->user = null;
+		$row->user = NULL;
+		$row->owner = FALSE;
 		$row->custom_fields = [];
 
 		if ($find_query) {
@@ -101,7 +102,13 @@ class Rooms_model extends MY_Model
 				$row = $this->populate_fields_bookings($row);
 			}
 
+			if (in_array('custom_fields_values', $include)) {
+				$row = $this->populate_custom_fields_values($row);
+			}
+
 		}
+
+		$row = $this->populate_joined_values($row);
 
 		return $row;
 	}
@@ -125,6 +132,42 @@ class Rooms_model extends MY_Model
 	{
 		$this->load->model('fields_model');
 		$row->custom_fields = $this->fields_model->get_field_values('RM', $row->room_id);
+		return $row;
+	}
+
+
+	public function populate_custom_fields_values($row)
+	{
+		$this->load->model('fields_model');
+		$fields = $this->fields_model->get_field_values('RM', $row->room_id);
+
+		$row->custom_fields_values = [];
+
+		foreach ($fields as $field) {
+
+			$data = new StdClass();
+			$data->type = $field->type;
+			$data->name = $field->name;
+			$data->title = $field->title;
+
+			switch ($field->type) {
+				case 'text_single':
+				case 'text_multi':
+				case 'checkbox':
+					$data->value = $field->value;
+				break;
+				case 'select':
+					$data->value = $field->value;
+					if (array_key_exists($field->value, $field->options)) {
+						$data->value = $field->options[$field->value];
+					}
+				break;
+			}
+
+			$row->custom_fields_values[] = $data;
+
+		}
+
 		return $row;
 	}
 

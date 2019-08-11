@@ -155,6 +155,7 @@ function render_notice($params = array())
 		'type' => 'success',
 		'content' => '',
 		'close' => FALSE,
+		'vars' => [],
 	);
 
 	if (array_key_exists('type', $params) && array_key_exists($params['type'], $types)) {

@@ -42,6 +42,9 @@ class MY_Model extends CI_Model
 	public $table_columns = [];
 
 
+	protected $_cache = [];
+
+
 	public $blame = [
 		'created' => 'created_by',
 		'updated' => 'updated_by',
@@ -78,13 +81,30 @@ class MY_Model extends CI_Model
 
 	public function find($data = [])
 	{
+		$use_cache = TRUE;
+		if (array_key_exists('_cache', $data) && $data['_cache'] === FALSE) {
+			$use_cache = FALSE;
+			unset($data['_cache']);
+		}
+
 		$find_query = $this->get_query_instance();
 		$find_query->set_data($data);
 
-		$result = $find_query->result();
-		foreach ($result as &$row) {
-			$row = $this->wake_values($row, $find_query);
+		$cache_key = md5(get_class($this) . json_encode($data));
+
+		if ( ! array_key_exists($cache_key, $this->_cache) || ! $use_cache) {
+
+			$result = $find_query->result();
+			foreach ($result as &$row) {
+				$row = $this->wake_values($row, $find_query);
+			}
+
+			$this->_cache[$cache_key] = $result;
+			return $result;
+
 		}
+
+		$result = $this->_cache[$cache_key];
 		return $result;
 	}
 
@@ -92,13 +112,34 @@ class MY_Model extends CI_Model
 	public function find_one($data = [])
 	{
 		$data['limit'] = 1;
-		$find_query = $this->get_query_instance();
-		$find_query->set_data($data);
-		$row = $find_query->row();
-		if ($row) {
-			return $this->wake_values($row, $find_query);
+
+		$use_cache = TRUE;
+		if (array_key_exists('_cache', $data) && $data['_cache'] === FALSE) {
+			$use_cache = FALSE;
+			unset($data['_cache']);
 		}
-		return FALSE;
+
+		$cache_key = md5(get_class($this) . json_encode($data));
+
+		if ( ! array_key_exists($cache_key, $this->_cache) || ! $use_cache) {
+
+			$find_query = $this->get_query_instance();
+			$find_query->set_data($data);
+			$row = $find_query->row();
+
+			if ($row) {
+				$value = $this->wake_values($row, $find_query);
+			} else {
+				$value = FALSE;
+			}
+
+			$this->_cache[$cache_key] = $value;
+			return $value;
+
+		}
+
+		$result = $this->_cache[$cache_key];
+		return $result;
 	}
 
 
@@ -167,6 +208,25 @@ class MY_Model extends CI_Model
 	}
 
 
+	public function populate_joined_values($row)
+	{
+		foreach ($row as $prop => $value) {
+
+			if (strpos($prop, '.') !== FALSE) {
+				list($key, $field) = explode('.', $prop);
+				if ( ! isset($row->$key) || ! is_object($row->$key)) {
+					$row->$key = new StdClass();
+				}
+				$row->$key->$field = $value;
+				unset($row->$prop);
+			}
+
+		}
+
+		return $row;
+	}
+
+
 
 	/**
 	 * Sanitise the data to be inserted/updated.
@@ -207,6 +267,7 @@ class MY_Model extends CI_Model
 
 	public function wake_values($row)
 	{
+		$row = $this->populate_joined_values($row);
 		return $row;
 	}
 

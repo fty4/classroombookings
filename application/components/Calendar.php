@@ -70,8 +70,10 @@ class Calendar
 				$this->dates = array_index($year->dates, 'date');
 			}
 
-			$this->year_start = new DateTime($year->date_start);
-			$this->year_end = new DateTime($year->date_end);
+			if ($year) {
+				$this->year_start = new DateTime($year->date_start);
+				$this->year_end = new DateTime($year->date_end);
+			}
 
 		}
 

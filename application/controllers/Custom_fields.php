@@ -135,6 +135,7 @@ class Custom_fields extends MY_Controller
 		}
 
 		$keys = [
+			'field_id',
 			'title',
 			'entity',
 			'type',

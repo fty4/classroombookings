@@ -39,6 +39,9 @@ class Settings extends MY_Controller
 		$this->data['settings'] = $this->settings_model->get_all('crbs');
 		$this->data['days'] = Calendar::get_days_of_week();
 
+		$this->load->config('lookups');
+		$this->data['time_formats'] = $this->config->item('time_formats', 'lookups');
+
 		$this->blocks['tabs'] = 'settings/menu';
 
 		if ($this->input->post()) {
@@ -64,6 +67,7 @@ class Settings extends MY_Controller
 			'bia' => $this->input->post('bia'),
 			'login_hint' => $this->input->post('login_hint'),
 			'week_starts' => $this->input->post('week_starts'),
+			'bookings_time_format' => $this->input->post('bookings_time_format'),
 		];
 
 		// Update

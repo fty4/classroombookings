@@ -25,7 +25,7 @@ class UserHelper
 
 		$strings[] = self::display_name($user, '');
 		$strings[] = self::names($user, '');
-		$strings[] = $user->username;
+		$strings[] = html_escape($user->username);
 
 		$strings = array_filter($strings, 'strlen');
 		return array_shift($strings);

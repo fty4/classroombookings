@@ -248,7 +248,12 @@ class Rooms extends MY_Controller
 		]);
 
 		$this->data['users'] = results_dropdown('user_id', function($user) {
-			return $user->username . ' (' . UserHelper::best_display_name($user) . ')';
+			$out = $user->username;
+			$display = UserHelper::best_display_name($user);
+			if ($display != $user->username) {
+				$out .= " ({$display})";
+			}
+			return html_escape($out);
 		}, $users, '');
 
 		$fields_bookings = $this->fields_model->fields_by_entity('BK');
