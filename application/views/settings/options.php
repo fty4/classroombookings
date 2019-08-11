@@ -21,7 +21,7 @@ $fields[] = form_group([
 	'label' => lang("settings_general_field_{$field}"),
 	'hint' => lang("settings_general_field_hint_{$field}"),
 	'input' => form_input([
-		'autofocus' => TRUE,
+		// 'autofocus' => TRUE,
 		'class' => 'form-input',
 		'name' => $field,
 		'id' => $field,
@@ -96,6 +96,35 @@ foreach ($days as $day_num) {
 		'checked' => ($value == $day_num),
 	]);
 	$inputs[] = "<label class='form-radio'>{$check}<i class='form-icon'></i>{$title}</label>";
+}
+
+$fields[] = form_group([
+	'layout' => $layout,
+	'size' => '',
+	'field' => $field,
+	'label' => lang("settings_general_field_{$field}"),
+	'hint' => lang("settings_general_field_hint_{$field}"),
+	'input' => implode("\n", $inputs),
+]);
+
+
+$field = 'bookings_time_format';
+$value = set_value('bookings_time_format', element('bookings_time_format', $settings, 'H:i'), FALSE);
+$dt = DateTime::createFromFormat('!H:i', '14:35');
+
+$inputs = [];
+
+foreach ($time_formats as $format) {
+
+	$label = $dt->format($format);
+
+	$check = form_radio([
+		'name' => $field,
+		'id' => "{$field}_{$day_num}",
+		'value' => $format,
+		'checked' => ($value == $format),
+	]);
+	$inputs[] = "<label class='form-radio'>{$check}<i class='form-icon'></i>{$label}</label>";
 }
 
 $fields[] = form_group([
