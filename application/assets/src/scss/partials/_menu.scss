@@ -1,5 +1,7 @@
 .menu {
 
+	// -size- items mostly for filter.
+
 	&.menu-size-md {
 		width: 15em;
 	}
@@ -12,10 +14,31 @@
 		width: 20em;
 	}
 
+	// For filter
+	//
 	.menu-item {
 
 		.form-input {
 			margin: $unit-h 0;
+		}
+
+		& > label.menu-link {
+			border-radius: $border-radius;
+			color: inherit;
+			display: block;
+			margin: 0 (-$unit-2);
+			padding: $unit-1 $unit-2;
+			text-decoration: none;
+			&:focus,
+			&:hover {
+				background: $secondary-color;
+				color: $primary-color;
+			}
+			&:active,
+			&.active {
+				background: $secondary-color;
+				color: $primary-color;
+			}
 		}
 
 	}

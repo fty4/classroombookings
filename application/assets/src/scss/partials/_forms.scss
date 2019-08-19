@@ -70,19 +70,32 @@
 		}
 	}
 
-
 	.col-label {
-		padding-right: $unit-4;
-		text-align: right;
+		padding-right: 0;
+		text-align: left;
+	}
+
+	@include respond-min('xl') {
+		.col-label {
+			padding-right: $unit-4;
+			text-align: right;
+		}
 	}
 
 }
 
 
 .form-vertical {
+
 	.form-label {
-		color: $gray-color-dark;
+		color: $dark-color;	//gray-color-dark;
 	}
+
+	.form-hint {
+		padding: $control-padding-y + $border-width 0;
+		margin-bottom: $control-padding-y + $border-width;
+	}
+
 	.form-group {
 		margin-bottom: 0;
 		+ .form-group {
@@ -130,6 +143,10 @@
 		border: $unit-o solid $border-color;
 		padding: $unit-8 $unit-4;
 
+		.form-legend-wrapper {
+			margin-bottom: $unit-4;
+		}
+
 		+.form-fieldset {
 			margin-top: -$unit-o;
 		// 	margin-top: $unit-6;
@@ -169,4 +186,33 @@
 	margin-top: $unit-3;
 	font-size: $font-size-sm;
 	color: lighten($gray-color-dark, 10%);
+}
+
+
+
+.form-reveal {
+	margin-left: ($control-icon-size / 2) - ($unit-h/2);
+	border-left: $unit-o solid $border-color;
+	padding-top: $unit-3;
+	padding-bottom: $unit-1;
+	margin-top: -$unit-2;
+	padding-left: $control-icon-size;
+	margin-bottom: $unit-2;
+	font-size: $font-size-sm;
+	color: $gray-color-dark;
+}
+
+
+
+.form-sm {
+	.form-label,
+	.form-input,
+	.form-select,
+	.form-autocomplete .menu-item,
+	.form-switch,
+	.form-checkbox,
+	.form-radio
+	{
+		font-size: $font-size-sm;
+	}
 }

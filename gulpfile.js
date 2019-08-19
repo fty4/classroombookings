@@ -19,6 +19,10 @@ var paths = {
 		src: [
 			"node_modules/jquery/dist/jquery.js",
 			"node_modules/intercooler/src/intercooler.js",
+			"application/assets/src/js/components/RadioRevealer.js",
+			"application/assets/src/js/components/CheckboxRevealer.js",
+			"application/assets/src/js/components/Autocomplete.js",
+			"application/assets/src/js/components/BookingsConsole.js",
 			"application/assets/src/js/crbs.js",
 			"application/assets/src/js/form-toggles.js",
 			"application/assets/src/js/settings-visual.js",

@@ -8,14 +8,14 @@
 		font-size: $font-size-sm;
 	}
 
-	dt {
+	dd {
 		font-weight: normal;
 		// font-weight: 600;
 		color: $gray-color-dark;
-		margin-bottom: $unit-1;
 	}
 
-	dd {
+	dt {
+		margin-bottom: $unit-1;
 		font-weight: 600;
 	}
 

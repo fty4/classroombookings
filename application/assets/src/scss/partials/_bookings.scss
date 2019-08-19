@@ -13,11 +13,18 @@
 			// background: $gray-color-light;
 			// border: $unit-o solid $border-color;
 			flex: 1;
-			margin: $unit-1;
+			position: relative;
+			// margin: $unit-1;
 			padding: $unit-2;
+			border: 0;
+			border-bottom: $unit-o solid $border-color;
+			border-right: $unit-o solid $border-color;
 			// background: $gray-color-light;
 			// width: 33%;
-			line-height: 1;
+			// line-height: 1;
+			&:last-child {
+				border-right: 0;
+			}
 		}
 
 		.grid-item-header-title {
@@ -42,22 +49,20 @@
 			line-height: $line-height*0.75;
 		}
 
+		.header-x {
+			padding-top: 0;
+		}
+
 		.header-y {
-			text-align: right;
+			// padding-left: 0;
+			// text-align: right;
 		}
 
 		.grid-item-corner {
 			background: none;
 		}
 
-		.feather-square {
-			color: $dark-color;
-			stroke-width: $unit-o;
-			// color: $gray-color-dark;
-			// fill: $clrs-olive;
-		}
-
-}
+	}
 
 	.grid-item-cell {
 
@@ -68,10 +73,7 @@
 			padding-left: $control-icon-size;
 			padding-top: 0;
 			padding-bottom: 0;
-			// padding: 0;
-			// line-height: 1;
 		}
-
 
 	}
 
@@ -85,16 +87,26 @@
 
 		.grid-item-cell {
 
-			background: $gray-color-light;
-			border: $unit-o solid $gray-color-light;
-			font-size: $font-size-xs;
-			line-height: $line-height * 0.75;
-			text-decoration: none;
-			color: $gray-color-dark;
-			min-height: $control-size * 2;
 			position: relative;
+			flex-direction: column;
+			min-height: $control-size * 1.5;
+			vertical-align: top;
+			color: $gray-color-dark;
+			background: $gray-color-light;
+			// border: $unit-o solid $gray-color-light;
+			text-align: left;
+			text-decoration: none;
+			// border-width: initial
+			// border-width: $unit-o;
+			appearance: none;
 			// border-left-width: $unit-2;
 			// outline: $unit-o solid $border-color;
+
+			.booking-info {
+				text-decoration: none;
+				font-size: $font-size-xs;
+				line-height: $line-height * 0.75;
+			}
 
 			.booking-name {
 				display: block;
@@ -108,51 +120,118 @@
 				display: block;
 			}
 
-			.edit-overlay {
-				position: absolute;
-				top: 0;
-				left: 0;
-				width: 100%;
-				height: 100%;
-				display: none;
-				background: #fff;
-				// text-align: center;
-				align-items: center;
-				justify-content: center;
-				.feather {
-					width: 24px;
-					height: 24px;
-				}
-			}
+			&:hover,
+			&:focus {
+				// position: relative;
+				// border-color: $clrs-yellow;
+				// outline: $unit-h solid $clrs-yellow;
+				// z-index: $zindex-3;
+				&:after {
+					content: "";
+					position: absolute;
+					width: 100%;
+					top: 0;
+					left: 0;
+					bottom: 0;
+					outline: $unit-h solid $clrs-yellow;
+					border: $unit-o solid $clrs-yellow;
+					z-index: $zindex-3;
 
-			&.is-free:hover {
-				outline: $unit-h solid $primary-color;
+				}
 			}
 
 			&.is-free {
 				display: flex;
-				border: $unit-o solid $border-color;
 				background: transparent;
+				position: relative;
+
+				.input {
+					clip: rect(0, 0, 0, 0);
+					height: 1px;
+					margin: -1px;
+					overflow: hidden;
+					position: absolute;
+					width: 1px;
+				}
+
+				.overlay {
+					display: none;
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					background: transparent;
+					background: $gray-color-light;
+					outline: $unit-h solid $clrs-yellow;
+					border: $unit-o solid $clrs-yellow;
+				}
+
+				.feather {
+					display: none;
+					position: absolute;
+					left: 50%;
+					top: 50%;
+					transform: translate(-50%, -50%) scale(1);
+					width: $unit-6;
+					height: $unit-6;
+					color: $clrs-blue;
+				}
+
+				&.is-selected .feather,
+				input:checked ~ .feather {
+					display: block;
+				}
+
+				input:focus ~ .overlay {
+					display: block;
+				}
+
+				// .overlay {
+				// 	// display: none;
+				// 	background: #ccc;
+				// 	width: 100%;
+				// 	height: 100%;
+				// 	text-align: center;
+				// 	position: relative;
+				// }
 			}
 
-			&.is-booked:hover {
-				border: 1px solid $border-color;
-				.edit-overlay {
-					// display: block;
-					display: flex;
+
+			&.booked-recurring {
+				.marker {
+					position: absolute;
+					top: $unit-1;
+					right: $unit-1;
+					width: $unit-3;
+					height: $unit-3;
+					.feather {
+						vertical-align: top;
+						width: 100%;
+						height: 100%;
+						stroke-width: 0;
+						fill: $clrs-orange;
+					}
 				}
 			}
 
-			&.booked-recurring {
-				// border: $unit-o solid $clrs-orange;	//mix($clrs-red, $gray-color-light, 66%);
-				// border-left-width: $unit-2;
-			}
-
 			&.booked-static {
-				// border: $unit-o solid $clrs-blue;	//mix($clrs-blue, $gray-color-light, 66%);
-				// border-left-width: $unit-2;
+				.marker {
+					position: absolute;
+					top: $unit-1;
+					right: $unit-1;
+					width: $unit-3;
+					height: $unit-3;
+					.feather {
+						vertical-align: top;
+						width: 100%;
+						height: 100%;
+						stroke-width: 0;
+						fill: $clrs-blue;
+					}
+				}
 			}
-
+/*
 			.marker {
 				position: absolute;
 				top: 0;
@@ -173,9 +252,118 @@
 				.marker {
 					border-right-color: mix($clrs-blue, $gray-color-light, 85%);
 				}
-			}
+			} */
 		}
 
 	}
+
+
+	.cards-container {
+
+		.card-item {
+		}
+
+		.card {
+			cursor: auto;
+			display: none;
+			// left: 50%;
+			opacity: 0;
+			padding: 0;	// $unit-3;
+			margin: 0 $unit-3;
+			position: absolute;
+			// top: 0;
+			width: $control-width-sm;
+			z-index: $zindex-3;
+			top: 50%;
+			transform: translate(0, -50%) scale(1);
+			@include shadow-variant(.2rem);
+    		border: 0;
+
+			&.active {
+				display: block;
+				opacity: 1;
+			}
+
+			&.card-booking-add-multi {
+				left: 50%;
+				transform: translate(-50%, -50%) scale(1);
+			}
+
+			&.card-booking-static {
+				border-top: $unit-1 solid mix($clrs-blue, $gray-color-light, 85%);
+			}
+
+			&.card-booking-recurring {
+				border-top: $unit-1 solid mix($clrs-orange, $gray-color-light, 85%);
+			}
+
+    		.divider {
+    			border-color: $border-color;
+    		}
+
+    		p {
+    			font-size: $font-size-sm;
+    		}
+
+			.dropdown .menu {
+				font-size: $font-size-sm;
+			}
+
+			.card-footer {
+				margin-top: $layout-spacing-lg;
+				padding-top: $unit-6;
+				padding-bottom: $unit-6;
+				border-top: $unit-o solid $border-color;
+				background: $gray-color-light;
+			}
+
+		}
+	}
+
+	.form-switch-multi-select {
+		display: inline-block;
+		font-size: $font-size-sm;
+	}
+
+/*
+	.card-container {
+
+		cursor: auto;
+		display: none;
+		left: 50%;
+		opacity: 0;
+		padding: 0 $layout-spacing;
+		position: absolute;
+		top: 0;
+		width: $control-width-sm;
+		z-index: $zindex-3;
+
+		&.pos-right {
+			left: 100%;
+			top: 50%;
+			transform: translate(0, -50%) scale(1);
+		}
+
+		&.pos-left {
+			left: 0;
+			top: 50%;
+			transform: translate(-100%, -50%) scale(1);
+		}
+
+		&.active {
+			display: block;
+			opacity: 1;
+			outline: 0;
+		}
+
+		.card {
+			@include shadow-variant(.2rem);
+    		border: 0;
+		}
+
+		.menu {
+			font-size: $font-size-sm;
+		}
+	} */
 
 }

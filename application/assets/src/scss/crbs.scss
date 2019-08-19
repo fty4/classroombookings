@@ -9,10 +9,12 @@ $font-size-xs: .6rem;
 @import "node_modules/spectre.css/src/calendars";
 @import "node_modules/spectre.css/src/filters";
 @import "node_modules/spectre.css/src/icons";
+@import "node_modules/spectre.css/src/autocomplete";
 
 @import "mixins/toasts";
 @import "mixins/themes";
 @import "mixins/underline";
+@import "mixins/breakpoints";
 
 @import "partials/clrs";
 
@@ -38,3 +40,19 @@ $font-size-xs: .6rem;
 @import "partials/filter-dropdown";
 @import "partials/menu";
 @import "partials/bookings";
+@import "partials/modal";
+@import "partials/tables";
+@import "partials/autocomplete";
+
+
+
+.visually-hidden {
+	border: 0!important;
+	clip: rect(0 0 0 0)!important;
+	height: 1px!important;
+	margin: -1px!important;
+	overflow: hidden!important;
+	padding: 0!important;
+	position: absolute!important;
+	width: 1px!important;
+}

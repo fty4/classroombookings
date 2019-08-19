@@ -24,6 +24,11 @@
 	&.btn-danger {
 		@include button-variant($error-color);
 	}
+
+	&.btn-outline-negative {
+		@include button-outline-variant($error-color);
+	}
+
 }
 
 a.btn {
@@ -158,4 +163,20 @@ a.btn {
 		@include button-variant($clrs-blue);
 	}
 
+}
+
+
+
+.btn-icon-only {
+	.feather {
+		margin-right: 0;
+		margin-left: 0;
+	}
+}
+
+.btn-icon-x {
+	.feather {
+		margin-left: $unit-h;
+		margin-right: $unit-h;
+	}
 }
