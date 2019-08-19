@@ -1,0 +1,47 @@
+.form-autocomplete {
+
+	.menu {
+
+		max-height: 12em;
+		overflow-y: auto;
+		overflow-y: scroll; /* has to be scroll, not auto */
+		-webkit-overflow-scrolling: touch;
+
+		.menu-item {
+			cursor: default;
+			border-radius: $border-radius;
+			color: inherit;
+			display: block;
+			margin: 0 (-$unit-2);
+			padding: $unit-1 $unit-2;
+			text-decoration: none;
+			&:focus,
+			&:hover {
+				background: $secondary-color;
+				color: $primary-color;
+			}
+			&:active,
+			&.active {
+				background: $secondary-color;
+				color: $primary-color;
+			}
+		}
+
+		.autocomplete-optionNoResults {
+			cursor: not-allowed;
+		}
+	}
+
+
+	svg {
+		background: $light-color;
+		position: absolute;
+		right: $control-padding-x;
+		// width: 1.5em;
+		// height: 1.5em;
+		top: 50%;
+		transform: translateY(-50%);
+		color: inherit;
+	}
+
+}

@@ -1,0 +1,25 @@
+.modal {
+
+	.modal-container {
+		padding: 0;
+	}
+
+	// .modal-header,
+	// .modal-body,
+	// .modal-footer {
+	// 	padding-left: $layout-spacing;
+	// 	padding-right: $layout-spacing;
+	// }
+
+	.modal-body {
+		overflow-x: hidden;
+	}
+
+
+	.modal-footer {
+		background: $gray-color-light;
+		border-top: $unit-o solid $border-color;
+		text-align: left;
+		margin-top: $unit-4;
+	}
+}

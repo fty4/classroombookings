@@ -1,0 +1,20 @@
+
+.table-info {
+
+	tr:last-child {
+		td {
+		border-bottom: 0;
+
+		}
+	}
+
+	td {
+		font-size: $font-size-sm;
+	}
+
+	.table-info-title {
+		font-weight: 600;
+		width: 33%;
+	}
+
+}
